@@ -1,0 +1,1 @@
+As mensagens captadas foram assinadas com a chave privada do Rato

@@ -1,5 +1,5 @@
 /ID [<7A0EA111AC205D5A439F6A94B9F9C14A> <7A0EA111AC205D5A439F6A94B9F9C14A>]
-
+Protocolo: Sha256 c/ encripção RSA
 
 1. a dica escondida dentro PDF
 	As mensagens captadas foram assinadas com a chave privada do Rato
@@ -11,65 +11,30 @@ Peguei o certificado no formato .crt por meio do acrobat reader. exportei para .
 "openssl x509 -inform DER -in CertExchange.crt -out certificado.pem"
 do openssl
 
------BEGIN CERTIFICATE-----
-MIIFtjCCA56gAwIBAgIUTskAYhhnjvbGm4NEhEC+FgD0gz8wDQYJKoZIhvcNAQEL
-BQAwUDELMAkGA1UEBhMCQlIxCzAJBgNVBAgMAlNDMRYwFAYDVQQHDA1GbG9yaWFu
-b3BvbGlzMQ0wCwYDVQQKDARVRlNDMQ0wCwYDVQQDDARSYXRvMCAXDTExMTExMTA5
-MTExMVoYDzIwNjkxMTExMDkxMTExWjBQMQswCQYDVQQGEwJCUjELMAkGA1UECAwC
-U0MxFjAUBgNVBAcMDUZsb3JpYW5vcG9saXMxDTALBgNVBAoMBFVGU0MxDTALBgNV
-BAMMBFJhdG8wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDJHT8Z3rcR
-UJvTSnHmCaNeqJmAKpLs3o1qy9tz16V6xufOzTEr0ULt/2qwHSJPrEQtv6+5QDWX
-Ta2XojihXA4bdhmyDgwCu3mTMVQ3WGisWzw3809KAdPbWaKsu1Hsf58l9JohE38X
-Msv/kZ+ZYWdqLb1GgMfFNzTtSvl5aO10E98tBHQAw5CZakPS42F4PwAj9pqsZqL6
-kpeEEyVLme4qI9lF0EmLg/vZAMUnR/qWaldfgw/qAg+xlYtQFH+cz4UxOVr/6lsz
-iieZ2oLAHXsEAnXj4HJLJ6qfACagKxTNwcVv5mG9e0e3i52DnLp2P/TTQl6wVu8l
-hF86pSTxnwDPGJY0ZeFl3/X/ETvz7ILW55oDd59zSJjcrILpmZci7bmoVAgMwDV6
-o+nf+kxFMrCapfGX8tushzMG1hSbjPtYpZgSu0RkqrrCVHhiCHSdyxubk+BQypMa
-0eQZZbQ9sDAu8tN82/vTAlXqlz+K5bV3RgE+GO9BX/xLtX+31w/Xc1tCxEuaqgJ/
-2DUbkfrRyf/QBOCmZ4q8zcRMCmv+Voo94RVe0+lonbJoqexw4fE1x6eJZv7XjOBF
-AWGUJ9j/nHZcuvc0rKvOJ/39dboIigSv3SsL6zhodV5u1M1x9D9TgFg7CrUO6LMN
-kUQyk/BMgs/VQGr/TjTCcUTR17desZpsVQIDAQABo4GFMIGCMEUGCCoDBAUGBwgJ
-BDkMN2h0dHBzOi8vcGJhZC5sYWJzZWMudWZzYy5ici9jYXRjaC1tZS1pZi15b3Ut
-Y2FuL21lLmpwZWcwGgYIMAkGBQQDAgEEDgwMQ2hyaXMgQ3VydGlzMB0GA1UdDgQW
-BBTJN20HwwesPV5lpnLVhGBhdOIaDzANBgkqhkiG9w0BAQsFAAOCAgEAFe/8uqAr
-HJc1Blmw7JYdtry+4OxHMD0ifESKnj2OUzrw4qMa/lzjIvaPaP6Bc+KMM1RBUDIn
-2tycTvCaCl9rYX1s6ZBgEK7V/+/o7Ur4LVyUXMIpqFfOrrfilR750JbnKXBwJ+9i
-F7eVyv45/PggKgAgVY8ElkhgfJzhH0Ih+5i4w01gFCKcVUSUNMDxCUX7nmZMZKK5
-hJ5gxty3WgeyvU3WOqWFOOS0B4OtDQf/bI02OcpZvmHx8HRYWz3bHhDaF/q+/uXQ
-Z8lur2EFSwP1hDALuJPWNswTaVo/hB+isyL6jDwGQVqZDi1Wlc/f4eXuQoShrvzH
-e00oJLWNHWjOuE4rnqqex3Q2KbBC5p+oK3h1k1FFX0nv7N4N3XNpBb3crb3Hkh4q
-KkUNnmdG2BLrOzckp5gnY2REPSBDyT2PJmcPQok49Jl64VcBpXuIj2VNC/+PNHSK
-xiPObvZBzkmFOmdltjGHcf5YffB2jlN9w0XqprB+dfRRB74bGek7yhhjCE4IBmrg
-I8d9/r1zwM1FvqYk0Havw1fMwY+oljSQ1kdDY/GbcfTXha/y1JfUwuEo1ZhTCCVJ
-qApBpQfznOpyKVJh+HUM06rYXJYrPPBzkVqMN09vFcwwn+F0UaPMZzd5Xwwvi+Ns
-nB1WRquItqtYecskx9IZ3vNgBbUSeiwLo10=
------END CERTIFICATE-----
 
 3. a chave p´ublica em formato PEM
 Utilizei o comando do openssl "openssl x509 -in certificado.pem -pubkey -noout"
 
------BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyR0/Gd63EVCb00px5gmj
-XqiZgCqS7N6Nasvbc9elesbnzs0xK9FC7f9qsB0iT6xELb+vuUA1l02tl6I4oVwO
-G3YZsg4MArt5kzFUN1horFs8N/NPSgHT21mirLtR7H+fJfSaIRN/FzLL/5GfmWFn
-ai29RoDHxTc07Ur5eWjtdBPfLQR0AMOQmWpD0uNheD8AI/aarGai+pKXhBMlS5nu
-KiPZRdBJi4P72QDFJ0f6lmpXX4MP6gIPsZWLUBR/nM+FMTla/+pbM4onmdqCwB17
-BAJ14+BySyeqnwAmoCsUzcHFb+ZhvXtHt4udg5y6dj/000JesFbvJYRfOqUk8Z8A
-zxiWNGXhZd/1/xE78+yC1ueaA3efc0iY3KyC6ZmXIu25qFQIDMA1eqPp3/pMRTKw
-mqXxl/LbrIczBtYUm4z7WKWYErtEZKq6wlR4Ygh0ncsbm5PgUMqTGtHkGWW0PbAw
-LvLTfNv70wJV6pc/iuW1d0YBPhjvQV/8S7V/t9cP13NbQsRLmqoCf9g1G5H60cn/
-0ATgpmeKvM3ETApr/laKPeEVXtPpaJ2yaKnscOHxNceniWb+14zgRQFhlCfY/5x2
-XLr3NKyrzif9/XW6CIoEr90rC+s4aHVebtTNcfQ/U4BYOwq1DuizDZFEMpPwTILP
-1UBq/040wnFE0de3XrGabFUCAwEAAQ==
------END PUBLIC KEY-----
 
 4. o login do usuario
+Decodificando as mensagens com a chave pública usando o link https://www.devglan.com/online-tools/rsa-encryption-decryption
+podemos ler as mensagens
+O login é rato + seis primeiros digitos do hash
+
+rato996783
+
 
 5. a url da conexao
+https://pbad.labsec.ufsc.br/592288ab9d7d0531a4d1d7885063ce2537e47744dfc1839fe3da337ad3a2cbdf/YDyBNZvmtdHZkNkWCubinJJSjlhlMgBlpwRFaohTkukuDHnsjQpTdawvNTApCpbHknuHZxZZmdiRFVYIkFfVjxOVEJBSlJFywaDwYaMiZaTJSZmrKonlSTPldNYvXwGVkcjbwgequTaHrZXVPTaGmLwDCDRZrPUuoCKXtBtCRZWWcmXDhGWmXXceRMIqFFEiwuLZXCxn.xml
+
 
 6. a senha do usu´ario
+e0b11b39e0f2ef23037d0fcf179c8fa53faae1cafaf3dbe60b25a1f15c81c7f0
 
 7. o nome verdadeiro do Rato
-Chris Curtis (?)
+Chris Curtis
 Pego colocando o certificado no decoder de asn1, especificamente no https://lapo.it/asn1js/
+Também está na nota fiscal
+
 8. o nome verdadeiro do Cobra
+Norma Fisher
