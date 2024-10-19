@@ -1,0 +1,75 @@
+INICIO DE UM NOVO CHAT
+Cobra:
+- Rato, deixa eu te perguntar uma parada. Tenho uma parada nova, conteúdo governamental, tu vai poder se passar por um cara de alto escalão, o que me diz?
+
+
+Rato:
+- Pô, Cobra, na moral, isso aí seria muito conveninente pra mim agora, consegue me dar mais detalhes?
+
+Cobra:
+- Achamos uma brecha no HSM da AC-RAIZ, estou em posse da sk dela.
+
+Rato:
+- Parada é cabulosa mesmo, vamos entrar em contato pra falar disso melhor.
+
+Cobra:
+- Afirmativo, mas já aviso que não vai ser barato.
+
+Rato:
+- Não esperaria que fosse. Vou retornar contato.
+
+
+
+INICIO DE UM NOVO CHAT
+Rato:
+- E aí, Cobra. Então, houve instabilidade aqui novamente e agora vou ter que te passar um novo usuário pra tu ver a nota.
+
+Cobra:
+- Inconveniente, mas já que é assim, compreendo a situação.
+
+Rato:
+- Bom ouvir isso. Usa o login rato e bota junto os 6 primeiros digitos do hash da minha pk que vai ser sucesso.
+
+Cobra:
+- Vou conferir, e te lembra, atividade pra não virar saudade.
+
+Rato:
+- Pode ter certeza que comigo a parada é verdadeira.
+
+
+
+INICIO DE UM NOVO CHAT
+Cobra:
+- Fui confirmar o pagamento no teu site e a senha saiu inválida, tu tá de brincadeira comigo?
+
+Rato:
+- Calma, fica tranquilo, a senha é a mesma da última vez digitou correto?
+
+Cobra:
+- A senha não era #UsGuriSaoDoMal375 ?
+
+Rato:
+- Tá trocando as bolas amigo, essa aí já é outdated faz tempo, pra conseguir a senha nova é só tirar o sha256 da imagem no link da extensão do meu certificado
+
+Cobra:
+- Vou conferir. Espero suporte
+
+
+
+
+INICIO DE UM NOVO CHAT
+Cobra:
+- E aí, Rato, vi que teu pagamento ainda não caiu na minha conta então quero saber se tu ainda tá interessado na parada.
+
+Rato:
+- Isso é muito estranho, vou te mandar a nota fiscal em um site seguro, o preço foi alto.
+
+Rato:
+- https://pbad.labsec.ufsc.br/592288ab9d7d0531a4d1d7885063ce2537e47744dfc1839fe3da337ad3a2cbdf/YDyBNZvmtdHZkNkWCubinJJSjlhlMgBlpwRFaohTkukuDHnsjQpTdawvNTApCpbHknuHZxZZmdiRFVYIkFfVjxOVEJBSlJFywaDwYaMiZaTJSZmrKonlSTPldNYvXwGVkcjbwgequTaHrZXVPTaGmLwDCDRZrPUuoCKXtBtCRZWWcmXDhGWmXXceRMIqFFEiwuLZXCxn.xml
+
+Cobra:
+- Agradecido, entrarei em contato confirmando tudo.
+
+Rato:
+- Só fica atento que o site não é permanente, então pode ter instabilidade com teu acesso. Fico à disposição.
+
