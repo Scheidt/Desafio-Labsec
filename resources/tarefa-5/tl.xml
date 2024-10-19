@@ -1,0 +1,297 @@
+                                                                                                                        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TrustServiceStatusList xmlns="http://uri.etsi.org/02231/v2#" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://uri.etsi.org/01903/v1.3.2#" xmlns:ns4="http://uri.etsi.org/02231/v2/additionaltypes#" xmlns:ns5="http://uri.etsi.org/TrstSvc/SvcInfoExt/eSigDir-1999-93-EC-TrustedList/#" xmlns:ns6="http://uri.etsi.org/01903/v1.4.1#" Id="TrustServiceStatusList" TSLTag="http://uri.etsi.org/19612/TSLTag">
+    <SchemeInformation>
+        <TSLVersionIdentifier>5</TSLVersionIdentifier>
+        <TSLSequenceNumber>1</TSLSequenceNumber>
+        <TSLType>http://uri.etsi.org/TrstSvc/TrustedList/TSLType/BRlist</TSLType>
+        <SchemeOperatorName>
+            <Name xml:lang="pt">Smooth Operator</Name>
+            <Name xml:lang="en">Smooth Operator</Name>
+            <Name xml:lang="es">Smooth Operator</Name>
+            <Name xml:lang="gn">Smooth Operator</Name>
+        </SchemeOperatorName>
+        <SchemeOperatorAddress>
+            <PostalAddresses>
+                <PostalAddress xml:lang="pt">
+                    <StreetAddress>SCN Q 2 bloco E</StreetAddress>
+                    <Locality>Brasília</Locality>
+                    <StateOrProvince>DF</StateOrProvince>
+                    <PostalCode>70712-905</PostalCode>
+                    <CountryName>BR</CountryName>
+                </PostalAddress>
+                <PostalAddress xml:lang="en">
+                    <StreetAddress>SCN Q 2 bloco E</StreetAddress>
+                    <Locality>Brasília</Locality>
+                    <StateOrProvince>DF</StateOrProvince>
+                    <PostalCode>70712-905</PostalCode>
+                    <CountryName>BR</CountryName>
+                </PostalAddress>
+                <PostalAddress xml:lang="es">
+                    <StreetAddress>SCN Q 2 bloco E</StreetAddress>
+                    <Locality>Brasília</Locality>
+                    <StateOrProvince>DF</StateOrProvince>
+                    <PostalCode>70712-905</PostalCode>
+                    <CountryName>BR</CountryName>
+                </PostalAddress>
+                <PostalAddress xml:lang="gn">
+                    <StreetAddress>SCN Q 2 bloco E</StreetAddress>
+                    <Locality>Brasília</Locality>
+                    <StateOrProvince>DF</StateOrProvince>
+                    <PostalCode>70712-905</PostalCode>
+                    <CountryName>BR</CountryName>
+                </PostalAddress>
+            </PostalAddresses>
+            <ElectronicAddress>
+                <URI xml:lang="pt">https://www.gov.br/iti</URI>
+                <URI xml:lang="en">https://www.gov.br/iti</URI>
+                <URI xml:lang="es">https://www.gov.br/iti</URI>
+                <URI xml:lang="gn">https://www.gov.br/iti</URI>
+            </ElectronicAddress>
+        </SchemeOperatorAddress>
+        <SchemeName>
+            <Name xml:lang="pt">BR: A Lista de Confiança contém informações relacionadas com Raízes de Confiança Qualificadas da ICP-Brasil de acordo com a MP 2200-2 de Agosto de 2001 e com a Lei 14063 de Setembro de 2020</Name>
+            <Name xml:lang="en">BR: The Trust List contains information related to ICP-Brasil Qualified Roots of Trust in accordance with MP 2200-2 of August 2001 and Law 14063 of September 2020</Name>
+            <Name xml:lang="es">BR: La Lista de Fideicomiso contiene información relacionada con Raíces de Fideicomiso Calificadas ICP-Brasil de acuerdo con la MP 2200-2 de agosto de 2001 y la Ley 14063 de septiembre de 2020</Name>
+            <Name xml:lang="gn">BR: Lista de Fideicomisos oguereko marandu ojoajúva ICP-Brasil Calificado Raíces de Confianza rehe he’iháicha MP 2200-2 agosto 2001-pe ha Ley 14063 jasypoteĩ 2020-pe</Name>
+        </SchemeName>
+        <SchemeInformationURI>
+            <URI xml:lang="pt">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+            <URI xml:lang="en">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+            <URI xml:lang="es">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+            <URI xml:lang="gn">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+        </SchemeInformationURI>
+        <StatusDeterminationApproach>http://uri.etsi.org/TrstSvc/TrustedList/StatusDetn/BRdetermination</StatusDeterminationApproach>
+        <SchemeTypeCommunityRules>
+            <URI xml:lang="pt">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+            <URI xml:lang="en">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+            <URI xml:lang="es">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+            <URI xml:lang="gn">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+        </SchemeTypeCommunityRules>
+        <SchemeTerritory>BR</SchemeTerritory>
+        <PolicyOrLegalNotice>
+            <TSLLegalNotice xml:lang="pt">O quadro jurídico aplicável à presente implementação desta TSL (Trusted-Service Status List) é o Acordo do Mercosul e as diretrizes estabelecidos pelo Comite Gestor da ICP-Brasil no DOC-ICP XX</TSLLegalNotice>
+            <TSLLegalNotice xml:lang="en">The legal framework applicable to the present implementation of this TSL (Trusted-Service Status List) is the Mercosur Agreement and the guidelines established by the ICP-Brasil Management Committee in DOC-ICP XX</TSLLegalNotice>
+            <TSLLegalNotice xml:lang="es">El marco legal aplicable a la presente implementación de esta TSL (Trusted-Service Status List) es el Acuerdo del Mercosur y las directrices establecidas por el Comité de Gestión ICP-Brasil en el DOC-ICP XX</TSLLegalNotice>
+            <TSLLegalNotice xml:lang="gn">Pe marco jurídico ojeporúva ko TSL (Lista de Estatus de Servicio Confiable) ñemboguatarã ko’ágã ha’e Acuerdo Mercosur ha umi directriz omopyendáva Comité de Gestión ICP-Brasil DOC-ICP XX-pe</TSLLegalNotice>
+        </PolicyOrLegalNotice>
+        <HistoricalInformationPeriod>65535</HistoricalInformationPeriod>
+        <PointersToOtherTSL>
+            <OtherTSLPointer>
+                <ServiceDigitalIdentities>
+                    <ServiceDigitalIdentity>
+                        <DigitalId>
+                            <X509Certificate>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</X509Certificate>
+                        </DigitalId>
+                    </ServiceDigitalIdentity>
+                </ServiceDigitalIdentities>
+                <TSLLocation>https://pbad.labsec.ufsc.br/challenge/tl.xml</TSLLocation>
+                <AdditionalInformation>
+                    <OtherInformation>
+                        <TSLType>http://uri.etsi.org/TrstSvc/TrustedList/TSLType/BRlist</TSLType>
+                    </OtherInformation>
+                    <OtherInformation>
+                        <SchemeTerritory>BR</SchemeTerritory>
+                    </OtherInformation>
+                    <OtherInformation>
+                        <ns4:MimeType>application/vnd.etsi.tsl+xml</ns4:MimeType>
+                    </OtherInformation>
+                    <OtherInformation>
+                        <SchemeOperatorName>
+                            <Name xml:lang="pt">Smooth Operator</Name>
+                            <Name xml:lang="en">Smooth Operator</Name>
+                            <Name xml:lang="es">Smooth Operator</Name>
+                            <Name xml:lang="gn">Smooth Operator</Name>
+                        </SchemeOperatorName>
+                    </OtherInformation>
+                    <OtherInformation>
+                        <SchemeTypeCommunityRules>
+                            <URI xml:lang="pt">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+                            <URI xml:lang="en">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+                            <URI xml:lang="es">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+                            <URI xml:lang="gn">http://uri.etsi.org/TrstSvc/TrustedList/schemerules/BR</URI>
+                        </SchemeTypeCommunityRules>
+                    </OtherInformation>
+                </AdditionalInformation>
+            </OtherTSLPointer>
+        </PointersToOtherTSL>
+        <ListIssueDateTime>2024-10-08T03:00:00Z</ListIssueDateTime>
+        <NextUpdate>
+            <dateTime>2025-03-09T02:59:59Z</dateTime>
+        </NextUpdate>
+        <DistributionPoints>
+            <URI>https://h-validar.iti.gov.br/internacional/trust-list-BR.xml</URI>
+        </DistributionPoints>
+    </SchemeInformation>
+    <TrustServiceProviderList>
+        <TrustServiceProvider>
+            <TSPInformation>
+                <TSPName>
+                    <Name xml:lang="pt">Smooth Operator</Name>
+                    <Name xml:lang="en">Smooth Operator</Name>
+                    <Name xml:lang="es">Smooth Operator</Name>
+                    <Name xml:lang="gn">Smooth Operator</Name>
+                </TSPName>
+                <TSPTradeName>
+                    <Name xml:lang="pt">ICP-Labsec</Name>
+                    <Name xml:lang="en">ICP-Labsec</Name>
+                    <Name xml:lang="es">ICP-Labsec</Name>
+                    <Name xml:lang="gn">ICP-Labsec</Name>
+                </TSPTradeName>
+                <TSPAddress>
+                    <PostalAddresses>
+                        <PostalAddress xml:lang="pt">
+                            <StreetAddress>R. Delfino Conti - Trindade</StreetAddress>
+                            <Locality>Florianópolis</Locality>
+                            <StateOrProvince>SC</StateOrProvince>
+                            <PostalCode>88040900</PostalCode>
+                            <CountryName>BR</CountryName>
+                        </PostalAddress>
+                        <PostalAddress xml:lang="es">
+                            <StreetAddress>R. Delfino Conti - Trindade</StreetAddress>
+                            <Locality>Florianópolis</Locality>
+                            <StateOrProvince>SC</StateOrProvince>
+                            <PostalCode>88040900</PostalCode>
+                            <CountryName>BR</CountryName>
+                        </PostalAddress>
+                    </PostalAddresses>
+                    <ElectronicAddress>
+                        <URI xml:lang="pt">https://www.gov.br/iti</URI>
+                        <URI xml:lang="en">https://www.gov.br/iti</URI>
+                        <URI xml:lang="es">https://www.gov.br/iti</URI>
+                        <URI xml:lang="gn">https://www.gov.br/iti</URI>
+                    </ElectronicAddress>
+                </TSPAddress>
+                <TSPInformationURI>
+                    <URI xml:lang="pt">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+                    <URI xml:lang="en">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+                    <URI xml:lang="es">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+                    <URI xml:lang="gn">https://www.gov.br/iti/pt-br/assuntos/icp-brasil</URI>
+                </TSPInformationURI>
+            </TSPInformation>
+            <TSPServices>
+                <TSPService>
+                    <ServiceInformation>
+                        <ServiceTypeIdentifier>http://uri.etsi.org/TrstSvc/Svctype/NationalRootCA-QC</ServiceTypeIdentifier>
+                        <ServiceName>
+                            <Name xml:lang="pt">PRETTY FLY</Name>
+                            <Name xml:lang="pt">PRETTY FLY</Name>
+                        </ServiceName>
+                        <ServiceDigitalIdentity>
+                            <DigitalId>
+<X509Certificate>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</X509Certificate>
+                            </DigitalId>
+                            <DigitalId>
+<X509SubjectName>ST=SC, L=Florianopolis, OU=LabSEC, O=UFSC, C=BR, SERIALNUMBER=1, CN=PRETTY_FLY</X509SubjectName>
+                            </DigitalId>
+                            <DigitalId>
+<X509SKI>XtGc+1sc9zCx6m9b7H20yMMzQEritU7QsSy1kt5EG40jLwglGrjxUVUirdlw+eUuzst9YFPG6KvgEOdkun4tdg==</X509SKI>
+                            </DigitalId>
+                        </ServiceDigitalIdentity>
+                        <ServiceStatus>http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/recognisedatnationallevel</ServiceStatus>
+                        <StatusStartingTime>2024-10-08T03:00:00Z</StatusStartingTime>
+                        <TSPServiceDefinitionURI>
+                            <URI xml:lang="pt">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="en">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="es">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="gn">https://www.gov.br/iti/</URI>
+                        </TSPServiceDefinitionURI>
+                    </ServiceInformation>
+                </TSPService>
+                <TSPService>
+                    <ServiceInformation>
+                        <ServiceTypeIdentifier>http://uri.etsi.org/TrstSvc/Svctype/NationalRootCA-QC</ServiceTypeIdentifier>
+                        <ServiceName>
+                            <Name xml:lang="pt">HUNGRY LIKE A WOLF</Name>
+                            <Name xml:lang="en">HUNGRY LIKE A WOLF</Name>
+                        </ServiceName>
+                        <ServiceDigitalIdentity>
+                            <DigitalId>
+<X509Certificate>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</X509Certificate>
+                            </DigitalId>
+                            <DigitalId>
+<X509SubjectName>ST=SC, L=Florianopolis, OU=LabSEC, O=UFSC, C=BR, SERIALNUMBER=0, CN=HUNGRY_LIKE_A_WOLF</X509SubjectName>
+                            </DigitalId>
+                            <DigitalId>
+<X509SKI>xtvWWRqUGa0d5VABzNevDG9MiKlSSpWtDHl5anKP7RaJ/L1FAS3/Bxs5I0lcTt35WQDDb0wKgSwf9SCNpflPyA==</X509SKI>
+                            </DigitalId>
+                        </ServiceDigitalIdentity>
+                        <ServiceStatus>http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/recognisedatnationallevel</ServiceStatus>
+                        <StatusStartingTime>2022-11-07T03:00:00Z</StatusStartingTime>
+                        <TSPServiceDefinitionURI>
+                            <URI xml:lang="pt">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="en">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="es">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="gn">https://www.gov.br/iti/</URI>
+                        </TSPServiceDefinitionURI>
+                    </ServiceInformation>
+                </TSPService>
+                <TSPService>
+                    <ServiceInformation>
+                        <ServiceTypeIdentifier>http://uri.etsi.org/TrstSvc/Svctype/NationalRootCA-QC</ServiceTypeIdentifier>
+                        <ServiceName>
+                            <Name xml:lang="en">MANEATER</Name>
+                            <Name xml:lang="pt">MANEATER</Name>
+                        </ServiceName>
+                        <ServiceDigitalIdentity>
+                            <DigitalId>
+<X509Certificate>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</X509Certificate>
+                            </DigitalId>
+                            <DigitalId>
+<X509SubjectName>ST=SC, L=Florianopolis, OU=LabSEC, O=UFSC, C=BR, SERIALNUMBER=0, CN=MANEATER</X509SubjectName>
+                            </DigitalId>
+                            <DigitalId>
+<X509SKI>6NIPxQ64XwsQAbs6B8pjXUjeTL+hkf0+VPXtPvHYKIrZ8ykXf+y5cwB9xSEgMZ4boOjPAEwl4y8vVXgG464Utw==</X509SKI>
+                            </DigitalId>
+                        </ServiceDigitalIdentity>
+                        <ServiceStatus>http://uri.etsi.org/TrstSvc/TrustedList/Svcstatus/deprecatedatnationallevel</ServiceStatus>
+                        <StatusStartingTime>2024-10-09T03:00:00Z</StatusStartingTime>
+                        <TSPServiceDefinitionURI>
+                            <URI xml:lang="pt">https://www.gov.br/iti/</URI>
+                            <URI xml:lang="en">https://www.gov.br/iti/</URI>
+                        </TSPServiceDefinitionURI>
+                    </ServiceInformation>
+                </TSPService>
+            </TSPServices>
+        </TrustServiceProvider>
+    </TrustServiceProviderList>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="id318922227846188809526583872162812971196"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference Id="id120685816544780686042336994238603064157" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>Ehf0MT7XH2B3rJZ4darAglmDsa9dga0CTjFzXhvWrr4=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#id172852608835719346102250803350435410166"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>iof+trwGPqDdAvT7r0Gmrsdj6yhC4e4abqNFc8tHYD4=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="id303922939555623200697238350166088327115">G91EHZcCy5BbZ/WKkaj8mT8mSIw3MRnOb/FiIGX8auuFY86QBHsdCIHV02CRWNQZ6Ny0+qcLN6ox
+WZYhoE3RZo4pkUmYp1YfY2oZ+83iQSV/KNJJzou9G6H2wxBYbF1J+8K00X+fupAlfBpJ5R9Z0iA1
+fOCz3oKjkW8WfOj6kWRruvKSC+3wUuRa/4j70ejq+pfoOxvfzYdbJUh6NBQT3p5+78/CamWK8GID
+SI5zP/KMoVLVMJ3200MQmPxYE4B2yNgdYj5VIfiKSz6yxYDjrpCzghWE/9Q2YnMoGQwokQygghHB
+WFbsJQS+K65nS8G1UdBc7rmYRbHmboJxingtCmThbB2xMwuPRjXU4T182S5TZgBAtNVwv3pwwQmH
+qz4rFnKcUyxLEOx18X10l1xw5y/jKhtWXdCPzZ7kdu4Haz1Qh5jKBgcpJLKA8hzVGy8hrXFQvJhj
+Ilmb+yvO6fapdHzoLLBN8IfyxAse8zGSsWknNpqiVtp4eiDON1t30+XhYJols23fnG+TiGXQ0hH4
+6KnyM09G4rWGjOaDHelb5vyuL0sqZGLJn16ebI8HNZFuVPJTT+5NTlpWmdS5da7Vn5EKgib/CJfa
+FByHyZwc0GFpRkbv5Y204MEjsANTqemqgPnaZ1rMLEvBpbOyhpyLuoYv9GPuusKew8DSPAt/iE0=</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIHOTCCBSGgAwIBAgIBADANBgkqhkiG9w0BAQ0FADB7MRswGQYDVQQDDBJIVU5HUllfTElLRV9B
+X1dPTEYxCjAIBgNVBAUTATAxCzAJBgNVBAYTAkJSMQ0wCwYDVQQKDARVRlNDMQ8wDQYDVQQLDAZM
+YWJTRUMxFjAUBgNVBAcMDUZsb3JpYW5vcG9saXMxCzAJBgNVBAgMAlNDMB4XDTI0MTAxMDE3NTIx
+MFoXDTI3MDkyNTE3NTIxMFowezEbMBkGA1UEAwwSSFVOR1JZX0xJS0VfQV9XT0xGMQowCAYDVQQF
+EwEwMQswCQYDVQQGEwJCUjENMAsGA1UECgwEVUZTQzEPMA0GA1UECwwGTGFiU0VDMRYwFAYDVQQH
+DA1GbG9yaWFub3BvbGlzMQswCQYDVQQIDAJTQzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoC
+ggIBAJ+7n5oIqUUC54OWdBtQojLIUHBhlPm4DadZILTCBDhyndSyElnXK52yNQ14UXtOXIdq/EcR
+DD0sYgevOKuNM1mr7m6ZaYYn9U94+qnPXlMWT6HH2BFPikOXBf4sAdipQMhFnqkJizVu7k/HaAAp
+rZ292BXBssGEHi4YI3MQrC+OW342UaNFtyLmZrkrYahvW2kjIapctjyKxhWFyptPlFWWMY27TWer
+Wck06eA6lgmJX6/YoOQ2ZcTBykRV0jj6itkiBGYAIu7jbEIb0R4zZfhhlAf91UKxIVRiL02/Pn1F
+Fc3lto0Ryo+tLEnXrBT7PBbKWtJ4QXPRaLs+ScVplE0srGPrc64XgvnXn9D2VR/ZUuf8mdAr3aYc
+rwRo3yS5MP7rY2Co6n+3pNRTUf9w+BWOijH/ltcW4pFteiNxqwlC5cVNnEz5op+LiotGfP44Dmfa
+xXlU2O8tkhBPdASKQDFhbrX5JtEzSA33aa/WFKGvLk5htSZoazMoA5dElAeG7ZBJgutnCv5eH2br
+viwERTJTNhhbU9eSx0B9eTAeS/JZTZT6hcpEzu1A1ovxzglQDqsDTeL93QPI12eyv6hpScEJq3Tw
+3C3m8cJOe7SYmKes9reNgqxDtlLjtU7thBDcc0wgPJOTCayVhlZMiYFENNi211g1WY0qMMwmiAxo
+QMqlAgMBAAGjggHGMIIBwjBLBgNVHSMERDBCgEDG29ZZGpQZrR3lUAHM168Mb0yIqVJKla0MeXlq
+co/tFon8vUUBLf8HGzkjSVxO3flZAMNvTAqBLB/1II2l+U/IMA8GA1UdEwEB/wQFMAMBAf8wTgYD
+VR0gBEcwRTBDBgVgTAEBADA6MDgGCCsGAQUFBwIBFixodHRwOi8vYWNyYWl6LmljcGJyYXNpbC5n
+b3YuYnIvRFBDYWNyYWl6LnBkZjCBoQYDVR0fBIGZMIGWMEmgR6BFhkNodHRwOi8vcGJhZC5sYWJz
+ZWMudWZzYy5ici9maWxlcy9pY3AvcnNhL2NybF9IVU5HUllfTElLRV9BX1dPTEYuY3JsMEmgR6BF
+hkNodHRwOi8vcGJhZC5sYWJzZWMudWZzYy5ici9maWxlcy9pY3AvcnNhL2NybF9IVU5HUllfTElL
+RV9BX1dPTEYuY3JsMBMGA1UdJQQMMAoGCCsGAQUFBwMCMA4GA1UdDwEB/wQEAwIBBjBJBgNVHQ4E
+QgRAxtvWWRqUGa0d5VABzNevDG9MiKlSSpWtDHl5anKP7RaJ/L1FAS3/Bxs5I0lcTt35WQDDb0wK
+gSwf9SCNpflPyDANBgkqhkiG9w0BAQ0FAAOCAgEAY3Nxf0J0GNtVYNN/8CgukbO7vTwl411RWESy
+nXVwrNuMa0LD8efJFZ/pYXjnLcyVnGAdDo9JctoYfsI2Lts1FmcTz2N94dNlRkEqhxq9pgWS8Hmj
+GHiIfDaUYv3L7pyfgeqhV7sxcxvHyeGnPcQXjtxxmut/3t1NZv4CUNP4es5eZjFhmlZdsIdaN1dz
+C56Gyy+HeocGPagZVLhxim8c+0xG/4Nk8SSOLaphuC4d1d9xg4L8oIoEi10uX/TNWfPgBdzPpxyA
+RUJtJbYwPPnvCBsFDHYEXYz3MLUjk8ytUp8JGyuBXeghbSULgQWNkupESJf1br+hAwIn2B3cWTY+
+945fHsB82nTlaI5jeDIX1lfNKtv1zqCqCyYPg4hOOM59Rhbb1U1g1cxQ2zhPed+z5PkfSKE2Nq16
+n9mrToidsqybcap6OwVk7oAtZhjIjaKmkw9pwhaXbnUnUJDRcDONZT0iTc8AULdUamwY12L4OM8o
+dZYzSytlR/eMy3VyWfqHjns9ka0gTaYEYfVE1TIcdK9FncDxkb7O3v9g8nCA/VXfiejHyqcFHu0l
+mYRQ8ryQLcw/Hl/E+gg1qfwcjiA3rXfABei8Qjy4HiPy7LOKRXblbuVzV+uETmjfhVVci05M1Bjm
+Da0gtRLL40O/OpMtU02qewsVdVWDLbznpa8CFR8=</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><XAdES:QualifyingProperties xmlns:XAdES="http://uri.etsi.org/01903/v1.3.2#" Target="#id318922227846188809526583872162812971196"><XAdES:SignedProperties Id="id172852608835719346102250803350435410166"><XAdES:SignedSignatureProperties><XAdES:SigningTime>2024-10-10T18:15:45.110Z</XAdES:SigningTime><XAdES:SigningCertificate><XAdES:Cert><XAdES:CertDigest><ds:DigestMethod Algorithm="2.16.840.1.101.3.4.2.1"/><ds:DigestValue>Xw4Idmp4XZ24r04n4zgEtJPheJbt77Aq0fjz/26JO8Q=</ds:DigestValue></XAdES:CertDigest><XAdES:IssuerSerial><ds:X509IssuerName>CN=HUNGRY_LIKE_A_WOLF,SERIALNUMBER=0,C=BR,O=UFSC,OU=LabSEC,L=Florianopolis,ST=SC</ds:X509IssuerName><ds:X509SerialNumber>0</ds:X509SerialNumber></XAdES:IssuerSerial></XAdES:Cert></XAdES:SigningCertificate></XAdES:SignedSignatureProperties><XAdES:SignedDataObjectProperties><XAdES:DataObjectFormat ObjectReference="#id280618027914964615903142063159075741733"><XAdES:MimeType>application/xml</XAdES:MimeType></XAdES:DataObjectFormat></XAdES:SignedDataObjectProperties></XAdES:SignedProperties></XAdES:QualifyingProperties></ds:Object></ds:Signature></TrustServiceStatusList>

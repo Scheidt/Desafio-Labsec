@@ -1,0 +1,2 @@
+assinatura.p7s VALIDO/INVALIDO
+assinatura.xml VALIDO/INVALIDO

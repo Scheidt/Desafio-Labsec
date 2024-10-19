@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><breakfast_menu>
+  <food>
+    <name>Belgian Waffles</name>
+    <price>$5.95</price>
+    <description>Two of our famous Belgian Waffles with plenty of real maple syrup</description>
+    <calories>650</calories>
+  </food>
+  <food>
+    <name>Strawberry Belgian Waffles</name>
+    <price>$7.95</price>
+    <description>Light Belgian waffles covered with strawberries and whipped cream</description>
+    <calories>900</calories>
+  </food>
+  <food>
+    <name>Berry-Berry Belgian Waffles</name>
+    <price>$8.95</price>
+    <description>Light Belgian waffles covered with an assortment of fresh berries and whipped cream</description>
+    <calories>900</calories>
+  </food>
+  <food>
+    <name>French Toast</name>
+    <price>$4.50</price>
+    <description>Thick slices made from our homemade sourdough bread</description>
+    <calories>600</calories>
+  </food>
+  <food>
+    <name>Homestyle Breakfast</name>
+    <price>$6.95</price>
+    <description>Two eggs, bacon or sausage, toast, and our ever-popular hash browns</description>
+    <calories>950</calories>
+  </food>
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="id131094058312586829858557154810332288832"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference Id="id236816473290680789854806663588488674777" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><ds:XPath>not(ancestor-or-self::ds:Signature)</ds:XPath></ds:Transform></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>klAXgFj9Vt/DXjvy7ECsctEVcT1ZeHD2f5pHW9A1Ta4=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#id14179359808371894026468219932690957622"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>MnlVeA35BoU6YeRmu0y9Op5OTTd4Ufgc6Vr2FUVDzI0=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="id80604258355542727233131612482528914612">va29wVZqIehLsP47bgjIoS5y/WxfBLzCTXDSYoQuOppf8JXHsQKTNqJ0Vhj9/b6ClH/UemiNx1sM&#13;
+3UVxVFpM4QIs2oTK+c4yluMkwQ4/dYA85vPICw5xN+dfGTXJ+il5VTvCNvMV25Uf6I8Ubvv1GDWy&#13;
+pATFXmATSX974vmm3eCuvZyN76+bg0bwDDHWeOUkkRRQ3VCt7+RVV+bdkwc9IgbZaMp8TeNh1Pn3&#13;
+4W8ITqRzgyVVPwtmDqEYgUmmyutekMsrxKdZP+OeFbE5KKwxUTSUuUkH/e/lqLSvpCy9Nb6G3sGQ&#13;
+Dsqo+7VWOpg1IfLCiyT3t66zwfB5dIE8RPhEkoskQEmmCkf87S/Vno/WcsS+UKt6PdhH/PBLRWpY&#13;
+lNtMAr6TQcSobbb5XHgc8JxliYuUdPti2+1X7s6glamq/+9+hm7mSQeBEPpl9WTXx37yUNkWvCxL&#13;
+th3beC82DqYb1UFHD32/q8qwOIH1g/MRJZk3fNIv1fZ1syNSvgdwI3vM31OtVV1H2xCuqD5TIQnu&#13;
+UihOb8BLSK5QRCTPi2D3+Z2F9Var0kLp/jNvb/EVK3RYjz8Q+EoKMQ2ZGMmWRyvujayp5jLebkwr&#13;
+5v169bPnT4ZwJa/lh0bb1mJMMSiqb5T4T3o4ZK7FVJu8xSJ2v4TC3zvE6gTn5TBtXB8A0Fa6jQY=</ds:SignatureValue><ds:KeyInfo><ds:X509Data><ds:X509Certificate>MIIIvTCCBqWgAwIBAgIBCzANBgkqhkiG9w0BAQ0FADB8MRwwGgYDVQQDDBNUSEVfRklOQUxfQ09V&#13;
+TlRET1dOMQowCAYDVQQFEwEzMQswCQYDVQQGEwJCUjENMAsGA1UECgwEVUZTQzEPMA0GA1UECwwG&#13;
+TGFiU0VDMRYwFAYDVQQHDA1GbG9yaWFub3BvbGlzMQswCQYDVQQIDAJTQzAeFw0yNDEwMDgxNzM4&#13;
+MzlaFw0yNzA5MjMxNzM4MzlaMHUxFDASBgNVBAMMC0FMTF9NWV9MSUZFMQswCQYDVQQFEwIxMTEL&#13;
+MAkGA1UEBhMCQlIxDTALBgNVBAoMBFVGU0MxDzANBgNVBAsMBkxhYlNFQzEWMBQGA1UEBwwNRmxv&#13;
+cmlhbm9wb2xpczELMAkGA1UECAwCU0MwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDb&#13;
+6y1zSGXNc7cg8HFeDv8qrH9TMjsRqnq4/UlGLaRmCpeNSIFt6tNcex1YZY5omaJbFTVTSy2svTk3&#13;
+JSj3lf82uSX+T07EbTId4Uc59QQnmDOEfTFguXoZ/HsXf65H4Q9NGK8cwL1iNWhss6999PrIme4X&#13;
+srBoX2q/ww2LQ1EuhldpvNKA7pApZ6tbPyTPmF+gevPqqLg4K0HKl0VsbUGrnjoNSRP76hLjnAmR&#13;
+UEDZZbFqdORhCHjADy06FA12ZMVeNjpXZGIavI7gYkO/GiWrC25FnDAvdbgysZ5c/2jDQwyJL4zi&#13;
+y6AOyJQkeH4PPUCatVs4h28vLwaESfsMHDdpvHnFr2ZZ0VtZOvpQeGHMc9YAVKPUkHAzf0+7xOXq&#13;
+JoULxSiJPeTkyhfy1WaSZcnJRXKiUhE7mBJWvrZJ/Or3DU1zrkSSqcI0OCCj+oSniqxWJjUxYsM1&#13;
+d1XXYIHSXa67nveAttAMBWDM7k7p/s2h0NuXN4UV5lcqswX35NluTRzjP9epreI5Bi9sFePyj5MV&#13;
+xQdXqVWF954TjZHKV41YDI5bjihQ160/d/k+gr5xIn4vaQj+UtxijthWMMJF2CvYiHiRZYkDe/Jw&#13;
+PETYhJX2RX8P6gk3uPsWuRc5dC8PT1B+IUp46/tNipbMwhyjVZb2XP3nFXcQBM0fx3RgVFD5GQID&#13;
+AQABo4IDTzCCA0swSwYDVR0jBEQwQoBAvDJipTnIGvp4cAYg2ScJOhG49dX8S0Numhtg3TjTx9xU&#13;
+wvKr1100a0Y29B1neFcXGHwqUU2Z81ZRAyWyPStdLDCBpQYIKwYBBQUHAQEEgZgwgZUwUgYIKwYB&#13;
+BQUHMAKGRmh0dHA6Ly9wYmFkLmxhYnNlYy51ZnNjLmJyL2NoYWxsZW5nZS9hcnRpZmFjdHMvcnNh&#13;
+L2FpYV9BTExfTVlfTElGRS5wN2MwPwYIKwYBBQUHMAGGM2h0dHA6Ly9wYmFkLmxhYnNlYy51ZnNj&#13;
+LmJyL2NoYWxsZW5nZS9hcnRpZmFjdHMvcnNhLzAJBgNVHRMEAjAAMHIGA1UdIARrMGkwZwYGYEwB&#13;
+AgQUMF0wWwYIKwYBBQUHAgEWT2h0dHA6Ly9pY3AtYnJhc2lsLnZhbGlkY2VydGlmaWNhZG9yYS5j&#13;
+b20uYnIvYWMtdmFsaWRwbHVzL2RwYy1hYy12YWxpZHBsdXN2NS5wZGYwgbcGA1UdHwSBrzCBrDBU&#13;
+oFKgUIZOaHR0cDovL3BiYWQubGFic2VjLnVmc2MuYnIvY2hhbGxlbmdlL2FydGlmYWN0cy9yc2Ev&#13;
+Y3JsX1RIRV9GSU5BTF9DT1VOVERPV04uY3JsMFSgUqBQhk5odHRwOi8vcGJhZC5sYWJzZWMudWZz&#13;
+Yy5ici9jaGFsbGVuZ2UvYXJ0aWZhY3RzL3JzYS9jcmxfVEhFX0ZJTkFMX0NPVU5URE9XTi5jcmww&#13;
+EwYDVR0lBAwwCgYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgbAMIGqBgNVHREEgaIwgZ+gQgYFYEwB&#13;
+AwSgOQQ3MDEwMTIwMjIxMTExMTExMTExMTIyMjIyMjIyMjIyMzMzMzMzMzMzMzMzMzMzb3JnYW9l&#13;
+eHB1ZqAlBgVgTAEDAqAcBBpOb21lIFJlc3BvbnPDoXZlbCBFbmQgVXNlcqAZBgVgTAEDA6AQBA4x&#13;
+MTExMTExMTExMTExMaAXBgVgTAEDB6AOBAw0NDQ0NDQ0NDQ0NDQwSQYDVR0OBEIEQLdKHnog0g6F&#13;
+M/kKvqMQyGcVvjRhqfLlHjidRQHSjFxyJNYTgeZDQJO3YTHOakTDqgdME5zVloMbxL8uov6n50Yw&#13;
+DQYJKoZIhvcNAQENBQADggIBAH1AZ1rPIzW83ChIW5KqDfrsmd4Kqas4ltNBTAmdYN8w62jgFz3J&#13;
+3dNbYKMW6GkZfBJ0+VdRq3heYdOWnTh1w8+ooNFDS4vKMfPJtXICnZJCDE4O/iiC+4/XNys3cVhh&#13;
+nUNUD7Q2DESWFuH7jDHTmgt/saUUc00Eui+XNpgJo2Jf0HyFrUzZX5hd+CuanHOeaeFnQpQ5vKLB&#13;
+T1bU0XvOdsYumO540x0UTlAjWjXiO//iMLUoKmSjxmcNjkcFN2wE1y+sIkGv0IJGzRzvP3cc3x4a&#13;
+ojZ1WXCL7KE33aFX4q7dzoW8ljc1mrptiqSPWzesvW28u8DL1ECVTN/kqpLD8vbIGPL87e45b1EN&#13;
+u3CXF2zh8rxKmiEMwnAWhrKmqmPouEBvm4aS4yW/AbphVmERe+eB3zFlm4MsDPG2+cAarK4QHU4A&#13;
+eAoq6Vvfcv8uC9q5v7LqjMGuleFsvyLhiMjPx1y5an2dktKSSCTLQIZ8Wb++sjq296AkGIOlqN14&#13;
+7/QxmLKvaIlzb4Rkz3sVFCFWxgweBbBlnJsQusB2yVIt34CebyNPBycHcYKCTyo/iazNIfe4IiZn&#13;
+I+QJ5lf59s/rQgHdnh4+2kP7UZfEchyHdMtPzAP7ZeI4mpS7iItgI8FlFBKb6u2yNxoKm8QdC/O0&#13;
+epnGWP5U6vdlg69sWChXN7mA</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><XAdES:QualifyingProperties xmlns:XAdES="http://uri.etsi.org/01903/v1.3.2#" Target="#id131094058312586829858557154810332288832"><XAdES:SignedProperties Id="id14179359808371894026468219932690957622"><XAdES:SignedSignatureProperties><XAdES:SigningTime>2024-10-15T18:15:23.067Z</XAdES:SigningTime></XAdES:SignedSignatureProperties><XAdES:SignedDataObjectProperties><XAdES:DataObjectFormat ObjectReference="#id287339953146778675603415387611373159934"><XAdES:MimeType>application/xml</XAdES:MimeType></XAdES:DataObjectFormat></XAdES:SignedDataObjectProperties></XAdES:SignedProperties></XAdES:QualifyingProperties></ds:Object></ds:Signature></breakfast_menu>

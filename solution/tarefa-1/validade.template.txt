@@ -1,0 +1,6 @@
+assinatura_1 VALIDO
+assinatura_2 INVALIDO
+assinatura_3 VALIDO
+assinatura_4 INVALIDO
+assinatura_5 VALIDO
+assinatura_6 INVALIDO

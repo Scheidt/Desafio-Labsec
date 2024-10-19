@@ -1,0 +1,4 @@
+assinatura_1 VALIDO
+assinatura_2 REVOGADO
+assinatura_3 VALIDO
+assinatura_4 REVOGADO
