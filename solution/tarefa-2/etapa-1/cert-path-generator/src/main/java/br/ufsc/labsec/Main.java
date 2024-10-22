@@ -1,55 +1,20 @@
 package br.ufsc.labsec;
 
-import br.ufsc.labsec.cert.CertPathCreator;
-import br.ufsc.labsec.utils.CertificateUtils;
-
+import java.io.InputStream;
+import java.net.URI;
+import java.security.Principal;
+import java.security.PublicKey;
 import java.security.Security;
 import java.security.cert.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-/**
- * Classe principal do desafio final, leia todo o enunciado antes de começar.
- *
- * <p>
- *     O objetivo deste desafio é gerar um caminho de certificação dado um certificado e sua âncora de confiança.
- * </p>
- * <p>
- *     Estão disponíveis dois certificados:
- * </p>
- *     <li> cert_CHOP_SUEY.pem
- *     <li> cert_MANEATER.pem
- * <p>
- *    É responsabilidade do candidato descobrir qual é a âncora de confiança e gerar o caminho de certificação.
- * </p>
- *
- * <p>
- *     Na saída é necessário que o candidato imprima o caminho de certificação gerado e qual foi a âncora de confiança utilizada.
- *     Exemplo de saída:
- *      <pre>
- *          {@code
- *          System.out.println("Caminho de certificação: " + certPath);
- *          System.out.println("Âncora de confiança: " + trustAnchor);}
- *      </pre>
- * </p>
- *
- * <p>
- *     Adicionalmente é encorajado que o candidato comente o código para explicar o raciocínio por trás da solução.
- * </p>
- *
- * <p>
- * Métodos a serem implementados:
- *
- * <li> {@link br.ufsc.labsec.cert.CertPathCreator#createCertPath}
- * <li> {@link br.ufsc.labsec.cert.CertPathCreator#getCertPathParameters}
- * <li> {@link br.ufsc.labsec.cert.CertStoreCreator#createCertStore}
- * <li> {@link br.ufsc.labsec.cert.CertChainFromAiA#downloadCertificateChain}
- * <li> {@link br.ufsc.labsec.cert.CertChainFromAiA#getAuthorityInformationAccess}
- *
- * <p>
- * Foram disponibilizadas classes de utilidade para auxiliar na implementação:
- * <li> {@link br.ufsc.labsec.utils}
- */
+import org.bouncycastle.asn1.ASN1Primitive;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.DERIA5String;
+import org.bouncycastle.asn1.x509.*;
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+
 public class Main {
     static final String CHOP_SUEY = "cert_CHOP_SUEY.pem";
     static final String MANEATER = "cert_MANEATER.pem";
@@ -57,10 +22,95 @@ public class Main {
     public static Logger logger = Logger.getLogger("challenge-labsec");
 
     public static void main(String[] args)
-            throws Exception {
+        throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        // Adicione o código aqui
-        System.exit(0);
+
+
+    }
+    public List<X509Certificate> getCertificateChain(X509Certificate cert) throws Exception {
+
+        List<X509Certificate> chain = new ArrayList<>();
+        Set<Principal> seenPrincipals = new HashSet<>();
+        chain.add(cert);
+        seenPrincipals.add(cert.getSubjectX500Principal());
+
+        while (!isSelfSigned(cert)) {
+            X509Certificate issuerCert = null;
+
+            // Obter URIs dos certificados emissores
+            List<String> issuerURIs = getAuthorityInfoAccessURIs(cert, AccessDescription.id_ad_caIssuers.getId());
+
+            for (String uri : issuerURIs) {
+                try {
+                    InputStream inStream = get(new URI(uri)); // Função 'get' pré-implementada
+                    CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                    X509Certificate possibleIssuerCert = (X509Certificate) cf.generateCertificate(inStream);
+                    inStream.close();
+
+                    // Verificar se este é o certificado emissor
+                    cert.verify(possibleIssuerCert.getPublicKey());
+                    issuerCert = possibleIssuerCert;
+                    break;
+                } catch (Exception e) {
+                    // Tentar a próxima URI
+                }
+            }
+
+            if (issuerCert == null) {
+                // Não foi possível encontrar o certificado emissor
+                break;
+            }
+
+            if (seenPrincipals.contains(issuerCert.getSubjectX500Principal())) {
+                // Evitar loops
+                break;
+            }
+
+            chain.add(issuerCert);
+            seenPrincipals.add(issuerCert.getSubjectX500Principal());
+            cert = issuerCert;
+        }
+
+        return chain;
     }
 
+    private boolean isSelfSigned(X509Certificate cert) {
+        try {
+            // Verificar a assinatura com a própria chave pública
+            cert.verify(cert.getPublicKey());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private List<String> getAuthorityInfoAccessURIs(X509Certificate cert, String accessMethodOID) throws Exception {
+        byte[] extensionValue = cert.getExtensionValue(Extension.authorityInfoAccess.getId());
+        if (extensionValue == null) {
+            return Collections.emptyList();
+        }
+
+        ASN1Primitive aiaExtension = JcaX509ExtensionUtils.parseExtensionValue(extensionValue);
+        AuthorityInformationAccess aia = AuthorityInformationAccess.getInstance(aiaExtension);
+
+        AccessDescription[] accessDescriptions = aia.getAccessDescriptions();
+        List<String> uris = new ArrayList<>();
+
+        for (AccessDescription ad : accessDescriptions) {
+            if (ad.getAccessMethod().equals(new ASN1ObjectIdentifier(accessMethodOID))) {
+                GeneralName gn = ad.getAccessLocation();
+                if (gn.getTagNo() == GeneralName.uniformResourceIdentifier) {
+                    String uri = DERIA5String.getInstance(gn.getName()).getString();
+                    uris.add(uri);
+                }
+            }
+        }
+        return uris;
+    }
+
+    // Supondo que a função 'get' está implementada em outro lugar
+    private InputStream get(URI uri) {
+        // Implementação da função 'get' não mostrada
+        return null;
+    }
 }
