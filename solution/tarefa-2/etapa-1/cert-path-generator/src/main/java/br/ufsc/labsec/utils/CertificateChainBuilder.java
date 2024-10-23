@@ -1,5 +1,5 @@
 package br.ufsc.labsec.utils;
-
+/*
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
@@ -120,3 +120,5 @@ public class CertificateChainBuilder {
         return null;
     }
 }
+
+ */

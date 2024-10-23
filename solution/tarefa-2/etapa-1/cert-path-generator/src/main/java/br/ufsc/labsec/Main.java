@@ -1,27 +1,102 @@
 package br.ufsc.labsec;
 
+import br.ufsc.labsec.cert.CertChainFromAiA;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.security.Security;
 import java.security.cert.*;
-import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 
-import br.ufsc.labsec.utils.CertificateChainBuilder;
-
+/**
+ * Classe principal do desafio final, leia todo o enunciado antes de começar.
+ *
+ * <p>
+ *     O objetivo deste desafio é gerar um caminho de certificação dado um certificado e sua âncora de confiança.
+ * </p>
+ * <p>
+ *     Estão disponíveis dois certificados:
+ * </p>
+ *     <li> cert_CHOP_SUEY.pem
+ *     <li> cert_MANEATER.pem
+ * <p>
+ *    É responsabilidade do candidato descobrir qual é a âncora de confiança e gerar o caminho de certificação.
+ * </p>
+ *
+ * <p>
+ *     Na saída é necessário que o candidato imprima o caminho de certificação gerado e qual foi a âncora de confiança utilizada.
+ *     Exemplo de saída:
+ *      <pre>
+ *          {@code
+ *          System.out.println("Caminho de certificação: " + certPath);
+ *          System.out.println("Âncora de confiança: " + trustAnchor);}
+ *      </pre>
+ * </p>
+ *
+ * <p>
+ *     Adicionalmente é encorajado que o candidato comente o código para explicar o raciocínio por trás da solução.
+ * </p>
+ *
+ * <p>
+ * Métodos a serem implementados:
+ *
+ * <li> {@link br.ufsc.labsec.cert.CertPathCreator#createCertPath}
+ * <li> {@link br.ufsc.labsec.cert.CertPathCreator#getCertPathParameters}
+ * <li> {@link br.ufsc.labsec.cert.CertStoreCreator#createCertStore}
+ * <li> {@link br.ufsc.labsec.cert.CertChainFromAiA#downloadCertificateChain}
+ * <li> {@link br.ufsc.labsec.cert.CertChainFromAiA#getAuthorityInformationAccess}
+ *
+ * <p>
+ * Foram disponibilizadas classes de utilidade para auxiliar na implementação:
+ * <li> {@link br.ufsc.labsec.utils}
+ */
 public class Main {
+    static {Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());}
     static final String CHOP_SUEY = "cert_CHOP_SUEY.pem";
     static final String MANEATER = "cert_MANEATER.pem";
 
+    static X509Certificate certificado = loadCertificate(CHOP_SUEY);
+
     public static Logger logger = Logger.getLogger("challenge-labsec");
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)
+            throws Exception {
+        // Adicione o código aqui
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        CertificateChainBuilder builder = new CertificateChainBuilder();
-        X509Certificate certificado = CertificateChainBuilder.carregarCertificado(CHOP_SUEY);
-        List<X509Certificate> chain = builder.getCertificateChain(certificado);
+
+
+        List<X509Certificate> chain = CertChainFromAiA.downloadCertificateChain(certificado);
+
+        /*
+        for (X509Certificate certificate: chain){
+            System.out.println(certificate);
+            System.out.println("---------------------------------------------------------------------------");
+        };
         System.out.println(chain);
-        for (X509Certificate cert : chain){
-            System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
-            System.out.println(cert);
-        }
+
+         */
+
+
+        System.exit(0);
     }
+
+
+
+    public static X509Certificate loadCertificate(String certificado){
+        // Versão modificada de:
+        // https://docs.hidglobal.com/dev/auth-service/buildingapps/java/read-different-certificate-key-file-formats-with-java.htm
+        try {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509", "BC");
+            InputStream arquivo = Main.class.getClassLoader().getResourceAsStream(certificado);
+            if (arquivo == null) {
+                throw new FileNotFoundException("Resource not found: " + certificado);
+            }
+            return (X509Certificate) certFactory.generateCertificate(arquivo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
