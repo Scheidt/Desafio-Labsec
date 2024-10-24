@@ -1,6 +1,7 @@
 package br.ufsc.labsec;
 
 import br.ufsc.labsec.cert.CertChainFromAiA;
+import br.ufsc.labsec.utils.CertificateUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -65,17 +66,17 @@ public class Main {
         // Adicione o código aqui
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
+        List<X509Certificate> certPath = CertChainFromAiA.downloadCertificateChain(certificado);
 
-        List<X509Certificate> chain = CertChainFromAiA.downloadCertificateChain(certificado);
 
-        /*
-        for (X509Certificate certificate: chain){
-            System.out.println(certificate);
+        for (X509Certificate certificate: certPath){
+            System.out.println("Subject: " + certificate.getSubjectX500Principal());
+            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
+            //System.out.println(certificate);
             System.out.println("---------------------------------------------------------------------------");
         };
-        System.out.println(chain);
 
-         */
+
 
 
         System.exit(0);

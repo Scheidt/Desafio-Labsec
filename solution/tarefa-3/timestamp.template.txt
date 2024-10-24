@@ -1,3 +1,7 @@
-assinatura_1 VALIDO VALIDO VALIDO
-assinatura_2 INVALIDO INVALIDO INVALIDO
-assinatura_3 INVALIDO INVALIDO VALIDO
+cms_with_ts INVALIDO? ? INVALIDO
+xades_with_ts ? ? VALIDO
+xades_with_ts_2 ? ? VALIDO
+
+
+DELETAR 
+status, o status do certificado (o mesmo da 1) e o status do carimbo de tampo,
