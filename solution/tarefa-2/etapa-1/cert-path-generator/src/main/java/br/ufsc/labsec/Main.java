@@ -59,12 +59,15 @@ public class Main {
 
     static X509Certificate certificado = loadCertificate(CHOP_SUEY);
 
+
+
     public static Logger logger = Logger.getLogger("challenge-labsec");
 
     public static void main(String[] args)
             throws Exception {
         // Adicione o código aqui
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        //System.out.println(certificado);
 
         List<X509Certificate> certPath = CertChainFromAiA.downloadCertificateChain(certificado);
 
@@ -75,6 +78,7 @@ public class Main {
             //System.out.println(certificate);
             System.out.println("---------------------------------------------------------------------------");
         };
+
 
 
 

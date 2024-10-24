@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bouncycastle.cert.AttributeCertificateIssuer;
 
 
 public class CertChainFromAiA {
@@ -166,6 +167,8 @@ public class CertChainFromAiA {
 
 
                     String issuerName = certificate.getIssuerX500Principal().getName();
+                    // System.out.println("ISSUERNAME: " + issuerName);
+                    // Provávelmente tem alguma forma melhor de fazer isso, mas eu não achei :(
                     // Como o valor do getName() é "ST=SC,L=Florianopolis,OU=LabSEC,O=UFSC,C=BR,2.5.4.5=%23130132,CN=FAINT"
                     // Preciso usar um regex para pegar o valor do Common Name.
                     // Uso o seguinte regex:
@@ -217,6 +220,7 @@ public class CertChainFromAiA {
             ASN1InputStream ais2 = new ASN1InputStream(oct.getOctets());
             System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             System.out.println("CERTIFICADO: " + certificate.getSubjectDN());
+            System.out.println("ISSUER: " + certificate.getIssuerX500Principal());
             System.out.println("AiA: " + AuthorityInformationAccess.getInstance(ais2.readObject()) + " Fim AiA");
             System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             return AuthorityInformationAccess.getInstance(ais2.readObject());
