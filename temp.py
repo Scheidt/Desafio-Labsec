@@ -1,5 +1,5 @@
-chave1 = 'resources/tarefa-1/pem/xades_ad_rt_v1.1.pem'
-chave2 = 'resources/tarefa-1/pem/xades_b_t.pem'
+chave1 = 'comparar/cades_ad_rb_v2.3.txt'
+chave2 = 'comparar/cm2_2.txt'
 
 with open(chave1, 'r') as arq1, open(chave2, 'r') as arq2:
     texto1 = arq1.read()
