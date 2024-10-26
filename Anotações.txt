@@ -1,5 +1,9 @@
-cades_ad_rb_v2.3 -> Master of Puppets <- The Final Countdown
-cm2_2 -> Master of puppets <- The Final Countdown
-cms_1 -> Whats my age again <- The Final Countdown
-xades_ad_rt_v1.1 ->
-xades_b_t -> 
+.p7m (Signed Data with Content):
+Contains both the signed data and the digital signature in a single file.
+The code reads this file directly because the signature and data are bundled together.
+.p7s (Detached Signature):
+Contains only the digital signature without the original data.
+To verify a .p7s file, you need both the .p7s file (signature) and the original content it signed.
+.p7b (Certificate Chain):
+Typically contains only the certificate chain (certificates) and not the signature or content.
+It is usually used to establish the validity of certificates in the signature chain rather than verifying the actual signature.

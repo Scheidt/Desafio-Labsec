@@ -13,35 +13,104 @@ import java.net.URISyntaxException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bouncycastle.cert.AttributeCertificateIssuer;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.util.Store;
 
 
 public class CertChainFromAiA {
 
 
     // Honestamente não lembro onde achei esssa função. Mas ela foi praticamente inteira mudada então não seria reconhecível
+
     /**
      * Baixa a cadeia de certificação de um certificado a partir do Authority Information Access
+     *
      * @param certificate O certificado
      * @return A lista de certificados do Authority Information Access
      * @see #getAuthorityInformationAccess(X509Certificate)
      */
     public static List<X509Certificate> downloadCertificateChain(X509Certificate certificate) throws Exception {
         List<X509Certificate> chain = new ArrayList<>();
-        List<X509Certificate> visitedCertificates = new ArrayList<>();
-        X509Certificate currentCertificate = certificate;
         CertificateFactory certFact = CertificateFactory.getInstance("X.509");
-        chain.add(currentCertificate);
+        chain.add(certificate);
+        if (CertificateUtils.isSelfSigned(certificate)) {
+            return chain;
+        }
 
-        // Verifica se o certificado é autoassinado
-        while (!CertificateUtils.isSelfSigned(currentCertificate)) {
 
-            AuthorityInformationAccess aia = getAuthorityInformationAccess(currentCertificate);
-            //System.out.println(currentCertificate);
+        AuthorityInformationAccess aia = getAuthorityInformationAccess(certificate);
+        AccessDescription[] accessDescriptions = aia.getAccessDescriptions();
 
+
+        URI uri = null;
+        for (AccessDescription accessDescription : aia.getAccessDescriptions()) {
+            // Check if it's a caIssuers type
+            if (accessDescription.getAccessMethod().equals(X509ObjectIdentifiers.id_ad_caIssuers)) {
+                // Print the URL
+                uri = new URI(accessDescription.getAccessLocation().getName().toString());
+            }
+        }
+        if (uri == null) {
+            System.out.println("Erro pegando URI do AiA do certificado: " + certificate.getSubjectDN());
+
+        }
+        //System.out.println(uri);
+        InputStream inStream = ConnectionUtils.get(uri);
+        CMSSignedData p7c = new CMSSignedData(inStream);
+        System.out.println(p7c);
+
+        Store<X509CertificateHolder> certStore = p7c.getCertificates();
+        Collection<X509CertificateHolder> certHolders = certStore.getMatches(null);
+        JcaX509CertificateConverter converter = new JcaX509CertificateConverter();
+
+        for (X509CertificateHolder certHolder : certHolders) {
+            X509Certificate newCertificate = converter.getCertificate(certHolder);
+            chain.add(newCertificate);
+        }
+        return chain;
+    }
+
+    /**
+     * Retorna o Authority Information Access (AiA) de um certificado
+     *
+     * @param certificate O certificado
+     * @return O Authority Information Access (AiA)
+     **/
+    public static AuthorityInformationAccess getAuthorityInformationAccess(X509Certificate certificate) {
+        // Modificado de: https://stackoverflow.com/questions/44846091/how-to-parse-authoritiyinformation-from-x509certificate-object
+        // (A pessoa no stackoverflow não incluiu um return e isso me causou muita dor debugando)
+        try {
+            byte[] authInfoAccessExtensionValue = certificate.getExtensionValue(X509Extension.authorityInfoAccess.getId());
+
+            // Verifica se o valor da extensão é nulo
+            if (authInfoAccessExtensionValue == null) {
+                System.err.println("AVISO: O Authority Information Access não está presente no certificado " + certificate.getSubjectDN());
+                return null;
+            }
+
+            ASN1InputStream ais1 = new ASN1InputStream(new ByteArrayInputStream(authInfoAccessExtensionValue));
+            DEROctetString oct = (DEROctetString) (ais1.readObject());
+            ASN1InputStream ais2 = new ASN1InputStream(oct.getOctets());
+            //System.out.println("AiA: " + AuthorityInformationAccess.getInstance(ais2.readObject()) + " Fim AiA");
+
+            return AuthorityInformationAccess.getInstance(ais2.readObject());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    //System.out.println(currentCertificate);
+
+            /*
             if (aia == null) {
                 System.out.println("ERRO: Authority Information Access não encontrado no certificado: " +
                         currentCertificate.getSubjectDN());
@@ -58,7 +127,7 @@ public class CertChainFromAiA {
             // Tenta baixar o próximo certificado na cadeia
             InputStream inStream = null;
             try {
-                inStream = ConnectionUtils.get(uriDoCertificado);
+AQUI                inStream = ConnectionUtils.get(uriDoCertificado);
                 //System.out.println(uriDoCertificado);
                 X509Certificate downloadedCert = (X509Certificate) certFact.generateCertificate(inStream);
                 if (downloadedCert == null) {
@@ -77,10 +146,10 @@ public class CertChainFromAiA {
                 }
             }
             visitedCertificates.add(currentCertificate);
-        }
 
-        return chain;
-    }
+             */
+
+
             /*
 
             for (URI uri : issuerUris) {
@@ -113,28 +182,7 @@ public class CertChainFromAiA {
     }
 
 
-    private static List<URI> getIssuerCertificateURIs(AuthorityInformationAccess aia) {
-        List<URI> uris = new ArrayList<>();
-        AccessDescription[] accessDescriptions = aia.getAccessDescriptions();
 
-        for (AccessDescription ad : accessDescriptions) {
-            if (ad.getAccessMethod().equals(AccessDescription.id_ad_caIssuers)) {
-                GeneralName location = ad.getAccessLocation();
-                if (location.getTagNo() == GeneralName.uniformResourceIdentifier) {
-                    String uriStr = DERIA5String.getInstance(location.getName()).getString();
-                    try {
-                        URI uri = new URI(uriStr);
-                        uris.add(uri);
-                    } catch (URISyntaxException e) {
-                        // Log ou trate o URI inválido conforme necessário
-                        System.err.println("URI inválido encontrado no AIA: " + uriStr);
-                        continue; // Ignora URIs inválidos
-                    }
-                }
-            }
-        }
-        return uris;
-    }
     */
 
     // Feito com base em:
@@ -195,38 +243,6 @@ public class CertChainFromAiA {
             }
         }
 
-        return null;
-    }
-
-    /**
-     * Retorna o Authority Information Access (AiA) de um certificado
-     * @param certificate O certificado
-     * @return O Authority Information Access (AiA)
-     **/
-    public static AuthorityInformationAccess getAuthorityInformationAccess(X509Certificate certificate) {
-        // Modificado de: https://stackoverflow.com/questions/44846091/how-to-parse-authoritiyinformation-from-x509certificate-object
-        // (A pessoa no stackoverflow não incluiu um return e isso me causou muita dor debugando)
-        try {
-            byte[] authInfoAccessExtensionValue = certificate.getExtensionValue(X509Extension.authorityInfoAccess.getId());
-
-            // Verifica se o valor da extensão é nulo
-            if (authInfoAccessExtensionValue == null) {
-                System.err.println("AVISO: O Authority Information Access não está presente no certificado " + certificate.getSubjectDN());
-                return null;
-            }
-
-            ASN1InputStream ais1 = new ASN1InputStream(new ByteArrayInputStream(authInfoAccessExtensionValue));
-            DEROctetString oct = (DEROctetString) (ais1.readObject());
-            ASN1InputStream ais2 = new ASN1InputStream(oct.getOctets());
-            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            System.out.println("CERTIFICADO: " + certificate.getSubjectDN());
-            System.out.println("ISSUER: " + certificate.getIssuerX500Principal());
-            System.out.println("AiA: " + AuthorityInformationAccess.getInstance(ais2.readObject()) + " Fim AiA");
-            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-            return AuthorityInformationAccess.getInstance(ais2.readObject());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return null;
     }
 }

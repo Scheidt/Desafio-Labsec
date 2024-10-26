@@ -1,0 +1,3 @@
+openssl ocsp -issuer cert_THE_FINAL_COUNTDOWN.pem -cert cades_ad_rb.v2.3.p7s -url <OCSP_URL>
+
+openssl x509 -in certificate.pem -noout -serial

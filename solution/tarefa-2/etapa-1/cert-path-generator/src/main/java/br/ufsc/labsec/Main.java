@@ -68,17 +68,20 @@ public class Main {
         // Adicione o código aqui
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         //System.out.println(certificado);
+        TrustAnchor trustAnchor = CertificateUtils.trustAnchorFromCertificate(certificado);
 
         List<X509Certificate> certPath = CertChainFromAiA.downloadCertificateChain(certificado);
 
-
+        /*
         for (X509Certificate certificate: certPath){
             System.out.println("Subject: " + certificate.getSubjectX500Principal());
             System.out.println("Issuer: " + certificate.getIssuerX500Principal());
             //System.out.println(certificate);
             System.out.println("---------------------------------------------------------------------------");
         };
-
+        */
+        System.out.println("Caminho de certificação: " + certPath);
+        System.out.println("Âncora de confiança: " + trustAnchor);
 
 
 
