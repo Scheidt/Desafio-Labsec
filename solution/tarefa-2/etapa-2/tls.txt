@@ -1,0 +1,4 @@
+AC-RAIZ root-r3.pem
+AC-INTERMEDIARIA trustroottlssha2g3.pem
+AC-FINAL rnpicpeduovsslca2019.pem
+USUARIO-FINAL moodle-ufsc-br.pem

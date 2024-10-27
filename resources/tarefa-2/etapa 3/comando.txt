@@ -1,0 +1,1 @@
+openssl req -new -newkey rsa:2048 -nodes -out labsec_local.csr -keyout labsec_local.key -subj "/C=BR/ST=SantaCatarina/L=Florianopolis/O=PedroScheidt/CN=labsec.local"

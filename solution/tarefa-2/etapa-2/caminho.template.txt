@@ -1,4 +1,0 @@
-AC-RAIZ certificado_1.pem
-AC-INTERMEDIARIA certificado_2.pem
-AC-FINAL certificado_3.pem
-USUARIO-FINAL moodle-ufsc-br.pem
