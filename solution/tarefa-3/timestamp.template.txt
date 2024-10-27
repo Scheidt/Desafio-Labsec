@@ -1,7 +1,7 @@
-cms_with_ts INVALIDO? ? INVALIDO
-xades_with_ts ? ? VALIDO
-xades_with_ts_2 ? ? VALIDO
+cms_with_ts INVALIDO? ? VALIDO
+xades_with_ts ? ? ?
+xades_with_ts_2 ? ? ?
 
 
 DELETAR 
-status, o status do certificado (o mesmo da 1) e o status do carimbo de tampo,
+status (o mesmo da 1), o status do certificado e o status do carimbo de tampo,

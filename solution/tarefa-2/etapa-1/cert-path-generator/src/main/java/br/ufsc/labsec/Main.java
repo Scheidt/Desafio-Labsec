@@ -1,13 +1,15 @@
 package br.ufsc.labsec;
 
 import br.ufsc.labsec.cert.CertChainFromAiA;
+import br.ufsc.labsec.cert.CertPathCreator;
+import br.ufsc.labsec.cert.CertStoreCreator;
 import br.ufsc.labsec.utils.CertificateUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.Security;
 import java.security.cert.*;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -69,8 +71,17 @@ public class Main {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         //System.out.println(certificado);
         TrustAnchor trustAnchor = CertificateUtils.trustAnchorFromCertificate(certificado);
+        System.out.println(trustAnchor);
+        Set<TrustAnchor> trustAnchorSet = new LinkedHashSet<TrustAnchor>();
 
-        List<X509Certificate> certPath = CertChainFromAiA.downloadCertificateChain(certificado);
+
+        List<X509Certificate> certificateList = CertChainFromAiA.downloadCertificateChain(certificado);
+        for (X509Certificate cert : certificateList){
+            trustAnchorSet.add(CertificateUtils.trustAnchorFromCertificate(cert));
+        }
+
+        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchorSet);
+
 
         /*
         for (X509Certificate certificate: certPath){
@@ -80,6 +91,7 @@ public class Main {
             System.out.println("---------------------------------------------------------------------------");
         };
         */
+
         System.out.println("Caminho de certificação: " + certPath);
         System.out.println("Âncora de confiança: " + trustAnchor);
 

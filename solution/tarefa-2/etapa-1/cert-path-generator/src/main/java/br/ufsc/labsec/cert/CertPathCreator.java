@@ -1,9 +1,11 @@
 package br.ufsc.labsec.cert;
 
 import br.ufsc.labsec.ImplementMe;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.security.cert.*;
 import java.util.Set;
 
@@ -22,7 +24,34 @@ public class CertPathCreator {
     @ImplementMe
     public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
             throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        throw new UnsupportedOperationException("Implemente: CertPathCreator.createCertPath");
+
+        // Ensure Bouncy Castle is registered as a security provider
+
+        Security.addProvider(new BouncyCastleProvider());
+
+
+        // Create a CertStore containing the certificate and trust anchors
+        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors);
+
+        // Get CertPathParameters using the previous function
+        CertPathParameters certPathParameters = getCertPathParameters(certificate, trustAnchors);
+
+        // Add the CertStore to the PKIX parameters
+        if (certPathParameters instanceof PKIXBuilderParameters) {
+            ((PKIXBuilderParameters) certPathParameters).addCertStore(certStore);
+        }
+        CertPath certPath = null;
+        try {
+            // Create a CertPathBuilder using Bouncy Castle provider
+            CertPathBuilder certPathBuilder = CertPathBuilder.getInstance("PKIX", "BC");
+            CertPathBuilderResult result = certPathBuilder.build(certPathParameters);
+            certPath = result.getCertPath();
+        } catch (Exception e){
+            System.out.println("ERRO: Não foi possível criar o CertPath: " + e);
+        }
+
+
+        return certPath;
     }
 
 
@@ -36,7 +65,23 @@ public class CertPathCreator {
     @ImplementMe
     public static CertPathParameters getCertPathParameters(X509Certificate certificate,
                                                             Set<TrustAnchor> trustAnchors)
-            throws InvalidAlgorithmParameterException, NoSuchAlgorithmException {
-        throw new UnsupportedOperationException("Implemente: CertPathCreator.getCertPathParameters");
+            throws InvalidAlgorithmParameterException{
+
+        // Ensure Bouncy Castle is registered as a security provider
+        Security.addProvider(new BouncyCastleProvider());
+
+
+        // Create PKIX parameters with the given trust anchors
+        PKIXParameters pkixParams = new PKIXParameters(trustAnchors);
+
+        // Set the certificate constraints to the provided certificate
+        X509CertSelector certSelector = new X509CertSelector();
+        certSelector.setCertificate(certificate);
+        pkixParams.setTargetCertConstraints(certSelector);
+
+        // Optionally, disable CRL checking (revocation checking)
+        pkixParams.setRevocationEnabled(false);
+
+        return pkixParams;
     }
 }

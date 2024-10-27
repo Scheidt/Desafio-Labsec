@@ -9,11 +9,13 @@ import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AccessDescription;
 import org.bouncycastle.asn1.x509.AuthorityInformationAccess;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.InputStream;
 import java.net.URI;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.security.cert.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -36,6 +38,31 @@ public class CertStoreCreator {
     @ImplementMe
     public static CertStore createCertStore(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
         throws InvalidAlgorithmParameterException, NoSuchAlgorithmException {
-        throw new UnsupportedOperationException("Implemente: CertStoreCreator.createCertStore");
+        if (Security.getProvider("BC") == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        // Create a list to hold certificates
+        List<Certificate> certList = new ArrayList<>();
+        certList.add(certificate);
+
+        // Add certificates from trust anchors, if they are available
+        for (TrustAnchor trustAnchor : trustAnchors) {
+            X509Certificate taCert = trustAnchor.getTrustedCert();
+            if (taCert != null) {
+                certList.add(taCert);
+            }
+        }
+
+        // Create CertStore parameters with the certificate list
+        CollectionCertStoreParameters params = new CollectionCertStoreParameters(certList);
+
+        // Instantiate the CertStore using Bouncy Castle provider
+        try {
+            return CertStore.getInstance("Collection", params, "BC");
+        }catch (Exception e){
+            System.out.println("ERRO: Não foi possível criar CertStore");
+        }
+        return null;
     }
 }

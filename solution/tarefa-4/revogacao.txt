@@ -3,4 +3,3 @@ cms REVOGADO
 signature REVOGADO
 xades_ad_rb REVOGADO
 xades_b_b VALIDO
-VALIDO REVOGADO
