@@ -71,15 +71,14 @@ public class CertPathCreator {
         Security.addProvider(new BouncyCastleProvider());
 
 
-        // Create PKIX parameters with the given trust anchors
-        PKIXParameters pkixParams = new PKIXParameters(trustAnchors);
-
-        // Set the certificate constraints to the provided certificate
+        // Create a CertSelector for the target certificate
         X509CertSelector certSelector = new X509CertSelector();
         certSelector.setCertificate(certificate);
-        pkixParams.setTargetCertConstraints(certSelector);
 
-        // Optionally, disable CRL checking (revocation checking)
+        // Create PKIXBuilderParameters with the trust anchors and target constraints
+        PKIXBuilderParameters pkixParams = new PKIXBuilderParameters(trustAnchors, certSelector);
+
+        // Optionally, disable revocation checking
         pkixParams.setRevocationEnabled(false);
 
         return pkixParams;
