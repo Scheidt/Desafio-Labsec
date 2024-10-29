@@ -1,3 +1,0 @@
-identificador-servico 1 nome-do-servico-1
-identificador-servico 2 nome-do-servico-2
-identificador-servico 2 nome-do-servico-3
