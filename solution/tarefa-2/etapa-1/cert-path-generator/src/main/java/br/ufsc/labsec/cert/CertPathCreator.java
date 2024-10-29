@@ -7,7 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.cert.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,27 +28,31 @@ public class CertPathCreator {
     public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
             throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchProviderException, CertPathBuilderException, CertStoreException {
 
+        // Adaptado em parte de: https://stackoverflow.com/questions/2457795/x-509-certificate-validation-with-java-and-bouncycastle
+
         Security.addProvider(new BouncyCastleProvider());
 
 
         CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors); // Verificado
 
-        // Get CertPathParameters using the previous function
         CertPathParameters certPathParameters = getCertPathParameters(certificate, trustAnchors);
 
-        /*
-        // Add the CertStore to the PKIX parameters
+        List<X509Certificate> chain = new ArrayList<>();
+        for (TrustAnchor anchor : trustAnchors){
+            chain.add(anchor.getTrustedCert());
+        }
+
         if (certPathParameters instanceof PKIXBuilderParameters) {
-            ((PKIXBuilderParameters) certPathParameters).addCertStore(certStore);
+            CertStoreParameters intermediates = new CollectionCertStoreParameters(chain);
+            ((PKIXBuilderParameters) certPathParameters).addCertStore(CertStore.getInstance("Collection", intermediates));
             System.out.println("CertStore adicionado aos parâmetros PKIX.");
         }
+
+
         //System.out.println(certPathParameters);
-        */
-        CertStore intermediate = CertStore.getInstance("Collection", new CollectionCertStoreParameters(Arrays.asList(certStore)));
-        ((PKIXBuilderParameters) certPathParameters).addCertStore(intermediate);
 
         try {
-            CertPathBuilder certPathBuilder = CertPathBuilder.getInstance("PKIX", "BC");
+            CertPathBuilder certPathBuilder = CertPathBuilder.getInstance(BUILDER_INSTANCE, "BC");
             CertPathBuilderResult result = certPathBuilder.build(certPathParameters);
             CertPath certPath = result.getCertPath();
 
@@ -97,6 +103,8 @@ public class CertPathCreator {
         PKIXBuilderParameters pkixParams = new PKIXBuilderParameters(trustAnchors, certSelector);
 
         pkixParams.setRevocationEnabled(false);
+
+        System.out.println("PARAMS: " + pkixParams);
 
         return pkixParams;
     }

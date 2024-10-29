@@ -40,7 +40,6 @@ public class CertChainFromAiA {
 
         URI uri = null;
         for (AccessDescription accessDescription : accessDescriptions) {
-            // Check if it's a caIssuers type
             if (accessDescription.getAccessMethod().equals(X509ObjectIdentifiers.id_ad_caIssuers)) {
                 // Print the URL
                 uri = new URI(accessDescription.getAccessLocation().getName().toString());
@@ -54,7 +53,7 @@ public class CertChainFromAiA {
         InputStream inStream = ConnectionUtils.get(uri);
         CMSSignedData p7c = new CMSSignedData(inStream);
 
-
+        // Adaptado de: https://stackoverflow.com/questions/6370368/bouncycastle-x509certificateholder-to-x509certificate
         Store<X509CertificateHolder> certStore = p7c.getCertificates();
         Collection<X509CertificateHolder> certHolders = certStore.getMatches(null);
         JcaX509CertificateConverter converter = new JcaX509CertificateConverter();

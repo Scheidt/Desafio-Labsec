@@ -42,16 +42,15 @@ public class CertStoreCreator {
         Security.addProvider(new BouncyCastleProvider());
 
 
-        // Create a list to hold certificates
 
         // Pegar os certificados das Trust Anchors (não sei por que transformar em trust anchors se precisa transformar em certificado de volta
-        List<X509Certificate> certList = null;
-        try {
-            certList = CertChainFromAiA.downloadCertificateChain(certificate);
-        }catch (Exception e){
-            System.out.println("ERRO: " + e);
-            
+        List<X509Certificate> certList = new ArrayList<>();
+
+
+        for (TrustAnchor anchor : trustAnchors){
+            certList.add(anchor.getTrustedCert());
         }
+        certList.add(certificate);
 
 
         // Criar os parâmetros da certstore
@@ -59,7 +58,8 @@ public class CertStoreCreator {
 
         // Tentar criar a certstore
         try {
-            return CertStore.getInstance("Collection", params, "BC");
+            CertStore certStore = CertStore.getInstance(CERT_STORE_INSTANCE, params, "BC");
+            return certStore;
         }catch (Exception e){
             System.out.println("ERRO: Não foi possível criar CertStore");
         }

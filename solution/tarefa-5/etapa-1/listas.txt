@@ -1,49 +1,22 @@
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC LuxTrust Qualified Certification Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/TSS-QC LuxTrust Time Stamping Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC LuxTrust Global Qualified Certification Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/TSS-QC LuxTrust Global Time Stamping Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC LuxTrust Global Qualified Certification Authority 2
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC LuxTrust Global Qualified Certification Authority 3
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST LuxTrust Global Time Stamping Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST LuxTrust Qualified Time Stamping
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC LuxTrust SSL Certification Authority 5
-                        
 http://uri.etsi.org/TrstSvc/Svctype/QESValidation/Q LuxTrust Seal and Signature Validation Service
-                        
-http://uri.etsi.org/TrstSvc/Svctype/QESValidation/Q LuxTrust Seal and Signature Validation Service
-                        
 http://uri.etsi.org/TrstSvc/Svctype/EDS/Q LuxTrust Qualified Electronic Registered Delivery Service
-                        
-http://uri.etsi.org/TrstSvc/Svctype/QESValidation/Q LuxTrust Seal and Signature Validation Service
-                        
-http://uri.etsi.org/TrstSvc/Svctype/QESValidation/Q LuxTrust Seal and Signature Validation Service
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST LuxTrust Qualified Time Stamping – LTQTSCA-RSA
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST LuxTrust Qualified Time Stamping – LTQTSCA-EC
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC SeMarket Qualified Certification Authority
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC BE-YS SIGNATURE AND AUTHENTICATION CA NC
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC BE-YS SIGNATURE AND AUTHENTICATION CA NC 2
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST BE INVEST TIMESTAMP UNIT 9
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST BE INVEST TIMESTAMP UNIT 10
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST BE INVEST TIMESTAMP UNIT Q 1
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST BE INVEST TIMESTAMP UNIT Q 2
-                        
 http://uri.etsi.org/TrstSvc/Svctype/CA/QC IgniSign Global Qualified CA 2
-                        
 http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST IgniSign TSA Qualified CA 2
