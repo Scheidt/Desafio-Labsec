@@ -71,20 +71,14 @@ public class Main {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         //System.out.println(certificado);
         TrustAnchor trustAnchor = CertificateUtils.trustAnchorFromCertificate(certificado);
-        System.out.println(trustAnchor);
-        Set<TrustAnchor> trustAnchorSet = new LinkedHashSet<TrustAnchor>();
+        //System.out.println(trustAnchor);
 
-
+        // Pegar os certificados da cadeia de certificação
         List<X509Certificate> certificateList = CertChainFromAiA.downloadCertificateChain(certificado);
-        for (X509Certificate cert : certificateList){
-            trustAnchorSet.add(CertificateUtils.trustAnchorFromCertificate(cert));
-        }
 
-        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchorSet);
-
-
+        // Para verificar que os certificados foram coletados corretamente
         /*
-        for (X509Certificate certificate: certPath){
+        for (X509Certificate certificate: certificateList){
             System.out.println("Subject: " + certificate.getSubjectX500Principal());
             System.out.println("Issuer: " + certificate.getIssuerX500Principal());
             //System.out.println(certificate);
@@ -92,9 +86,27 @@ public class Main {
         };
         */
 
-        System.out.println("Caminho de certificação: " + certPath);
-        System.out.println("Âncora de confiança: " + trustAnchor);
+        // Criar o Set de trustAnchor para as funções de CertPath e CertStore
+        Set<TrustAnchor> trustAnchors = new HashSet<>();
+        for (X509Certificate cert : certificateList){
+            trustAnchors.add(CertificateUtils.trustAnchorFromCertificate(cert));
+        }
 
+
+        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors);
+        //System.out.println("Caminho de certificação: " + certPath);
+        //System.out.println("Âncora de confiança: " + trustAnchor);
+
+
+
+        /*
+        for (X509Certificate certificate: listaCerts){
+            System.out.println("Subject: " + certificate.getSubjectX500Principal());
+            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
+            //System.out.println(certificate);
+            System.out.println("---------------------------------------------------------------------------");
+        };
+        */
 
 
 

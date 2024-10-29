@@ -31,11 +31,6 @@ public class CertChainFromAiA {
      */
     public static List<X509Certificate> downloadCertificateChain(X509Certificate certificate) throws Exception {
         List<X509Certificate> chain = new ArrayList<>();
-        CertificateFactory certFact = CertificateFactory.getInstance("X.509");
-        chain.add(certificate);
-        if (CertificateUtils.isSelfSigned(certificate)) {
-            return chain;
-        }
 
 
         AuthorityInformationAccess aia = getAuthorityInformationAccess(certificate);
@@ -44,7 +39,7 @@ public class CertChainFromAiA {
 
 
         URI uri = null;
-        for (AccessDescription accessDescription : aia.getAccessDescriptions()) {
+        for (AccessDescription accessDescription : accessDescriptions) {
             // Check if it's a caIssuers type
             if (accessDescription.getAccessMethod().equals(X509ObjectIdentifiers.id_ad_caIssuers)) {
                 // Print the URL
@@ -52,14 +47,13 @@ public class CertChainFromAiA {
             }
         }
         if (uri == null) {
-            System.out.println("Erro pegando URI do AiA do certificado: " + certificate.getSubjectDN());
+            System.out.println("ERRO: Não foi possível pegar URI do AiA do certificado: " + certificate.getSubjectDN());
 
         }
-        //System.out.println(uri);
+        // Pega o arquivo .p7c do certificado com a função get e o carrrega:
         InputStream inStream = ConnectionUtils.get(uri);
-        // Pega o arquivo .p7c do certificado:
         CMSSignedData p7c = new CMSSignedData(inStream);
-        //System.out.println(p7c);
+
 
         Store<X509CertificateHolder> certStore = p7c.getCertificates();
         Collection<X509CertificateHolder> certHolders = certStore.getMatches(null);
@@ -85,7 +79,7 @@ public class CertChainFromAiA {
 
             // Verifica se o valor da extensão é nulo
             if (authInfoAccessExtensionValue == null) {
-                System.err.println("AVISO: O Authority Information Access não está presente no certificado " + certificate.getSubjectDN());
+                System.err.println("ERRO: O Authority Information Access não está presente no certificado " + certificate.getSubjectDN());
                 return null;
             }
 

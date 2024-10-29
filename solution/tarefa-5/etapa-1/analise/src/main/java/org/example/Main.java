@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 public class Main {
 
     public static void main(String[] args) {
+        //Feito com base em: https://stackoverflow.com/questions/4076910/how-to-retrieve-element-value-of-xml-using-java
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();

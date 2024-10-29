@@ -2,11 +2,12 @@ package br.ufsc.labsec.cert;
 
 import br.ufsc.labsec.ImplementMe;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.cert.*;
+import java.util.Arrays;
 import java.util.Set;
 
 
@@ -23,35 +24,50 @@ public class CertPathCreator {
      */
     @ImplementMe
     public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
-            throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-
-        // Ensure Bouncy Castle is registered as a security provider
+            throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchProviderException, CertPathBuilderException, CertStoreException {
 
         Security.addProvider(new BouncyCastleProvider());
 
 
-        // Create a CertStore containing the certificate and trust anchors
-        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors);
+        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors); // Verificado
 
         // Get CertPathParameters using the previous function
         CertPathParameters certPathParameters = getCertPathParameters(certificate, trustAnchors);
 
+        /*
         // Add the CertStore to the PKIX parameters
         if (certPathParameters instanceof PKIXBuilderParameters) {
             ((PKIXBuilderParameters) certPathParameters).addCertStore(certStore);
+            System.out.println("CertStore adicionado aos parâmetros PKIX.");
         }
-        CertPath certPath = null;
+        //System.out.println(certPathParameters);
+        */
+        CertStore intermediate = CertStore.getInstance("Collection", new CollectionCertStoreParameters(Arrays.asList(certStore)));
+        ((PKIXBuilderParameters) certPathParameters).addCertStore(intermediate);
+
         try {
-            // Create a CertPathBuilder using Bouncy Castle provider
             CertPathBuilder certPathBuilder = CertPathBuilder.getInstance("PKIX", "BC");
             CertPathBuilderResult result = certPathBuilder.build(certPathParameters);
-            certPath = result.getCertPath();
-        } catch (Exception e){
-            System.out.println("ERRO: Não foi possível criar o CertPath: " + e);
+            CertPath certPath = result.getCertPath();
+
+            // Imprimir todos os certificados no CertPath resultante
+            System.out.println("Certificados no CertPath:");
+            for (Certificate cert : certPath.getCertificates()) {
+                System.out.println(((X509Certificate) cert).getSubjectX500Principal());
+            }
+            return certPath;
+
+        } catch (CertPathBuilderException e) {
+            System.out.println("ERRO: Não foi possível construir o CertPath: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("ERRO inesperado: " + e.getMessage());
         }
 
 
-        return certPath;
+
+
+
+        return null;
     }
 
 
@@ -67,18 +83,19 @@ public class CertPathCreator {
                                                             Set<TrustAnchor> trustAnchors)
             throws InvalidAlgorithmParameterException{
 
-        // Ensure Bouncy Castle is registered as a security provider
+        // Código adaptado da resposta de:
+        // https://stackoverflow.com/questions/13671487/generate-x509certificate-certpath-in-java
+
         Security.addProvider(new BouncyCastleProvider());
 
 
-        // Create a CertSelector for the target certificate
+        // Define o certificado final
         X509CertSelector certSelector = new X509CertSelector();
         certSelector.setCertificate(certificate);
 
-        // Create PKIXBuilderParameters with the trust anchors and target constraints
+        // Cria os parametros
         PKIXBuilderParameters pkixParams = new PKIXBuilderParameters(trustAnchors, certSelector);
 
-        // Optionally, disable revocation checking
         pkixParams.setRevocationEnabled(false);
 
         return pkixParams;
