@@ -1,0 +1,3 @@
+cms_with_ts VALIDO INVALIDO VALIDO
+xades_with_ts VALIDO VALIDO VALIDO
+xades_with_ts_2 VALIDO VALIDO VALIDO

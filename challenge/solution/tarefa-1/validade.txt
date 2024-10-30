@@ -1,0 +1,5 @@
+cades_ad_rb_v2.3 VALIDO
+cm2_2 VALIDO
+cms_1 INVALIDO
+xades_ad_rt_v1.1 INVALIDO
+xades_b_t VALIDO

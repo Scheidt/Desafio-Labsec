@@ -1,0 +1,5 @@
+cades_b_b REVOGADO
+cms REVOGADO
+signature REVOGADO
+xades_ad_rb REVOGADO
+xades_b_b VALIDO
