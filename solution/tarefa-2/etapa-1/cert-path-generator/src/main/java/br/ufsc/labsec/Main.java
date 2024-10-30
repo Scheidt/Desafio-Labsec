@@ -88,12 +88,19 @@ public class Main {
 
         // Criar o Set de trustAnchor para as funções de CertPath e CertStore
         Set<TrustAnchor> trustAnchors = new HashSet<>();
+        trustAnchors.add( CertificateUtils.trustAnchorFromCertificate(certificateList.get(certificateList.size() - 1)));
+        /*
         for (X509Certificate cert : certificateList){
+            TrustAnchor tA = CertificateUtils.trustAnchorFromCertificate(cert);
+            System.out.println(tA.getTrustedCert().getSubjectX500Principal());
             trustAnchors.add(CertificateUtils.trustAnchorFromCertificate(cert));
+
         }
 
+         */
 
-        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors);
+
+        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors, certificateList);
         //System.out.println("Caminho de certificação: " + certPath);
         //System.out.println("Âncora de confiança: " + trustAnchor);
 

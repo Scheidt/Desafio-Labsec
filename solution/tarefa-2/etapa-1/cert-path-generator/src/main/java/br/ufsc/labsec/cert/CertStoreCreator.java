@@ -36,7 +36,7 @@ public class CertStoreCreator {
      * @return O CertStore
      */
     @ImplementMe
-    public static CertStore createCertStore(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
+    public static CertStore createCertStore(X509Certificate certificate, Set<TrustAnchor> trustAnchors, List<X509Certificate> certList)
         throws InvalidAlgorithmParameterException, NoSuchAlgorithmException {
 
         Security.addProvider(new BouncyCastleProvider());
@@ -44,13 +44,7 @@ public class CertStoreCreator {
 
 
         // Pegar os certificados das Trust Anchors (não sei por que transformar em trust anchors se precisa transformar em certificado de volta
-        List<X509Certificate> certList = new ArrayList<>();
 
-
-        for (TrustAnchor anchor : trustAnchors){
-            certList.add(anchor.getTrustedCert());
-        }
-        certList.add(certificate);
 
 
         // Criar os parâmetros da certstore

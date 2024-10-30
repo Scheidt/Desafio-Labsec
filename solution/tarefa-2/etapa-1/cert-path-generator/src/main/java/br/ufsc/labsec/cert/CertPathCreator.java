@@ -25,7 +25,7 @@ public class CertPathCreator {
      * @return O caminho de certificação
      */
     @ImplementMe
-    public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
+    public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors, List<X509Certificate> certificateList)
             throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchProviderException, CertPathBuilderException, CertStoreException {
 
         // Adaptado em parte de: https://stackoverflow.com/questions/2457795/x-509-certificate-validation-with-java-and-bouncycastle
@@ -33,19 +33,12 @@ public class CertPathCreator {
         Security.addProvider(new BouncyCastleProvider());
 
 
-        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors); // Verificado
+        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors, certificateList); // Verificado
 
         CertPathParameters certPathParameters = getCertPathParameters(certificate, trustAnchors);
 
-        List<X509Certificate> chain = new ArrayList<>();
-        for (TrustAnchor anchor : trustAnchors){
-            chain.add(anchor.getTrustedCert());
-        }
-
         if (certPathParameters instanceof PKIXBuilderParameters) {
-            CertStoreParameters intermediates = new CollectionCertStoreParameters(chain);
-            ((PKIXBuilderParameters) certPathParameters).addCertStore(CertStore.getInstance("Collection", intermediates));
-            System.out.println("CertStore adicionado aos parâmetros PKIX.");
+            ((PKIXBuilderParameters) certPathParameters).addCertStore(certStore);;
         }
 
 
@@ -66,7 +59,7 @@ public class CertPathCreator {
         } catch (CertPathBuilderException e) {
             System.out.println("ERRO: Não foi possível construir o CertPath: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("ERRO inesperado: " + e.getMessage());
+            System.out.println("ERRO: " + e);
         }
 
 
@@ -104,7 +97,6 @@ public class CertPathCreator {
 
         pkixParams.setRevocationEnabled(false);
 
-        System.out.println("PARAMS: " + pkixParams);
 
         return pkixParams;
     }
