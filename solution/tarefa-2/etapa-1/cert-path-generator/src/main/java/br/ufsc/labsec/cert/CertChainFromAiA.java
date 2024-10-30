@@ -8,7 +8,6 @@ import org.bouncycastle.asn1.x509.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,8 +29,12 @@ public class CertChainFromAiA {
      * @see #getAuthorityInformationAccess(X509Certificate)
      */
     public static List<X509Certificate> downloadCertificateChain(X509Certificate certificate) throws Exception {
+        // Não listei de onde peguei esse código, pois ele é uma mistura de vários códigos com um pouco de trial-and-error
         List<X509Certificate> chain = new ArrayList<>();
-
+        chain.add(certificate);
+        if (CertificateUtils.isSelfSigned(certificate)){
+            return chain;
+        }
 
         AuthorityInformationAccess aia = getAuthorityInformationAccess(certificate);
         assert aia != null;
@@ -41,7 +44,6 @@ public class CertChainFromAiA {
         URI uri = null;
         for (AccessDescription accessDescription : accessDescriptions) {
             if (accessDescription.getAccessMethod().equals(X509ObjectIdentifiers.id_ad_caIssuers)) {
-                // Print the URL
                 uri = new URI(accessDescription.getAccessLocation().getName().toString());
             }
         }
@@ -54,6 +56,7 @@ public class CertChainFromAiA {
         CMSSignedData p7c = new CMSSignedData(inStream);
 
         // Adaptado de: https://stackoverflow.com/questions/6370368/bouncycastle-x509certificateholder-to-x509certificate
+        // Converte a store em uma lista de certificados
         Store<X509CertificateHolder> certStore = p7c.getCertificates();
         Collection<X509CertificateHolder> certHolders = certStore.getMatches(null);
         JcaX509CertificateConverter converter = new JcaX509CertificateConverter();
@@ -85,7 +88,6 @@ public class CertChainFromAiA {
             ASN1InputStream ais1 = new ASN1InputStream(new ByteArrayInputStream(authInfoAccessExtensionValue));
             DEROctetString oct = (DEROctetString) (ais1.readObject());
             ASN1InputStream ais2 = new ASN1InputStream(oct.getOctets());
-            //System.out.println("AiA: " + AuthorityInformationAccess.getInstance(ais2.readObject()) + " Fim AiA");
 
             return AuthorityInformationAccess.getInstance(ais2.readObject());
         } catch (Exception e) {

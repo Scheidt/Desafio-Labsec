@@ -69,52 +69,22 @@ public class Main {
             throws Exception {
         // Adicione o código aqui
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-        //System.out.println(certificado);
-        TrustAnchor trustAnchor = CertificateUtils.trustAnchorFromCertificate(certificado);
-        //System.out.println(trustAnchor);
 
         // Pegar os certificados da cadeia de certificação
         List<X509Certificate> certificateList = CertChainFromAiA.downloadCertificateChain(certificado);
 
-        // Para verificar que os certificados foram coletados corretamente
-        /*
-        for (X509Certificate certificate: certificateList){
-            System.out.println("Subject: " + certificate.getSubjectX500Principal());
-            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
-            //System.out.println(certificate);
-            System.out.println("---------------------------------------------------------------------------");
-        };
-        */
 
-        // Criar o Set de trustAnchor para as funções de CertPath e CertStore
+        // Pega a Thrust Anchor do CA:
         Set<TrustAnchor> trustAnchors = new HashSet<>();
-        trustAnchors.add( CertificateUtils.trustAnchorFromCertificate(certificateList.get(certificateList.size() - 1)));
-        /*
-        for (X509Certificate cert : certificateList){
-            TrustAnchor tA = CertificateUtils.trustAnchorFromCertificate(cert);
-            System.out.println(tA.getTrustedCert().getSubjectX500Principal());
-            trustAnchors.add(CertificateUtils.trustAnchorFromCertificate(cert));
+        TrustAnchor trustAnchor = CertificateUtils.trustAnchorFromCertificate(
+                certificateList.get(certificateList.size() - 1));
 
-        }
+        trustAnchors.add(trustAnchor);
 
-         */
-
-
-        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors, certificateList);
-        //System.out.println("Caminho de certificação: " + certPath);
-        //System.out.println("Âncora de confiança: " + trustAnchor);
-
-
-
-        /*
-        for (X509Certificate certificate: listaCerts){
-            System.out.println("Subject: " + certificate.getSubjectX500Principal());
-            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
-            //System.out.println(certificate);
-            System.out.println("---------------------------------------------------------------------------");
-        };
-        */
-
+        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors);
+        
+        System.out.println("Caminho de certificação: " + certPath);
+        System.out.println("Âncora de confiança: " + trustAnchor);
 
 
         System.exit(0);

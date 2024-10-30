@@ -3,13 +3,8 @@ package br.ufsc.labsec.cert;
 import br.ufsc.labsec.ImplementMe;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.cert.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 
@@ -25,16 +20,15 @@ public class CertPathCreator {
      * @return O caminho de certificação
      */
     @ImplementMe
-    public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors, List<X509Certificate> certificateList)
-            throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchProviderException, CertPathBuilderException, CertStoreException {
+    public static CertPath createCertPath(X509Certificate certificate, Set<TrustAnchor> trustAnchors)
+            throws Exception {
 
         // Adaptado em parte de: https://stackoverflow.com/questions/2457795/x-509-certificate-validation-with-java-and-bouncycastle
 
         Security.addProvider(new BouncyCastleProvider());
 
 
-        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors, certificateList); // Verificado
-
+        CertStore certStore = CertStoreCreator.createCertStore(certificate, trustAnchors);
         CertPathParameters certPathParameters = getCertPathParameters(certificate, trustAnchors);
 
         if (certPathParameters instanceof PKIXBuilderParameters) {
@@ -42,18 +36,18 @@ public class CertPathCreator {
         }
 
 
-        //System.out.println(certPathParameters);
-
         try {
             CertPathBuilder certPathBuilder = CertPathBuilder.getInstance(BUILDER_INSTANCE, "BC");
             CertPathBuilderResult result = certPathBuilder.build(certPathParameters);
             CertPath certPath = result.getCertPath();
-
             // Imprimir todos os certificados no CertPath resultante
+            /*
             System.out.println("Certificados no CertPath:");
             for (Certificate cert : certPath.getCertificates()) {
                 System.out.println(((X509Certificate) cert).getSubjectX500Principal());
             }
+            */
+
             return certPath;
 
         } catch (CertPathBuilderException e) {
@@ -61,10 +55,6 @@ public class CertPathCreator {
         } catch (Exception e) {
             System.out.println("ERRO: " + e);
         }
-
-
-
-
 
         return null;
     }

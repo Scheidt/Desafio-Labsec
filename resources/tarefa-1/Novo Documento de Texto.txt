@@ -1,0 +1,47 @@
+
+
+        for (Certificate cert : certs) {
+            System.out.println(cert);
+        }
+        // Pegar os certificados da cadeia de certificação
+        List<X509Certificate> certificateList = CertChainFromAiA.downloadCertificateChain(certificado);
+
+        // Para verificar que os certificados foram coletados corretamente
+        /*
+        for (X509Certificate certificate: certificateList){
+            System.out.println("Subject: " + certificate.getSubjectX500Principal());
+            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
+            //System.out.println(certificate);
+            System.out.println("---------------------------------------------------------------------------");
+        };
+        */
+
+        // Pega a Thrust Anchor do CA:
+        Set<TrustAnchor> trustAnchors = new HashSet<>();
+        trustAnchors.add( CertificateUtils.trustAnchorFromCertificate(certificateList.get(certificateList.size() - 1)));
+        /*
+        for (X509Certificate cert : certificateList){
+            TrustAnchor tA = CertificateUtils.trustAnchorFromCertificate(cert);
+            System.out.println(tA.getTrustedCert().getSubjectX500Principal());
+            trustAnchors.add(CertificateUtils.trustAnchorFromCertificate(cert));
+
+        }
+
+        */
+
+
+        CertPath certPath = CertPathCreator.createCertPath(certificado, trustAnchors);
+        //System.out.println("Caminho de certificação: " + certPath);
+        //System.out.println("Âncora de confiança: " + trustAnchor);
+
+
+
+        /*
+        for (X509Certificate certificate: listaCerts){
+            System.out.println("Subject: " + certificate.getSubjectX500Principal());
+            System.out.println("Issuer: " + certificate.getIssuerX500Principal());
+            //System.out.println(certificate);
+            System.out.println("---------------------------------------------------------------------------");
+        };
+        */
+
