@@ -11,11 +11,11 @@ public class ExecutarEtapas {
     public static void main(String[] args) {
 
         PrimeiraEtapa.executarEtapa();
-        SegundaEtapa.executarEtapa();
-        TerceiraEtapa.executarEtapa();
-        QuartaEtapa.executarEtapa();
-        QuintaEtapa.executarEtapa();
-        SextaEtapa.executarEtapa();
+        //SegundaEtapa.executarEtapa();
+        //TerceiraEtapa.executarEtapa();
+        //QuartaEtapa.executarEtapa();
+        //QuintaEtapa.executarEtapa();
+        //SextaEtapa.executarEtapa();
 
     }
 

@@ -1,10 +1,14 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
-import Java.nio.file.Path;
-import Java.nio.file.Paths;
-import Java.nio.file.Files;
-import Java.util.HexFormat
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.util.HexFormat;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.io.IOException;
+
 
 /**
  * <b>Primeira etapa - obter o resumo criptográfico de um documento</b>
