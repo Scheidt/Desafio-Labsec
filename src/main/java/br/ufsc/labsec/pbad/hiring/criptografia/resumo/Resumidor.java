@@ -3,6 +3,8 @@ package br.ufsc.labsec.pbad.hiring.criptografia.resumo;
 import java.io.File;
 import java.security.MessageDigest;
 
+import br.ufsc.labsec.pbad.hiring.Constantes;
+
 /**
  * Classe responsável por executar a função de resumo criptográfico.
  *
@@ -17,7 +19,8 @@ public class Resumidor {
      * Construtor.
      */
     public Resumidor() {
-        // TODO implementar
+
+        MessageDigest hasher = MessageDigest.getInstance(algoritmo);
     }
 
     /**
