@@ -1,13 +1,10 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
-import br.ufsc.labsec.pbad.hiring.Constantes;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.util.HexFormat;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.io.IOException;
+
+import br.ufsc.labsec.pbad.hiring.Constantes;
+import br.ufsc.labsec.pbad.hiring.criptografia.resumo.Resumidor;
 
 
 /**
@@ -32,34 +29,15 @@ import java.io.IOException;
 public class PrimeiraEtapa {
 
     public static void executarEtapa() {
+        Path caminhoTexto = Paths.get(Constantes.caminhoTextoPlano);
+        Path caminhoOutput = Paths.get(Constantes.caminhoResumoCriptografico);
 
-        try {
-            MessageDigest hasher = MessageDigest.getInstance(Constantes.algoritmoResumo);
-
-            Path caminhoTexto = Paths.get(Constantes.caminhoTextoPlano);
-            Path caminhoOutput = Paths.get(Constantes.caminhoResumoCriptografico);
-
-            byte[] bytesTextoPlano = Files.readAllBytes(caminhoTexto);
-
-            byte[] hashed = hasher.digest(bytesTextoPlano);
-
-            String hashHex = hashPraHex(hashed);
-
-            Files.createDirectories(caminhoOutput.getParent());
-            Files.write(caminhoOutput, hashHex.getBytes());
-
-            System.out.println("Sucesso na primeira etapa :)");
-
-        } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
+        Resumidor resumidor = new Resumidor();
+        byte[] resumo = resumidor.resumir(caminhoTexto);
+        resumidor.escreveResumoEmDisco(resumo, caminhoOutput);
+        System.out.print("Sucesso na Etapa 1!");
     }
 
-
-    public static String hashPraHex (byte[] hash){
-        HexFormat hexFormat = HexFormat.of();
-        return hexFormat.formatHex(hash);
-    }
 
 }
 

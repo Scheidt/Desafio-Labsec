@@ -1,9 +1,17 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.resumo;
 
-import java.io.File;
-import java.security.MessageDigest;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
+
 
 /**
  * Classe responsável por executar a função de resumo criptográfico.
@@ -20,18 +28,28 @@ public class Resumidor {
      */
     public Resumidor() {
 
-        MessageDigest hasher = MessageDigest.getInstance(algoritmo);
+        this.algoritmo = Constantes.algoritmoResumo;
+        try {
+            this.md = MessageDigest.getInstance(this.algoritmo);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Calcula o resumo criptográfico do arquivo indicado.
      *
-     * @param arquivoDeEntrada arquivo a ser processado.
+     * @param caminhoTexto caminho do arquivo a ser processado.
      * @return Bytes do resumo.
      */
-    public byte[] resumir(File arquivoDeEntrada) {
-        // TODO implementar
-        return null;
+    public byte[] resumir(Path caminhoTexto) {
+        try {
+            byte[] textoBytes = Files.readAllBytes(caminhoTexto);
+            return md.digest(textoBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -40,8 +58,18 @@ public class Resumidor {
      * @param resumo         resumo criptográfico em bytes.
      * @param caminhoArquivo caminho do arquivo.
      */
-    public void escreveResumoEmDisco(byte[] resumo, String caminhoArquivo) {
-        // TODO implementar
+    public void escreveResumoEmDisco(byte[] resumo, Path caminhoArquivo) {
+        try {
+            HexFormat formatadorHex = HexFormat.of();
+            String resumoHex = formatadorHex.formatHex(resumo);
+
+            Files.createDirectories(caminhoArquivo.getParent());
+
+            Files.write(caminhoArquivo, resumoHex.getBytes());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
