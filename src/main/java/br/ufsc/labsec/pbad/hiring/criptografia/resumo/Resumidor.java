@@ -36,7 +36,10 @@ public class Resumidor {
         }
     }
 
-    /** */
+    /**
+     * Constructor com parâmetro optativo para outro algorítmo
+     * @param algoritmo string com o nome do algoritmo utilizado
+     */
 
     public Resumidor(String algoritmo){
         this.algoritmo = algoritmo;

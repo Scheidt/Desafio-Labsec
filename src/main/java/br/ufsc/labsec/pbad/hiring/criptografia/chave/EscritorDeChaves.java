@@ -1,6 +1,10 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.chave;
 
 import java.security.Key;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
 
 /**
  * Essa classe é responsável por escrever uma chave assimétrica no disco. Note
@@ -17,7 +21,16 @@ public class EscritorDeChaves {
      * @param nomeDoArquivo nome do local onde será escrita a chave.
      */
     public static void escreveChaveEmDisco(Key chave, String nomeDoArquivo) {
-        // TODO implementar
+        try {
+            Path caminhoOutput = Paths.get(nomeDoArquivo);
+            Files.createDirectories(caminhoOutput.getParent());
+
+            // Escrever aqui
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
+

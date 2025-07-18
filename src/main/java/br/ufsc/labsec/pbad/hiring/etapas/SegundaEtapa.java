@@ -1,6 +1,9 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.EscritorDeChaves;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.GeradorDeChaves;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
 
 /**
  * <b>Segunda etapa - gerar chaves assimétricas</b>
