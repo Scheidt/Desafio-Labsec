@@ -36,6 +36,19 @@ public class Resumidor {
         }
     }
 
+    /** */
+
+    public Resumidor(String algoritmo){
+        this.algoritmo = algoritmo;
+        try {
+            this.md = MessageDigest.getInstance(this.algoritmo);
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * Calcula o resumo criptográfico do arquivo indicado.
      *

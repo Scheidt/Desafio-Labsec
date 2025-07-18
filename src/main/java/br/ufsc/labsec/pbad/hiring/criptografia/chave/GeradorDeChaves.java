@@ -20,7 +20,13 @@ public class GeradorDeChaves {
      * @param algoritmo algoritmo de criptografia assimétrica a ser usado.
      */
     public GeradorDeChaves(String algoritmo) {
-        // TODO implementar
+        this.algoritmo = algoritmo;
+        try {
+            KeyPairGenerator.getInstance(this.algoritmo);
+        } catch (NoSuchAlgorithmException e) {
+            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
+            e.printStackTrace();
+        }
     }
 
     /**
