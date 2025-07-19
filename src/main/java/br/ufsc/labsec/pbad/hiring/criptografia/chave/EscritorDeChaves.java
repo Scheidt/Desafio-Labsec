@@ -5,6 +5,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Key;
 
 /**
  * Essa classe é responsável por escrever uma chave assimétrica no disco. Note
@@ -23,14 +28,15 @@ public class EscritorDeChaves {
     public static void escreveChaveEmDisco(Key chave, String nomeDoArquivo) {
         try {
             Path caminhoOutput = Paths.get(nomeDoArquivo);
-            Files.createDirectories(caminhoOutput.getParent());
+            if (caminhoOutput.getParent() != null) {
+                Files.createDirectories(caminhoOutput.getParent());
+            }
 
-            // Escrever aqui
-        } catch (IOException e) {
+            Files.write(caminhoOutput, chave.getEncoded());
+
+        } catch (IOException e) {.
+            System.err.println("Erro ao escrever chave: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
-
 }
-

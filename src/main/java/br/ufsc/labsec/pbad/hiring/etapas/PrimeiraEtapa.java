@@ -41,10 +41,3 @@ public class PrimeiraEtapa {
 
 }
 
-
-/**
-    public static final String caminhoTextoPlano =
-            caminhoArtefatos + "textos/textoPlano.txt";
-    public static final String caminhoResumoCriptografico =
-            caminhoArtefatos + "resumos/resumoTextoPlano.hex";
-*/

@@ -27,7 +27,7 @@ public class GeradorDeChaves {
     public GeradorDeChaves() {
         this.algoritmo = Constantes.algoritmoChave;
         try {
-            KeyPairGenerator.getInstance(this.algoritmo);
+            this.generator = KeyPairGenerator.getInstance(this.algoritmo);
         } catch (NoSuchAlgorithmException e) {
             System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
             e.printStackTrace();
@@ -43,18 +43,7 @@ public class GeradorDeChaves {
     public GeradorDeChaves(String algoritmo) {
         this.algoritmo = algoritmo;
         try {
-            KeyPairGenerator.getInstance(this.algoritmo);
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
-            e.printStackTrace();
-        }
-    }
-
-
-    public GeradorDeChaves(String algoritmo) {
-        this.algoritmo = algoritmo;
-        try {
-            KeyPairGenerator.getInstance(this.algoritmo);
+            this.generator = KeyPairGenerator.getInstance(this.algoritmo);
         } catch (NoSuchAlgorithmException e) {
             System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
             e.printStackTrace();
