@@ -1,10 +1,6 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.chave;
 
-import java.security.Key;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.io.IOException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,10 +28,12 @@ public class EscritorDeChaves {
                 Files.createDirectories(caminhoOutput.getParent());
             }
 
-            Files.write(caminhoOutput, chave.getEncoded());
+            try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
+                pemWriter.writeObject(chave);
+            }
 
-        } catch (IOException e) {.
-            System.err.println("Erro ao escrever chave: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever a chave PEM: " + e.getMessage());
             e.printStackTrace();
         }
     }
