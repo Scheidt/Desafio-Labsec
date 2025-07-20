@@ -35,7 +35,7 @@ public class PrimeiraEtapa {
         Resumidor resumidor = new Resumidor();
         byte[] resumo = resumidor.resumir(caminhoTexto);
         resumidor.escreveResumoEmDisco(resumo, caminhoOutput);
-        System.out.print("Sucesso na Etapa 1!");
+        System.out.println("Sucesso na Etapa 1!");
     }
 
 

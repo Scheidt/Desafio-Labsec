@@ -1,5 +1,10 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Arrays;
+
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.EscritorDeChaves;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.GeradorDeChaves;
@@ -31,7 +36,24 @@ import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
 public class SegundaEtapa {
 
     public static void executarEtapa() {
-        // TODO implementar
+        String algoritmo = Constantes.algoritmoChave;
+        GeradorDeChaves gerador = new GeradorDeChaves(algoritmo);
+
+        // Gera e escreve as chaves do usuario em disco
+        KeyPair chavesUsuario = gerador.gerarParDeChaves(256);
+
+        PublicKey pubKeyUsuario = chavesUsuario.getPublic();
+        EscritorDeChaves.escreveChaveEmDisco(pubKeyUsuario, Constantes.caminhoChavePublicaUsuario);
+        PrivateKey privateKeyUsuario = chavesUsuario.getPrivate();
+        EscritorDeChaves.escreveChaveEmDisco(privateKeyUsuario, Constantes.caminhoChavePrivadaUsuario);
+
+        // Gera e escreve as chaves do AC em disco
+        KeyPair chavesAC = gerador.gerarParDeChaves(521);
+        PublicKey pubKeyAC = chavesAC.getPublic();
+        EscritorDeChaves.escreveChaveEmDisco(pubKeyAC, Constantes.caminhoChavePublicaAc);
+        PrivateKey privateKeyAC = chavesAC.getPrivate();
+        EscritorDeChaves.escreveChaveEmDisco(privateKeyAC, Constantes.caminhoChavePrivadaAc);
+        System.err.println("Sucesso na Etapa 2!");
     }
 
 }

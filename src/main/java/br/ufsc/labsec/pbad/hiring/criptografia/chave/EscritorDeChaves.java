@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
+import org.bouncycastle.util.io.pem.PemObject;
 
 /**
  * Essa classe é responsável por escrever uma chave assimétrica no disco. Note
@@ -28,8 +30,11 @@ public class EscritorDeChaves {
                 Files.createDirectories(caminhoOutput.getParent());
             }
 
+            String tipoPem = (chave.getFormat().equals("PKCS#8")) ? "PRIVATE KEY" : "PUBLIC KEY";
+            PemObject pemObject = new PemObject(tipoPem, chave.getEncoded());
+
             try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
-                pemWriter.writeObject(chave);
+                pemWriter.writeObject(pemObject);
             }
 
         } catch (IOException e) {

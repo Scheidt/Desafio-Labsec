@@ -4,8 +4,6 @@ import br.ufsc.labsec.pbad.hiring.Constantes;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.NoSuchAlgorithmException;
-
 import java.security.*;
 
 /**
@@ -20,6 +18,13 @@ public class GeradorDeChaves {
     private String algoritmo;
     private KeyPairGenerator generator;
 
+    static {
+        // Garante que o provedor Bouncy Castle esteja disponível
+        if (Security.getProvider("BC") == null) {
+            Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        }
+
+    }
     /**
      * Construtor, caso não receber nenhum argumento, utiliza como default o algorítmo do arquivo de constantes.
      */
@@ -27,9 +32,12 @@ public class GeradorDeChaves {
     public GeradorDeChaves() {
         this.algoritmo = Constantes.algoritmoChave;
         try {
-            this.generator = KeyPairGenerator.getInstance(this.algoritmo);
+            this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
         } catch (NoSuchAlgorithmException e) {
             System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            System.err.println("BC não é um provedor válido");
             e.printStackTrace();
         }
     }
@@ -43,9 +51,12 @@ public class GeradorDeChaves {
     public GeradorDeChaves(String algoritmo) {
         this.algoritmo = algoritmo;
         try {
-            this.generator = KeyPairGenerator.getInstance(this.algoritmo);
+            this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
         } catch (NoSuchAlgorithmException e) {
             System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            System.err.println("BC não é um provedor válido");
             e.printStackTrace();
         }
     }
