@@ -43,7 +43,7 @@ public class Constantes {
     public static final int numeroDeSerie = 2;
 
     public static final String aliasAc = "AC-RAIZ";
-    public static final String aliasUsuario = "usuario";
+    public static final String aliasUsuario = "Pedro Henrique Scheidt Prazeres";
 
     public static final String nomeAcRaiz = "CN=" + aliasAc;
     public static final String nomeUsuario = "CN=" + aliasUsuario;

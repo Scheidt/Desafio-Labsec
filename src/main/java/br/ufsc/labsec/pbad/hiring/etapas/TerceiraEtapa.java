@@ -1,5 +1,19 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
+import br.ufsc.labsec.pbad.hiring.criptografia.certificado.GeradorDeCertificados;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+
+import org.bouncycastle.jcajce.provider.asymmetric.X509;
+
+import br.ufsc.labsec.pbad.hiring.Constantes;
+import br.ufsc.labsec.pbad.hiring.criptografia.certificado.EscritorDeCertificados;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+
+
 /**
  * <b>Terceira etapa - gerar certificados digitais</b>
  * <p>
@@ -41,7 +55,52 @@ package br.ufsc.labsec.pbad.hiring.etapas;
 public class TerceiraEtapa {
 
     public static void executarEtapa() {
+
+        PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
+        PublicKey publicaAc = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaAc, Constantes.algoritmoChave);
         // TODO implementar
+        PrivateKey privadaUsuario = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaUsuario, Constantes.algoritmoChave);
+        PublicKey publicaUsuario = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaUsuario, Constantes.algoritmoChave);
+
+
+        GeradorDeCertificados geradorCert = new GeradorDeCertificados();
+
+        X509Certificate certificadoCA = geradorCert.gerarCertificado(publicaAc, 
+                                                                    privadaAc,
+                                                                    Constantes.numeroSerieAc,
+                                                                    Constantes.nomeAcRaiz,
+                                                                    Constantes.nomeAcRaiz, 
+                                                                    10);
+
+        X509Certificate certificadoUsuario = geradorCert.gerarCertificado(publicaUsuario,
+                                                                            privadaAc,
+                                                                            Constantes.numeroDeSerie,
+                                                                            Constantes.nomeUsuario,
+                                                                            Constantes.nomeAcRaiz,
+                                                                            5);
+
+        
+        int sucessos = 0;
+        
+        try {
+            EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoAcRaiz, certificadoCA.getEncoded());
+            sucessos = sucessos + 1;
+        } catch (CertificateEncodingException e) {
+            System.err.println("Erro ao escrever o certificado CA em disco, erro ao converter certificado para Bytes[]");
+            e.printStackTrace();
+        }
+
+        try {
+            EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoUsuario, certificadoUsuario.getEncoded());
+            sucessos = sucessos + 1;
+        } catch (CertificateEncodingException e) {
+            System.err.println("Erro ao escrever o certificado do usuario em disco, erro ao converter certificado para Bytes[]");
+            e.printStackTrace();
+        }
+
+        if (sucessos == 2) {
+            System.err.println("Sucesso na etapa 2!");
+        }
     }
 
 }

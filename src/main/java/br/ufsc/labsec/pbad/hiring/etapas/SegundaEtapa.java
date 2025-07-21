@@ -3,12 +3,10 @@ package br.ufsc.labsec.pbad.hiring.etapas;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Arrays;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.EscritorDeChaves;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.GeradorDeChaves;
-import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
 
 /**
  * <b>Segunda etapa - gerar chaves assimétricas</b>
