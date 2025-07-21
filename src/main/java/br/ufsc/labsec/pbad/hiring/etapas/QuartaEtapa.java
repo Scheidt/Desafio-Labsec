@@ -1,5 +1,18 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
+import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.GeradorDeRepositorios;
+import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.RepositorioChaves;
+
+import java.security.KeyStoreException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.X509Certificate;
+
+import br.ufsc.labsec.pbad.hiring.Constantes;
+import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+
+
 /**
  * <b>Quarta etapa - gerar repositório de chaves seguro</b>
  * <p>
@@ -29,7 +42,54 @@ package br.ufsc.labsec.pbad.hiring.etapas;
 public class QuartaEtapa {
 
     public static void executarEtapa() {
-        // TODO implementar
+
+        PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
+        X509Certificate certificadoAc = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
+        GeradorDeRepositorios.gerarPkcs12(privadaAc, certificadoAc, Constantes.caminhoPkcs12AcRaiz, Constantes.aliasAc, Constantes.senhaMestre);
+
+        PrivateKey privadaUsuario = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaUsuario, Constantes.algoritmoChave);
+        X509Certificate certificadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
+        GeradorDeRepositorios.gerarPkcs12(privadaUsuario, certificadoUsuario, Constantes.caminhoPkcs12Usuario, Constantes.aliasUsuario, Constantes.senhaMestre);
+
+        // Sessão de debbuging, verifica se as funções de salvamento/load de disco funcionam corretamente
+        boolean acIguais = false;
+        boolean usuarioIguais = false;
+
+
+        RepositorioChaves repositorioAc = new RepositorioChaves();
+        try {
+            repositorioAc.abrir(Constantes.caminhoPkcs12AcRaiz, Constantes.senhaMestre);
+            if (privadaAc.equals(repositorioAc.pegarChavePrivada()) && 
+                certificadoAc.equals(repositorioAc.pegarCertificado())){
+                acIguais = true;
+            } else {
+                System.err.println("Problema no salvamento/carregamento o PKCS#12 de AC");
+            }
+        } catch (KeyStoreException e) {
+            System.err.println("PKCS#12 de Ac está vazio");
+            e.printStackTrace();
+        }
+
+
+
+        RepositorioChaves repositorioUsuario = new RepositorioChaves();
+        try {
+            repositorioUsuario.abrir(Constantes.caminhoPkcs12Usuario, Constantes.senhaMestre);
+            if (privadaUsuario.equals(repositorioUsuario.pegarChavePrivada()) && 
+                certificadoUsuario.equals(repositorioUsuario.pegarCertificado())){
+                usuarioIguais = true;
+            } else {
+                System.err.println("Problema no salvamento/carregamento o PKCS#12 de Usuario");
+            }
+        } catch (KeyStoreException e) {
+            System.err.println("PKCS#12 de Ac está vazio");
+            e.printStackTrace();
+        }
+        
+
+        if (acIguais && usuarioIguais){
+            System.out.println("Sucesso na etapa 4!");
+        }
     }
 
 }

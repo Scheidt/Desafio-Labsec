@@ -28,7 +28,7 @@ public class LeitorDeCertificados {
             certFactory = CertificateFactory.getInstance(Constantes.formatoCertificado);
             FileInputStream is = new FileInputStream(caminhoCertificado);
             X509Certificate cert = (X509Certificate) certFactory.generateCertificate(is);
-            System.err.println("    Certificado lido de disco com sucesso");
+            System.out.println("    Certificado lido de disco com sucesso");
             return cert;
         } catch (CertificateException e) {
             System.err.println(Constantes.formatoCertificado + " não é reconhecido como formato válido");

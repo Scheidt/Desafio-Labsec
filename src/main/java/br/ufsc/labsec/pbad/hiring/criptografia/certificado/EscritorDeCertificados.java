@@ -22,7 +22,7 @@ public class EscritorDeCertificados {
         try (PemWriter pemWriter = new PemWriter(new FileWriter(nomeArquivo))) {
             PemObject pemObject = new PemObject("CERTIFICATE", certificadoCodificado);
             pemWriter.writeObject(pemObject);
-            System.err.println("    Sucesso ao escrever o certificado em disco (formato PEM)");
+            System.err.println("    Certificado escrito em disco com sucesso");
         } catch (IOException e) {
             System.err.println("Falha ao escrever o certificado no caminho: " + nomeArquivo);
             e.printStackTrace();

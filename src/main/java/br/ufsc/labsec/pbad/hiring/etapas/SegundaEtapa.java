@@ -51,7 +51,7 @@ public class SegundaEtapa {
         EscritorDeChaves.escreveChaveEmDisco(pubKeyAC, Constantes.caminhoChavePublicaAc);
         PrivateKey privateKeyAC = chavesAC.getPrivate();
         EscritorDeChaves.escreveChaveEmDisco(privateKeyAC, Constantes.caminhoChavePrivadaAc);
-        System.err.println("Sucesso na Etapa 2!");
+        System.out.println("Sucesso na Etapa 2!");
     }
 
 }

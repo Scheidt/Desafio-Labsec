@@ -122,7 +122,7 @@ public class GeradorDeCertificados {
 
             //retorna o certificado no formato X509Certificate
             X509Certificate certificado = new JcaX509CertificateConverter().getCertificate(holder);
-            System.err.println(     "Certificado gerado com sucesso!");
+            System.out.println("    Certificado gerado com sucesso!");
             return certificado;
 
         } catch (OperatorCreationException e) {
@@ -182,7 +182,7 @@ public class GeradorDeCertificados {
 
             //retorna o certificado no formato X509Certificate
             X509Certificate certificado = new JcaX509CertificateConverter().getCertificate(holder);
-            System.err.println("    Certificado gerado com sucesso!");
+            System.out.println("    Certificado gerado com sucesso!");
             return certificado;
 
         } catch (OperatorCreationException e) {

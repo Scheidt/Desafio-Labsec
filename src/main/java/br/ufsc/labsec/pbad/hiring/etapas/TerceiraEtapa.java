@@ -12,6 +12,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.X509;
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.EscritorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
 
 
 /**
@@ -58,7 +59,8 @@ public class TerceiraEtapa {
 
         PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
         PublicKey publicaAc = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaAc, Constantes.algoritmoChave);
-        // TODO implementar
+
+        @SuppressWarnings("unused")
         PrivateKey privadaUsuario = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaUsuario, Constantes.algoritmoChave);
         PublicKey publicaUsuario = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaUsuario, Constantes.algoritmoChave);
 
@@ -81,10 +83,18 @@ public class TerceiraEtapa {
 
         
         int sucessos = 0;
-        
+        // importante verificar se os certificados salvos são iguais aos certificados que serão carregados posteriormente
+        // caso não forem, houve algum erro na hora de salvar ou de carregar do disco
+        int iguais = 0;
+
         try {
             EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoAcRaiz, certificadoCA.getEncoded());
-            sucessos = sucessos + 1;
+            sucessos += 1;
+            X509Certificate certificadoCarregadoCa = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
+            if (certificadoCA.equals(certificadoCarregadoCa)){
+                iguais += 1;
+            }
+
         } catch (CertificateEncodingException e) {
             System.err.println("Erro ao escrever o certificado CA em disco, erro ao converter certificado para Bytes[]");
             e.printStackTrace();
@@ -93,14 +103,25 @@ public class TerceiraEtapa {
         try {
             EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoUsuario, certificadoUsuario.getEncoded());
             sucessos = sucessos + 1;
+            X509Certificate certificadoCarregadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
+            if (certificadoCA.equals(certificadoCarregadoUsuario)){
+                iguais += 1;
+            }
         } catch (CertificateEncodingException e) {
             System.err.println("Erro ao escrever o certificado do usuario em disco, erro ao converter certificado para Bytes[]");
             e.printStackTrace();
         }
 
         if (sucessos == 2) {
-            System.err.println("Sucesso na etapa 2!");
+            System.out.println("    Certificados Salvos");
+            if (iguais == 2) {
+                System.out.println("    Certificados carregados são iguais aos salvos");
+                System.out.println("Sucesso na etapa 3!");
+            } else {
+                System.out.println("Numero de certificados iguais aos carregados: " + iguais);
+            }
         }
+
     }
 
 }
