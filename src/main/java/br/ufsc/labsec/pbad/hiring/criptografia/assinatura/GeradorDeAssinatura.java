@@ -3,11 +3,14 @@ package br.ufsc.labsec.pbad.hiring.criptografia.assinatura;
 import br.ufsc.labsec.pbad.hiring.Constantes;
 
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.bouncycastle.cms.CMSProcessableFile;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.CMSSignedDataGenerator;
 import org.bouncycastle.cms.CMSTypedData;
 import org.bouncycastle.cms.SignerInfoGenerator;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -63,8 +66,8 @@ public class GeradorDeAssinatura {
      * @return Documento no formato correto.
      */
     private CMSTypedData preparaDadosParaAssinar(String caminhoDocumento) {
-        // TODO implementar
-        return null;
+        File arquivo = new File(caminhoDocumento);
+        return new CMSProcessableFile(arquivo);
     }
 
     /**
@@ -88,7 +91,12 @@ public class GeradorDeAssinatura {
      * @param assinatura objeto da assinatura.
      */
     public void escreveAssinatura(OutputStream arquivo, CMSSignedData assinatura) {
-        // TODO implementar
+        try {
+            byte[] bytesAssinatura = assinatura.getEncoded();
+            arquivo.write(bytesAssinatura);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao escrever a assinatura no arquivo.", e);
+        }
     }
 
 }
