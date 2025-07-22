@@ -29,6 +29,7 @@ import br.ufsc.labsec.pbad.hiring.criptografia.resumo.Resumidor;
 public class PrimeiraEtapa {
 
     public static void executarEtapa() {
+        System.out.println("Início Etapa 1");
         Path caminhoTexto = Paths.get(Constantes.caminhoTextoPlano);
         Path caminhoOutput = Paths.get(Constantes.caminhoResumoCriptografico);
 

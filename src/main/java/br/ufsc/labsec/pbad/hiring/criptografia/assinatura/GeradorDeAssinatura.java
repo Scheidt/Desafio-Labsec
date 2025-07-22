@@ -1,5 +1,8 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.assinatura;
 
+import br.ufsc.labsec.pbad.hiring.Constantes;
+
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.CMSSignedDataGenerator;
 import org.bouncycastle.cms.CMSTypedData;
@@ -26,7 +29,7 @@ public class GeradorDeAssinatura {
      * Construtor.
      */
     public GeradorDeAssinatura() {
-        // TODO implementar
+        this.geradorAssinaturaCms = new CMSSignedDataGenerator();
     }
 
     /**

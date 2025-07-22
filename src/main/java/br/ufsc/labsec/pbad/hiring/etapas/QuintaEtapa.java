@@ -35,6 +35,7 @@ package br.ufsc.labsec.pbad.hiring.etapas;
 public class QuintaEtapa {
 
     public static void executarEtapa() {
+        System.out.println("\nInicio Etapa 5");
         // TODO implementar
     }
 

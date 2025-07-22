@@ -34,6 +34,7 @@ import br.ufsc.labsec.pbad.hiring.criptografia.chave.GeradorDeChaves;
 public class SegundaEtapa {
 
     public static void executarEtapa() {
+        System.out.println("\nInício Etapa 2");
         String algoritmo = Constantes.algoritmoChave;
         GeradorDeChaves gerador = new GeradorDeChaves(algoritmo);
 

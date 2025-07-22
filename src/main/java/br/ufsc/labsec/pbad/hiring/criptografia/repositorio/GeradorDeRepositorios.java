@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -32,7 +33,7 @@ public class GeradorDeRepositorios {
                                    String caminhoPkcs12, String alias, char[] senha) {
         try {
 
-            KeyStore pkcs12KeyStore = KeyStore.getInstance(Constantes.formatoRepositorio);
+            KeyStore pkcs12KeyStore = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
 
             try {
                 pkcs12KeyStore.load(null, null);
@@ -65,6 +66,9 @@ public class GeradorDeRepositorios {
             System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
             e.printStackTrace();
 
+        } catch (NoSuchProviderException e) {
+            System.err.println("Não foi encontrado o provedor Bouncy Castle em GeradorDeRepositorios " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -84,7 +88,7 @@ public class GeradorDeRepositorios {
                                    String caminhoPkcs12, String alias, char[] senha, String algoritmo) {
         try {
 
-            KeyStore pkcs12KeyStore = KeyStore.getInstance(algoritmo);
+            KeyStore pkcs12KeyStore = KeyStore.getInstance(algoritmo, "BC");
 
             try {
                 pkcs12KeyStore.load(null, null);
@@ -117,6 +121,9 @@ public class GeradorDeRepositorios {
             System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
             e.printStackTrace();
 
+        } catch (NoSuchProviderException e) {
+            System.err.println("Não foi encontrado o provedor Bouncy Castle em GeradorDeRepositorios " + e.getMessage());
+            e.printStackTrace();
         }
 
     }

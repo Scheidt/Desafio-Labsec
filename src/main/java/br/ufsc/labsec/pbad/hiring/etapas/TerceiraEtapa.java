@@ -1,18 +1,15 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
-import br.ufsc.labsec.pbad.hiring.criptografia.certificado.GeradorDeCertificados;
-
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
-import org.bouncycastle.jcajce.provider.asymmetric.X509;
-
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.EscritorDeCertificados;
-import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+import br.ufsc.labsec.pbad.hiring.criptografia.certificado.GeradorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
+import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
 
 
 /**
@@ -56,6 +53,7 @@ import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
 public class TerceiraEtapa {
 
     public static void executarEtapa() {
+        System.out.println("\nInício Etapa 3");
 
         PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
         PublicKey publicaAc = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaAc, Constantes.algoritmoChave);
@@ -82,6 +80,8 @@ public class TerceiraEtapa {
                                                                             5);
 
         
+
+        // Sessão do código dedicada a debugging
         int sucessos = 0;
         // importante verificar se os certificados salvos são iguais aos certificados que serão carregados posteriormente
         // caso não forem, houve algum erro na hora de salvar ou de carregar do disco

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
@@ -30,10 +31,13 @@ public class RepositorioChaves {
      */
     public RepositorioChaves() {
         try {
-            this.repositorio = KeyStore.getInstance(Constantes.formatoRepositorio);
+            this.repositorio = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
         } catch (KeyStoreException e) {
                 System.err.println("Erro ao instanciar RopositorioDeChave com algoritmo PKCS#12 " + "\n" + e.getMessage());
                 e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            System.err.println("Não foi encontrado o provedor Bouncy Castle em RepositorioChaves " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -44,11 +48,14 @@ public class RepositorioChaves {
      */
     public RepositorioChaves(String algoritmo) {
         try {
-            this.repositorio = KeyStore.getInstance(algoritmo);
+            this.repositorio = KeyStore.getInstance(algoritmo, "BC");
         } catch (KeyStoreException e) {
-                System.err.println("Erro ao instanciar RopositorioDeChave com algoritmo: " + algoritmo + "\n" + e.getMessage());
-                e.printStackTrace();
-        }
+            System.err.println("Erro ao instanciar RopositorioDeChave com algoritmo: " + algoritmo + "\n" + e.getMessage());
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            System.err.println("Não foi encontrado o provedor Bouncy Castle em RepositorioChaves " + e.getMessage());
+            e.printStackTrace();
+        } 
     }
 
     /**

@@ -1,16 +1,14 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
-import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.GeradorDeRepositorios;
-import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.RepositorioChaves;
-
 import java.security.KeyStoreException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.cert.X509Certificate;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.GeradorDeRepositorios;
+import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.RepositorioChaves;
 
 
 /**
@@ -42,6 +40,7 @@ import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
 public class QuartaEtapa {
 
     public static void executarEtapa() {
+        System.out.println("\nInício Etapa 4");
 
         PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
         X509Certificate certificadoAc = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
@@ -51,6 +50,8 @@ public class QuartaEtapa {
         X509Certificate certificadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
         GeradorDeRepositorios.gerarPkcs12(privadaUsuario, certificadoUsuario, Constantes.caminhoPkcs12Usuario, Constantes.aliasUsuario, Constantes.senhaMestre);
 
+
+        
         // Sessão de debbuging, verifica se as funções de salvamento/load de disco funcionam corretamente
         boolean acIguais = false;
         boolean usuarioIguais = false;
@@ -69,8 +70,6 @@ public class QuartaEtapa {
             System.err.println("PKCS#12 de Ac está vazio");
             e.printStackTrace();
         }
-
-
 
         RepositorioChaves repositorioUsuario = new RepositorioChaves();
         try {
