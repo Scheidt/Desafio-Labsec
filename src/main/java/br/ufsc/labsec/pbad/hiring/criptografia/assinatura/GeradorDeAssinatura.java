@@ -87,7 +87,7 @@ public class GeradorDeAssinatura {
         } catch (CertificateEncodingException e) {
             throw new CertificateEncodingException("Erro ao adicionar certificado em GeradorDeAssinatura: ", e);
         } catch (OperatorCreationException e) {
-            // A exceção já foi tratada em `preparaInformacoesAssinante`, apenas repassando.
+            // Mensagem já criada em prepara informacoes
             throw e;
         }
 
