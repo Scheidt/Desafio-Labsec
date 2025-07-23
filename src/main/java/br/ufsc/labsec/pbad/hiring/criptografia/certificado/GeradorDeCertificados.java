@@ -1,6 +1,12 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.certificado;
 
-import br.ufsc.labsec.pbad.hiring.Constantes;
+import java.math.BigInteger;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.X509CertificateHolder;
@@ -11,13 +17,7 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 
-import java.math.BigInteger;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Calendar;
-import java.util.Date;
+import br.ufsc.labsec.pbad.hiring.Constantes;
 
 /**
  * Classe responsável por gerar certificados no padrão X.509.
@@ -59,37 +59,7 @@ public class GeradorDeCertificados {
     public X509Certificate gerarCertificado(PublicKey chavePublicaTitular, PrivateKey chavePrivadaAc,
                                             long numeroDeSerie, String nomeTitular,
                                             String nomeAc, int diasDeValidade) throws OperatorCreationException, CertificateException {
-        //Nomes
-        X500Name issuer = new X500Name(nomeAc);
-        X500Name subject = new X500Name(nomeTitular);
-
-        //Validade
-        Calendar calendar = Calendar.getInstance();
-        Date dataInicio = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_YEAR, diasDeValidade);
-        Date dataFim = calendar.getTime();
-
-        //Criação do builder
-        X509v3CertificateBuilder builder = new JcaX509v3CertificateBuilder(
-                issuer,
-                BigInteger.valueOf(numeroDeSerie),
-                dataInicio,
-                dataFim,
-                subject,
-                chavePublicaTitular
-        );
-
-        //Definir algoritmo de assinatura
-        ContentSigner signer = new JcaContentSignerBuilder(Constantes.algoritmoAssinatura)
-                .build(chavePrivadaAc);
-
-        //Build e assinatura
-        X509CertificateHolder holder = builder.build(signer);
-
-        //retorna o certificado no formato X509Certificate
-        X509Certificate certificado = new JcaX509CertificateConverter().getCertificate(holder);
-        System.out.println("    Certificado gerado com sucesso!");
-        return certificado;
+        return this.gerarCertificado(chavePublicaTitular, chavePrivadaAc, numeroDeSerie, nomeTitular, nomeAc, diasDeValidade, Constantes.algoritmoAssinatura);
     }
 
 
@@ -132,16 +102,25 @@ public class GeradorDeCertificados {
                 chavePublicaTitular
         );
 
-        //Definir algoritmo de assinatura
-        ContentSigner signer = new JcaContentSignerBuilder(algoritmo)
-                .build(chavePrivadaAc);
+        X509CertificateHolder holder;
+        try {
+            //Definir algoritmo de assinatura
+            ContentSigner signer = new JcaContentSignerBuilder(algoritmo)
+                    .build(chavePrivadaAc);
+            //Build e assinatura
+            holder = builder.build(signer);
+        } catch (OperatorCreationException e) {
+            throw new OperatorCreationException("Erro durante build de algoritmo de assinatura. Algoritmo utilizado: " + Constantes.algoritmoAssinatura, e);
+        }
 
-        //Build e assinatura
-        X509CertificateHolder holder = builder.build(signer);
-
-        //retorna o certificado no formato X509Certificate
-        X509Certificate certificado = new JcaX509CertificateConverter().getCertificate(holder);
-        System.out.println("    Certificado gerado com sucesso!");
+        X509Certificate certificado;
+        try {
+            //retorna o certificado no formato X509Certificate
+            certificado = new JcaX509CertificateConverter().getCertificate(holder);
+            System.out.println("    Certificado gerado com sucesso!");
+        } catch (CertificateException e) {
+            throw new CertificateException("Erro durante conversão de certificado: ", e);
+        }
         return certificado;
     }
 

@@ -60,8 +60,10 @@ public class LeitorDeChaves {
                 org.bouncycastle.asn1.pkcs.PrivateKeyInfo privateKeyInfo = (org.bouncycastle.asn1.pkcs.PrivateKeyInfo) object;
                 return converter.getPrivateKey(privateKeyInfo);
             } else {
-                throw new IOException("Tipo de chave privada não suportado no arquivo PEM.");
+                throw new IOException("Erro: O formato da chave privada no arquivo '" + caminhoChave + "' não é suportado.");
             }
+        } catch (IOException e) {
+            throw new IOException("Erro: Falha ao ler o arquivo da chave privada: " + caminhoChave, e);
         }
     }
 
@@ -86,8 +88,10 @@ public class LeitorDeChaves {
                  org.bouncycastle.asn1.x509.SubjectPublicKeyInfo publicKeyInfo = (org.bouncycastle.asn1.x509.SubjectPublicKeyInfo) object;
                  return converter.getPublicKey(publicKeyInfo);
             } else {
-                throw new IOException("Tipo de chave pública não suportado no arquivo PEM.");
+                throw new IOException("Erro: O formato da chave pública no arquivo '" + caminhoChave + "' não é suportado.");
             }
+        } catch (IOException e) {
+            throw new IOException("Erro ao ler o arquivo da chave pública: " + caminhoChave, e);
         }
     }
 

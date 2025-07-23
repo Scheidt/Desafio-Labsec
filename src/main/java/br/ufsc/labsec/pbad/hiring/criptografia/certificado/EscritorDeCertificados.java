@@ -24,6 +24,8 @@ public class EscritorDeCertificados {
             PemObject pemObject = new PemObject("CERTIFICATE", certificadoCodificado);
             pemWriter.writeObject(pemObject);
             System.out.println("    Certificado escrito em disco com sucesso");
+        } catch (IOException e) {
+            throw new IOException("Erro ao escrever o arquivo de certificado no caminho: " + nomeArquivo, e);
         }
     }
 

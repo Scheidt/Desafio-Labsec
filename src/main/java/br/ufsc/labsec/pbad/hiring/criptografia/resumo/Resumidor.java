@@ -26,7 +26,11 @@ public class Resumidor {
      */
     public Resumidor() throws NoSuchAlgorithmException {
         this.algoritmo = Constantes.algoritmoResumo;
-        this.md = MessageDigest.getInstance(this.algoritmo);
+        try {
+            this.md = MessageDigest.getInstance(this.algoritmo);
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchAlgorithmException("Erro: Não foi reconhecido algoritmo: " + this.algoritmo, e);
+        }
     }
 
     /**
@@ -36,7 +40,11 @@ public class Resumidor {
 
     public Resumidor(String algoritmo) throws NoSuchAlgorithmException {
         this.algoritmo = algoritmo;
-        this.md = MessageDigest.getInstance(this.algoritmo);
+        try {
+            this.md = MessageDigest.getInstance(this.algoritmo);
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchAlgorithmException("Erro: Não foi reconhecido algoritmo: " + this.algoritmo, e);
+        }
     }
 
 
@@ -47,8 +55,12 @@ public class Resumidor {
      * @return Bytes do resumo.
      */
     public byte[] resumir(Path caminhoTexto) throws IOException {
-        byte[] textoBytes = Files.readAllBytes(caminhoTexto);
-        return md.digest(textoBytes);
+        try {
+            byte[] textoBytes = Files.readAllBytes(caminhoTexto);
+            return md.digest(textoBytes);
+        } catch (IOException e) {
+            throw new IOException("Erro com o caminho: " + caminhoTexto, e);
+        }
     }
 
     /**
@@ -61,9 +73,12 @@ public class Resumidor {
         HexFormat formatadorHex = HexFormat.of();
         String resumoHex = formatadorHex.formatHex(resumo);
 
-        Files.createDirectories(caminhoArquivo.getParent());
-
-        Files.write(caminhoArquivo, resumoHex.getBytes());
+        try {
+            Files.createDirectories(caminhoArquivo.getParent());
+            Files.write(caminhoArquivo, resumoHex.getBytes());
+        } catch (IOException e) {
+            throw new IOException("Erro no caminho: " + caminhoArquivo, e);
+        }
     }
 
 }

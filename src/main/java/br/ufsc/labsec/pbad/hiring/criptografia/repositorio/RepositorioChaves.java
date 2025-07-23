@@ -1,13 +1,19 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.repositorio;
 
-import br.ufsc.labsec.pbad.hiring.Constantes;
-
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.*;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
+
+import br.ufsc.labsec.pbad.hiring.Constantes;
 
 /**
  * Essa classe representa um repositório de chaves do tipo PKCS#12.
@@ -27,7 +33,13 @@ public class RepositorioChaves {
      * @throws NoSuchProviderException se o provedor "BC" não for encontrado.
      */
     public RepositorioChaves() throws KeyStoreException, NoSuchProviderException {
-        this.repositorio = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
+        try {
+            this.repositorio = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
+        } catch (KeyStoreException e) {
+                throw new KeyStoreException("Erro ao instanciar RopositorioDeChave com algoritmo PKCS#12 ", e);
+        } catch (NoSuchProviderException e) {
+            throw new NoSuchProviderException("Erro: Não foi encontrado o provedor Bouncy Castle em RepositorioChaves ");
+        }
     }
 
     /**
@@ -38,7 +50,13 @@ public class RepositorioChaves {
      * @throws NoSuchProviderException se o provedor "BC" não for encontrado.
      */
     public RepositorioChaves(String algoritmo) throws KeyStoreException, NoSuchProviderException {
-        this.repositorio = KeyStore.getInstance(algoritmo, "BC");
+        try {
+            this.repositorio = KeyStore.getInstance(algoritmo, "BC");
+        } catch (KeyStoreException e) {
+            throw new KeyStoreException("Erro ao instanciar RopositorioDeChave com algoritmo: " + algoritmo, e);
+        } catch (NoSuchProviderException e) {
+            throw new NoSuchProviderException("Erro: Não foi encontrado o provedor Bouncy Castle em RepositorioChaves.");
+        }
     }
 
     /**
@@ -57,14 +75,17 @@ public class RepositorioChaves {
         try (FileInputStream fileInputStream = new FileInputStream(caminhoRepositorio)) {
             // Carrega o keystore do arquivo usando a senha fornecida.
             this.repositorio.load(fileInputStream, this.senha);
+        } catch (FileNotFoundException e) {
+            throw new IOException("Erro com o caminho: " + caminhoRepositorio, e);
+        } catch (IOException e) {
+            throw new IOException("Erro ao carregar o repositório com chave em Repositorio Chaves", e);
+        }
 
-            // Pega o primeiro certificado da KeyStore
-            Enumeration<String> aliases = this.repositorio.aliases();
-            if (aliases.hasMoreElements()) {
-                this.alias = aliases.nextElement();
-            } else {
-                throw new KeyStoreException("O repositório de chaves está vazio");
-            }
+        Enumeration<String> aliases = this.repositorio.aliases();
+        if (aliases.hasMoreElements()) {
+            this.alias = aliases.nextElement();
+        } else {
+            throw new KeyStoreException("Erro: O repositório em '" + caminhoRepositorio + "' está vazio.");
         }
     }
 
@@ -79,10 +100,15 @@ public class RepositorioChaves {
      */
     public PrivateKey pegarChavePrivada() throws NullPointerException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
         if (this.alias == null) {
-            throw new NullPointerException("O repositório não foi aberto ou está vazio. Chame o método 'abrir' primeiro.");
+            throw new NullPointerException("Erro: O repositório não foi aberto ou está vazio. Chame o método 'abrir' primeiro.");
         }
-        // Extrai a chave usando o alias e a senha.
-        return (PrivateKey) this.repositorio.getKey(this.alias, this.senha);
+        try {
+            return (PrivateKey) this.repositorio.getKey(this.alias, this.senha);
+        } catch (UnrecoverableKeyException e) {
+            throw new UnrecoverableKeyException("Erro: Verifique novamente a senha de '" + this.alias + "', pois não foi possível recuperar a chave.");
+        } catch (KeyStoreException | NoSuchAlgorithmException e) {
+            throw new KeyStoreException("Erro ao tentar extrair a chave privada para o alias: " + this.alias, e);
+        }
     }
 
     /**
@@ -94,10 +120,13 @@ public class RepositorioChaves {
      */
     public X509Certificate pegarCertificado() throws NullPointerException, KeyStoreException {
         if (this.alias == null) {
-            throw new NullPointerException("O repositório não foi aberto ou está vazio. Chame o método 'abrir' primeiro.");
+            throw new NullPointerException("Erro: O repositório não foi aberto ou está vazio. Chame o método 'abrir' primeiro.");
         }
-        // Extrai o certificado usando o alias.
-        return (X509Certificate) this.repositorio.getCertificate(this.alias);
+        try {
+            return (X509Certificate) this.repositorio.getCertificate(this.alias);
+        } catch (KeyStoreException e) {
+            throw new KeyStoreException("Erro: Não foi possível pegar o certificado do repositório: " + this.alias, e);
+        }
     }
 
 }

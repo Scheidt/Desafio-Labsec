@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
+
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.util.io.pem.PemObject;
 
@@ -25,16 +26,20 @@ public class EscritorDeChaves {
      * @throws IOException caso ocorra um erro ao escrever o arquivo no disco.
      */
     public static void escreveChaveEmDisco(Key chave, String nomeDoArquivo) throws IOException {
-        Path caminhoOutput = Paths.get(nomeDoArquivo);
-        if (caminhoOutput.getParent() != null) {
-            Files.createDirectories(caminhoOutput.getParent());
-        }
+        try {
+            Path caminhoOutput = Paths.get(nomeDoArquivo);
+            if (caminhoOutput.getParent() != null) {
+                Files.createDirectories(caminhoOutput.getParent());
+            }
 
-        String tipoPem = (chave.getFormat().equals("PKCS#8")) ? "PRIVATE KEY" : "PUBLIC KEY";
-        PemObject pemObject = new PemObject(tipoPem, chave.getEncoded());
+            String tipoPem = (chave.getFormat().equals("PKCS#8")) ? "PRIVATE KEY" : "PUBLIC KEY";
+            PemObject pemObject = new PemObject(tipoPem, chave.getEncoded());
 
-        try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
-            pemWriter.writeObject(pemObject);
+            try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
+                pemWriter.writeObject(pemObject);
+            }
+        } catch (IOException e) {
+            throw new IOException("Erro ao escrever a chave PEM em: " + nomeDoArquivo, e);
         }
     }
 }

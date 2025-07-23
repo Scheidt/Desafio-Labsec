@@ -36,17 +36,7 @@ public class GeradorDeRepositorios {
      */
     public static void gerarPkcs12(PrivateKey chavePrivada, X509Certificate certificado,
                                    String caminhoPkcs12, String alias, char[] senha) throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException, CertificateException {
-        KeyStore pkcs12KeyStore = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
-        pkcs12KeyStore.load(null, null);
-
-        // Coloca a chave no Keystore
-        pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
-
-        // Grava em disco
-        try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
-            pkcs12KeyStore.store(fileOutputStream, senha);
-            System.out.println("    Repositório PKCS#12 escrito em disco com sucesso.");
-        }
+        gerarPkcs12(chavePrivada, certificado, caminhoPkcs12, alias, senha, Constantes.formatoRepositorio);
     }
 
     /**
@@ -67,16 +57,33 @@ public class GeradorDeRepositorios {
      */
     public static void gerarPkcs12(PrivateKey chavePrivada, X509Certificate certificado,
                                    String caminhoPkcs12, String alias, char[] senha, String algoritmo) throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException, CertificateException {
-        KeyStore pkcs12KeyStore = KeyStore.getInstance(algoritmo, "BC");
-        pkcs12KeyStore.load(null, null);
+        KeyStore pkcs12KeyStore;
+        try {
+            pkcs12KeyStore = KeyStore.getInstance(algoritmo, "BC");
+            pkcs12KeyStore.load(null, null);
+        } catch (KeyStoreException e) {
+            throw new KeyStoreException("Erro: O formato de repositório '" + algoritmo + "' não é suportado.", e);
+        } catch (NoSuchProviderException e) {
+            throw new NoSuchProviderException("O provedor de segurança 'BC' não foi encontrado.");
+        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new IOException("Erro ao inicializar um repositório do tipo '" + algoritmo + "' vazio.", e);
+        }
 
-        // Coloca a chave no Keystore
-        pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
+        try {
+            // Coloca a chave no keystore
+            pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
+        } catch (KeyStoreException e) {
+            throw new KeyStoreException("Erro ao inserir a chave e o certificado no repositório com o alias '" + alias + "'.", e);
+        }
 
         // Grava em disco
         try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
             pkcs12KeyStore.store(fileOutputStream, senha);
             System.out.println("    Repositório " + algoritmo + " escrito em disco com sucesso.");
+        } catch (IOException e) {
+            throw new IOException("Eroo ao escrever o arquivo de repositório em: " + caminhoPkcs12, e);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
+            throw new KeyStoreException("Erro ao finalizar e salvar o repositório no arquivo: " + caminhoPkcs12, e);
         }
     }
 

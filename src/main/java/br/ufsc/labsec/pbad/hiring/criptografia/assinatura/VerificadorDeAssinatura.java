@@ -12,6 +12,7 @@ import org.bouncycastle.operator.OperatorCreationException;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * Classe responsável por verificar a integridade de uma assinatura.
@@ -36,9 +37,14 @@ public class VerificadorDeAssinatura {
                                        CMSSignedData assinatura) throws OperatorCreationException, CMSException {
         SignerInformationVerifier verificador = geraVerificadorInformacoesAssinatura(certificado);
         SignerInformation sigInfo = pegaInformacoesAssinatura(assinatura);
-        boolean resultado = sigInfo.verify(verificador);
-        System.out.println("    Sucesso na verificação");
-        return resultado;
+        
+        try {
+            boolean resultado = sigInfo.verify(verificador);
+            System.out.println("    Sucesso na verificação");
+            return resultado;
+        } catch (CMSException e) {
+            throw new CMSException("Erro ao verificar assinatura: ", e);
+        }
     }
 
     /**
@@ -49,10 +55,14 @@ public class VerificadorDeAssinatura {
      * @throws OperatorCreationException se houver erro ao criar o verificador.
      */
     private SignerInformationVerifier geraVerificadorInformacoesAssinatura(X509Certificate certificado) throws OperatorCreationException {
-        JcaSimpleSignerInfoVerifierBuilder builder = new JcaSimpleSignerInfoVerifierBuilder();
-        SignerInformationVerifier verificador = builder.build(certificado);
-        System.out.println("    Sucesso em gerar verificador");
-        return verificador;
+        try {
+            JcaSimpleSignerInfoVerifierBuilder builder = new JcaSimpleSignerInfoVerifierBuilder();
+            SignerInformationVerifier verificador = builder.build(certificado);
+            System.out.println("    Sucesso em gerar verificador");
+            return verificador;
+        } catch (OperatorCreationException e) {
+            throw new OperatorCreationException("Erro ao buildar o verificador de assinaturam em VerificadorDeAssinatura: Verifique se o certificado é válido e seu algoritmo de chave pública é suportado.", e);
+        }
     }
 
     /**
@@ -60,8 +70,9 @@ public class VerificadorDeAssinatura {
      *
      * @param assinatura documento assinado.
      * @return Informações da assinatura.
+     * @throws CMSException se a assinatura não contiver informações de assinante.
      */
-    private SignerInformation pegaInformacoesAssinatura(CMSSignedData assinatura) {
+    private SignerInformation pegaInformacoesAssinatura(CMSSignedData assinatura) throws CMSException {
         SignerInformationStore sigInfoStore = assinatura.getSignerInfos();
         Collection<SignerInformation> assinadores = sigInfoStore.getSigners();
         SignerInformation sigInfo = assinadores.iterator().next();
