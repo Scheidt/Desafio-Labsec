@@ -38,11 +38,12 @@ public class LeitorDeChaves {
      *
      * @param caminhoChave local do arquivo da chave privada.
      * @param algoritmo    algoritmo de criptografia assimétrica que a chave
-     *                     foi gerada.
+     * foi gerada.
      * @return Chave privada.
+     * @throws IOException caso ocorra um erro na leitura do arquivo ou o formato da chave seja inválido.
      */
     public static PrivateKey lerChavePrivadaDoDisco(String caminhoChave,
-                                                    String algoritmo) {
+                                                    String algoritmo) throws IOException {
         try (FileReader fileReader = new FileReader(caminhoChave);
              PEMParser pemParser = new PEMParser(fileReader)) {
 
@@ -61,10 +62,6 @@ public class LeitorDeChaves {
             } else {
                 throw new IOException("Tipo de chave privada não suportado no arquivo PEM.");
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -73,11 +70,12 @@ public class LeitorDeChaves {
      *
      * @param caminhoChave local do arquivo da chave pública.
      * @param algoritmo    algoritmo de criptografia assimétrica que a chave
-     *                     foi gerada.
+     * foi gerada.
      * @return Chave pública.
+     * @throws IOException caso ocorra um erro na leitura do arquivo ou o formato da chave seja inválido.
      */
     public static PublicKey lerChavePublicaDoDisco(String caminhoChave,
-                                                   String algoritmo) {
+                                                   String algoritmo) throws IOException {
         try (FileReader fileReader = new FileReader(caminhoChave);
              PEMParser pemParser = new PEMParser(fileReader)) {
 
@@ -90,10 +88,6 @@ public class LeitorDeChaves {
             } else {
                 throw new IOException("Tipo de chave pública não suportado no arquivo PEM.");
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

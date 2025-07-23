@@ -27,38 +27,27 @@ public class GeradorDeChaves {
     }
     /**
      * Construtor, caso não receber nenhum argumento, utiliza como default o algorítmo do arquivo de constantes.
+     *
+     * @throws NoSuchAlgorithmException se o algoritmo não for reconhecido.
+     * @throws NoSuchProviderException se o provedor "BC" não for encontrado.
      */
 
-    public GeradorDeChaves() {
+    public GeradorDeChaves() throws NoSuchAlgorithmException, NoSuchProviderException {
         this.algoritmo = Constantes.algoritmoChave;
-        try {
-            this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            System.err.println("BC não é um provedor válido");
-            e.printStackTrace();
-        }
+        this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
     }
 
     /**
      * Construtor com argumento opcional, este argumento sobrescreve o algorítmo utilizado como padrão.
      *
      * @param algoritmo algoritmo de criptografia assimétrica a ser usado.
+     * @throws NoSuchAlgorithmException se o algoritmo não for reconhecido.
+     * @throws NoSuchProviderException se o provedor "BC" não for encontrado.
      */
 
-    public GeradorDeChaves(String algoritmo) {
+    public GeradorDeChaves(String algoritmo) throws NoSuchAlgorithmException, NoSuchProviderException {
         this.algoritmo = algoritmo;
-        try {
-            this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            System.err.println("BC não é um provedor válido");
-            e.printStackTrace();
-        }
+        this.generator = KeyPairGenerator.getInstance(this.algoritmo, "BC");
     }
 
     /**

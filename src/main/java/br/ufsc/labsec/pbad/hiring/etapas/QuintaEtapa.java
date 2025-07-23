@@ -2,17 +2,17 @@ package br.ufsc.labsec.pbad.hiring.etapas;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.assinatura.GeradorDeAssinatura;
-import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
-import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.repositorio.RepositorioChaves;
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.operator.OperatorCreationException;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.PrivateKey;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import org.bouncycastle.cms.CMSSignedData;
 
 /**
  * <b>Quinta etapa - gerar uma assinatura digital</b>
@@ -50,26 +50,23 @@ public class QuintaEtapa {
 
     public static void executarEtapa() {
         System.out.println("\nInicio Etapa 5");
-        RepositorioChaves repo = new RepositorioChaves();
         try {
+            RepositorioChaves repo = new RepositorioChaves();
             repo.abrir(Constantes.caminhoPkcs12Usuario, Constantes.senhaMestre);
             X509Certificate certificado = repo.pegarCertificado();
             PrivateKey chavePrivada = repo.pegarChavePrivada();
+
             GeradorDeAssinatura assinador = new GeradorDeAssinatura();
             assinador.informaAssinante(certificado, chavePrivada);
+
             CMSSignedData assinado = assinador.assinar(Constantes.caminhoTextoPlano);
-            try (FileOutputStream fileOutput = new FileOutputStream(Constantes.caminhoAssinatura)){
+
+            try (FileOutputStream fileOutput = new FileOutputStream(Constantes.caminhoAssinatura)) {
                 assinador.escreveAssinatura(fileOutput, assinado);
-                System.out.println("Final da etapa 5 (Sucesso é verificado na etapa 6)!");
-            } catch (IOException e){
-                System.err.println("Erro ao salvar a assinatura no caminho: " + Constantes.caminhoAssinatura);
+                System.out.println("Final da etapa 5! (Sucesso é verificado na etapa 6)");
             }
-        } catch (KeyStoreException e) {
-            System.err.println("O repositório está vazio, rode as etapas em ordem!");
-            e.printStackTrace();
+        } catch (KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException | NoSuchProviderException | UnrecoverableKeyException | OperatorCreationException | CMSException e) {
+            System.err.println("Erro ao executar a Quinta Etapa: " + e.getMessage());
         }
-;
-
     }
-
 }

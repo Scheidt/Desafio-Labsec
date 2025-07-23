@@ -5,15 +5,13 @@ import org.bouncycastle.cms.CMSSignedData;
 import org.bouncycastle.cms.SignerInformation;
 import org.bouncycastle.cms.SignerInformationStore;
 import org.bouncycastle.cms.SignerInformationVerifier;
-import org.bouncycastle.eac.operator.jcajce.JcaEACSignatureVerifierBuilder;
+import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
-import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Classe responsável por verificar a integridade de uma assinatura.
@@ -31,20 +29,16 @@ public class VerificadorDeAssinatura {
      * @param assinatura  documento assinado.
      * @return {@code true} se a assinatura for íntegra, e {@code false} do
      * contrário.
+     * @throws OperatorCreationException se houver erro ao criar o verificador.
+     * @throws CMSException              se houver erro ao processar os dados da assinatura CMS.
      */
     public boolean verificarAssinatura(X509Certificate certificado,
-                                       CMSSignedData assinatura){
-        try {
-            SignerInformationVerifier verificador = geraVerificadorInformacoesAssinatura(certificado);
-            SignerInformation sigInfo = pegaInformacoesAssinatura(assinatura);
-            boolean resultado = sigInfo.verify(verificador);
-            System.out.println("    Sucesso na verificação");
-            return resultado;
-        } catch (CMSException e) {
-                System.err.println("Erro ao verificar assinatura: " + e.getMessage());
-                e.printStackTrace();
-        }
-        return false;
+                                       CMSSignedData assinatura) throws OperatorCreationException, CMSException {
+        SignerInformationVerifier verificador = geraVerificadorInformacoesAssinatura(certificado);
+        SignerInformation sigInfo = pegaInformacoesAssinatura(assinatura);
+        boolean resultado = sigInfo.verify(verificador);
+        System.out.println("    Sucesso na verificação");
+        return resultado;
     }
 
     /**
@@ -52,18 +46,13 @@ public class VerificadorDeAssinatura {
      *
      * @param certificado certificado do assinante.
      * @return Objeto que representa o verificador de assinaturas.
+     * @throws OperatorCreationException se houver erro ao criar o verificador.
      */
-    private SignerInformationVerifier geraVerificadorInformacoesAssinatura(X509Certificate certificado) {
-        try {
-            JcaSimpleSignerInfoVerifierBuilder builder = new JcaSimpleSignerInfoVerifierBuilder();
-            SignerInformationVerifier verificador = builder.build(certificado);
-            System.out.println("    Sucesso em gerar verificador");
-            return verificador;
-        } catch (OperatorCreationException e) {
-            System.err.println("Erro ao buildar o verificador de assinaturam em VerificadorDeAssinatura: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+    private SignerInformationVerifier geraVerificadorInformacoesAssinatura(X509Certificate certificado) throws OperatorCreationException {
+        JcaSimpleSignerInfoVerifierBuilder builder = new JcaSimpleSignerInfoVerifierBuilder();
+        SignerInformationVerifier verificador = builder.build(certificado);
+        System.out.println("    Sucesso em gerar verificador");
+        return verificador;
     }
 
     /**
