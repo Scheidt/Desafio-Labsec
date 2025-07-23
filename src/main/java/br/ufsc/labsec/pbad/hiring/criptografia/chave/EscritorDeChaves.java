@@ -1,11 +1,14 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.chave;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -32,14 +35,26 @@ public class EscritorDeChaves {
                 Files.createDirectories(caminhoOutput.getParent());
             }
 
-            String tipoPem = (chave.getFormat().equals("PKCS#8")) ? "PRIVATE KEY" : "PUBLIC KEY";
+            final String tipoPem;
+            if (chave instanceof PrivateKey) {
+                tipoPem = "PRIVATE KEY";
+            } else if (chave instanceof PublicKey) {
+                tipoPem = "PUBLIC KEY";
+            } else {
+                throw new IllegalArgumentException("A chave fornecida não é uma chave pública ou privada reconhecida.");
+            }
+            
             PemObject pemObject = new PemObject(tipoPem, chave.getEncoded());
 
-            try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
+            try (Writer fileWriter = Files.newBufferedWriter(caminhoOutput, StandardCharsets.UTF_8);
+                 JcaPEMWriter pemWriter = new JcaPEMWriter(fileWriter)) {
                 pemWriter.writeObject(pemObject);
             }
+            
         } catch (IOException e) {
             throw new IOException("Erro ao escrever a chave PEM em: " + nomeDoArquivo, e);
+        } catch (IllegalArgumentException e) {
+            throw new IOException("Erro ao tentar interpretar a chave fornecida: " + e.getMessage(), e);
         }
     }
 }

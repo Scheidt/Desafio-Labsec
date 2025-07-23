@@ -40,7 +40,7 @@ public class Constantes {
             caminhoArtefatos + "assinaturas/assinatura.der";
 
     public static final int numeroSerieAc = 1;
-    public static final int numeroDeSerie = 2;
+    public static final int numeroDeSerie = 22100919;
 
     public static final String aliasAc = "AC-RAIZ";
     public static final String aliasUsuario = "Pedro Henrique Scheidt Prazeres";
