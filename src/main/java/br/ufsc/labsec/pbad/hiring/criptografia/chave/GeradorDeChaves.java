@@ -64,7 +64,7 @@ public class GeradorDeChaves {
         } catch (NoSuchAlgorithmException e) {
             throw new NoSuchAlgorithmException("Erro: " + this.algoritmo + " não é reconhecido como algorítmo válido", e);
         } catch (NoSuchProviderException e) {
-            throw new NoSuchProviderException("Erro:  BC não é um provedor válido (não acho que esse erro vai aparecer jamais, mas o Java me obriga a escrever isso)");
+            throw new NoSuchProviderException("Erro:  BC não é um provedor válido");
         }
     }
 

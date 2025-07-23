@@ -44,7 +44,5 @@ public class PrimeiraEtapa {
             System.err.println("Erro ao executar a Primeira Etapa: " + e.getMessage());
         }
     }
-
-
 }
 

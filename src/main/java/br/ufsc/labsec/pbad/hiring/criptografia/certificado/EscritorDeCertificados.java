@@ -1,10 +1,14 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.certificado;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemWriter;
 
 /**
  * Classe responsável por escrever um certificado no disco.
@@ -20,10 +24,15 @@ public class EscritorDeCertificados {
      */
     public static void escreveCertificado(String nomeArquivo,
                                           byte[] certificadoCodificado) throws IOException {
-        try (PemWriter pemWriter = new PemWriter(new FileWriter(nomeArquivo))) {
-            PemObject pemObject = new PemObject("CERTIFICATE", certificadoCodificado);
-            pemWriter.writeObject(pemObject);
-            System.out.println("    Certificado escrito em disco com sucesso");
+        try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeArquivo))) {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            Certificate certificate = certFactory.generateCertificate(new ByteArrayInputStream(certificadoCodificado));
+
+            pemWriter.writeObject(certificate);
+
+            System.out.println("     Certificado escrito em disco com sucesso");
+        } catch (CertificateException e) {
+            throw new IOException("Erro ao decodificar os bytes do certificado.", e);
         } catch (IOException e) {
             throw new IOException("Erro ao escrever o arquivo de certificado no caminho: " + nomeArquivo, e);
         }
