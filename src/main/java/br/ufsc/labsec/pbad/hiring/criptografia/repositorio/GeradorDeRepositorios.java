@@ -103,7 +103,7 @@ public class GeradorDeRepositorios {
             // Gravar em disco
             try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
                 pkcs12KeyStore.store(fileOutputStream, senha);
-                System.err.println("    Sucesso em GeradorDeRepositorios.java com algoritmo " + algoritmo);
+                System.out.println("    Sucesso em GeradorDeRepositorios.java com algoritmo " + algoritmo);
             } catch (IOException e) {
                 System.err.println("Erro ao salvar Keystore em disco: " + e.getMessage());
                 e.printStackTrace();

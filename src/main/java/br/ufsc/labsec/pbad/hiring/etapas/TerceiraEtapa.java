@@ -103,8 +103,8 @@ public class TerceiraEtapa {
         try {
             EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoUsuario, certificadoUsuario.getEncoded());
             sucessos = sucessos + 1;
-            X509Certificate certificadoCarregadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
-            if (certificadoCA.equals(certificadoCarregadoUsuario)){
+            X509Certificate certificadoCarregadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
+            if (certificadoUsuario.equals(certificadoCarregadoUsuario)){
                 iguais += 1;
             }
         } catch (CertificateEncodingException e) {

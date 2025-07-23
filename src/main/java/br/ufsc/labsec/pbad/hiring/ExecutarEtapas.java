@@ -15,7 +15,7 @@ public class ExecutarEtapas {
         TerceiraEtapa.executarEtapa();
         QuartaEtapa.executarEtapa();
         QuintaEtapa.executarEtapa();
-        //SextaEtapa.executarEtapa();
+        SextaEtapa.executarEtapa();
 
     }
 

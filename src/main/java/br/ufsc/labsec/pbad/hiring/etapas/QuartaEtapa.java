@@ -81,7 +81,7 @@ public class QuartaEtapa {
                 System.err.println("Problema no salvamento/carregamento o PKCS#12 de Usuario");
             }
         } catch (KeyStoreException e) {
-            System.err.println("PKCS#12 de Ac está vazio");
+            System.err.println("PKCS#12 de Usuário está vazio");
             e.printStackTrace();
         }
         
