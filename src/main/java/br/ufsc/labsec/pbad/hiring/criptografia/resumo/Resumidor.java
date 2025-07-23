@@ -24,13 +24,12 @@ public class Resumidor {
     /**
      * Construtor.
      */
-    public Resumidor() {
-
+    public Resumidor() throws NoSuchAlgorithmException {
         this.algoritmo = Constantes.algoritmoResumo;
         try {
             this.md = MessageDigest.getInstance(this.algoritmo);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new NoSuchAlgorithmException("Erro: Não foi reconhecido algoritmo: " + this.algoritmo, e);
         }
     }
 
@@ -39,13 +38,12 @@ public class Resumidor {
      * @param algoritmo string com o nome do algoritmo utilizado
      */
 
-    public Resumidor(String algoritmo){
+    public Resumidor(String algoritmo) throws NoSuchAlgorithmException {
         this.algoritmo = algoritmo;
         try {
             this.md = MessageDigest.getInstance(this.algoritmo);
         } catch (NoSuchAlgorithmException e) {
-            System.err.println(this.algoritmo + " não é reconhecido como algorítmo válido");
-            e.printStackTrace();
+            throw new NoSuchAlgorithmException("Erro: Não foi reconhecido algoritmo: " + this.algoritmo, e);
         }
     }
 
@@ -56,13 +54,12 @@ public class Resumidor {
      * @param caminhoTexto caminho do arquivo a ser processado.
      * @return Bytes do resumo.
      */
-    public byte[] resumir(Path caminhoTexto) {
+    public byte[] resumir(Path caminhoTexto) throws IOException {
         try {
             byte[] textoBytes = Files.readAllBytes(caminhoTexto);
             return md.digest(textoBytes);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new IOException("Erro com o caminho: " + caminhoTexto, e);
         }
     }
 
@@ -72,17 +69,15 @@ public class Resumidor {
      * @param resumo         resumo criptográfico em bytes.
      * @param caminhoArquivo caminho do arquivo.
      */
-    public void escreveResumoEmDisco(byte[] resumo, Path caminhoArquivo) {
+    public void escreveResumoEmDisco(byte[] resumo, Path caminhoArquivo) throws IOException {
+        HexFormat formatadorHex = HexFormat.of();
+        String resumoHex = formatadorHex.formatHex(resumo);
+
         try {
-            HexFormat formatadorHex = HexFormat.of();
-            String resumoHex = formatadorHex.formatHex(resumo);
-
             Files.createDirectories(caminhoArquivo.getParent());
-
             Files.write(caminhoArquivo, resumoHex.getBytes());
-
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Erro no caminho: " + caminhoArquivo, e);
         }
     }
 

@@ -26,51 +26,17 @@ public class GeradorDeRepositorios {
      * @param certificado   certificado do titular.
      * @param caminhoPkcs12 caminho onde será escrito o PKCS#12.
      * @param alias         nome amigável dado à entrada do PKCS#12, que
-     *                      comportará a chave e o certificado.
+     * comportará a chave e o certificado.
      * @param senha         senha de acesso ao PKCS#12.
+     * @throws KeyStoreException        em caso de erro com o tipo de repositório.
+     * @throws NoSuchProviderException  se o provedor "BC" não for encontrado.
+     * @throws IOException              em caso de erro de I/O ao carregar ou salvar o repositório.
+     * @throws NoSuchAlgorithmException se o algoritmo para verificação de integridade do repositório não for encontrado.
+     * @throws CertificateException     em caso de erro com o certificado.
      */
     public static void gerarPkcs12(PrivateKey chavePrivada, X509Certificate certificado,
-                                   String caminhoPkcs12, String alias, char[] senha) {
-        try {
-
-            KeyStore pkcs12KeyStore = KeyStore.getInstance(Constantes.formatoRepositorio, "BC");
-
-            try {
-                pkcs12KeyStore.load(null, null);
-            } catch (IOException e) {
-                System.err.println("Erro ao carregar Keystore pkcs12KeyStore: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            // Coloca a chave no Keystore
-            pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
-
-            // Gravar em disco
-            try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
-                pkcs12KeyStore.store(fileOutputStream, senha);
-                System.err.println("    Sucesso em GeradorDeRepositorios.java");
-            } catch (IOException e) {
-                System.err.println("Erro ao salvar Keystore em disco: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-        } catch (KeyStoreException e) {
-            System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
-            e.printStackTrace();
-
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
-            e.printStackTrace();
-
-        } catch (CertificateException e) {
-            System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
-            e.printStackTrace();
-
-        } catch (NoSuchProviderException e) {
-            System.err.println("Não foi encontrado o provedor Bouncy Castle em GeradorDeRepositorios " + e.getMessage());
-            e.printStackTrace();
-        }
-
+                                   String caminhoPkcs12, String alias, char[] senha) throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException, CertificateException {
+        gerarPkcs12(chavePrivada, certificado, caminhoPkcs12, alias, senha, Constantes.formatoRepositorio);
     }
 
     /**
@@ -80,52 +46,45 @@ public class GeradorDeRepositorios {
      * @param certificado   certificado do titular.
      * @param caminhoPkcs12 caminho onde será escrito o PKCS#12.
      * @param alias         nome amigável dado à entrada do PKCS#12, que
-     *                      comportará a chave e o certificado.
+     * comportará a chave e o certificado.
      * @param senha         senha de acesso ao PKCS#12.
      * @param algoritmo     algoritmo utilizado (padrão PKCS#12)
+     * @throws KeyStoreException        em caso de erro com o tipo de repositório.
+     * @throws NoSuchProviderException  se o provedor "BC" não for encontrado.
+     * @throws IOException              em caso de erro de I/O ao carregar ou salvar o repositório.
+     * @throws NoSuchAlgorithmException se o algoritmo para verificação de integridade do repositório não for encontrado.
+     * @throws CertificateException     em caso de erro com o certificado.
      */
     public static void gerarPkcs12(PrivateKey chavePrivada, X509Certificate certificado,
-                                   String caminhoPkcs12, String alias, char[] senha, String algoritmo) {
+                                   String caminhoPkcs12, String alias, char[] senha, String algoritmo) throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException, CertificateException {
+        KeyStore pkcs12KeyStore;
         try {
-
-            KeyStore pkcs12KeyStore = KeyStore.getInstance(algoritmo, "BC");
-
-            try {
-                pkcs12KeyStore.load(null, null);
-            } catch (IOException e) {
-                System.err.println("Erro ao carregar Keystore pkcs12KeyStore: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            // Coloca a chave no Keystore
-            pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
-
-            // Gravar em disco
-            try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
-                pkcs12KeyStore.store(fileOutputStream, senha);
-                System.out.println("    Sucesso em GeradorDeRepositorios.java com algoritmo " + algoritmo);
-            } catch (IOException e) {
-                System.err.println("Erro ao salvar Keystore em disco: " + e.getMessage());
-                e.printStackTrace();
-            }
-
+            pkcs12KeyStore = KeyStore.getInstance(algoritmo, "BC");
+            pkcs12KeyStore.load(null, null);
         } catch (KeyStoreException e) {
-            System.err.println("Erro ao instanciar a Keystore com algoritmo: " + algoritmo + "\n" + e.getMessage());
-            e.printStackTrace();
-
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
-            e.printStackTrace();
-
-        } catch (CertificateException e) {
-            System.err.println("Erro ao instanciar a Keystore: " + e.getMessage());
-            e.printStackTrace();
-
+            throw new KeyStoreException("Erro: O formato de repositório '" + algoritmo + "' não é suportado.", e);
         } catch (NoSuchProviderException e) {
-            System.err.println("Não foi encontrado o provedor Bouncy Castle em GeradorDeRepositorios " + e.getMessage());
-            e.printStackTrace();
+            throw new NoSuchProviderException("O provedor de segurança 'BC' não foi encontrado.");
+        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new IOException("Erro ao inicializar um repositório do tipo '" + algoritmo + "' vazio.", e);
         }
 
+        try {
+            // Coloca a chave no keystore
+            pkcs12KeyStore.setKeyEntry(alias, chavePrivada, senha, new java.security.cert.Certificate[]{certificado});
+        } catch (KeyStoreException e) {
+            throw new KeyStoreException("Erro ao inserir a chave e o certificado no repositório com o alias '" + alias + "'.", e);
+        }
+
+        // Grava em disco
+        try (FileOutputStream fileOutputStream = new FileOutputStream(caminhoPkcs12)) {
+            pkcs12KeyStore.store(fileOutputStream, senha);
+            System.out.println("    Repositório " + algoritmo + " escrito em disco com sucesso.");
+        } catch (IOException e) {
+            throw new IOException("Eroo ao escrever o arquivo de repositório em: " + caminhoPkcs12, e);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
+            throw new KeyStoreException("Erro ao finalizar e salvar o repositório no arquivo: " + caminhoPkcs12, e);
+        }
     }
 
 }

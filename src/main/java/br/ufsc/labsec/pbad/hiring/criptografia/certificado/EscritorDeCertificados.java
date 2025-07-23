@@ -16,16 +16,16 @@ public class EscritorDeCertificados {
      *
      * @param nomeArquivo           caminho que será escrito o certificado.
      * @param certificadoCodificado bytes do certificado.
+     * @throws IOException caso ocorra um erro ao escrever o arquivo no disco.
      */
     public static void escreveCertificado(String nomeArquivo,
-                                          byte[] certificadoCodificado) {
+                                          byte[] certificadoCodificado) throws IOException {
         try (PemWriter pemWriter = new PemWriter(new FileWriter(nomeArquivo))) {
             PemObject pemObject = new PemObject("CERTIFICATE", certificadoCodificado);
             pemWriter.writeObject(pemObject);
-            System.err.println("    Certificado escrito em disco com sucesso");
+            System.out.println("    Certificado escrito em disco com sucesso");
         } catch (IOException e) {
-            System.err.println("Falha ao escrever o certificado no caminho: " + nomeArquivo);
-            e.printStackTrace();
+            throw new IOException("Erro ao escrever o arquivo de certificado no caminho: " + nomeArquivo, e);
         }
     }
 

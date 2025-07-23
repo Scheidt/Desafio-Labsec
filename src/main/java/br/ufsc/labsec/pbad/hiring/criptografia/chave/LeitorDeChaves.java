@@ -38,11 +38,12 @@ public class LeitorDeChaves {
      *
      * @param caminhoChave local do arquivo da chave privada.
      * @param algoritmo    algoritmo de criptografia assimétrica que a chave
-     *                     foi gerada.
+     * foi gerada.
      * @return Chave privada.
+     * @throws IOException caso ocorra um erro na leitura do arquivo ou o formato da chave seja inválido.
      */
     public static PrivateKey lerChavePrivadaDoDisco(String caminhoChave,
-                                                    String algoritmo) {
+                                                    String algoritmo) throws IOException {
         try (FileReader fileReader = new FileReader(caminhoChave);
              PEMParser pemParser = new PEMParser(fileReader)) {
 
@@ -59,12 +60,10 @@ public class LeitorDeChaves {
                 org.bouncycastle.asn1.pkcs.PrivateKeyInfo privateKeyInfo = (org.bouncycastle.asn1.pkcs.PrivateKeyInfo) object;
                 return converter.getPrivateKey(privateKeyInfo);
             } else {
-                throw new IOException("Tipo de chave privada não suportado no arquivo PEM.");
+                throw new IOException("Erro: O formato da chave privada no arquivo '" + caminhoChave + "' não é suportado.");
             }
-
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new IOException("Erro: Falha ao ler o arquivo da chave privada: " + caminhoChave, e);
         }
     }
 
@@ -73,11 +72,12 @@ public class LeitorDeChaves {
      *
      * @param caminhoChave local do arquivo da chave pública.
      * @param algoritmo    algoritmo de criptografia assimétrica que a chave
-     *                     foi gerada.
+     * foi gerada.
      * @return Chave pública.
+     * @throws IOException caso ocorra um erro na leitura do arquivo ou o formato da chave seja inválido.
      */
     public static PublicKey lerChavePublicaDoDisco(String caminhoChave,
-                                                   String algoritmo) {
+                                                   String algoritmo) throws IOException {
         try (FileReader fileReader = new FileReader(caminhoChave);
              PEMParser pemParser = new PEMParser(fileReader)) {
 
@@ -88,12 +88,10 @@ public class LeitorDeChaves {
                  org.bouncycastle.asn1.x509.SubjectPublicKeyInfo publicKeyInfo = (org.bouncycastle.asn1.x509.SubjectPublicKeyInfo) object;
                  return converter.getPublicKey(publicKeyInfo);
             } else {
-                throw new IOException("Tipo de chave pública não suportado no arquivo PEM.");
+                throw new IOException("Erro: O formato da chave pública no arquivo '" + caminhoChave + "' não é suportado.");
             }
-
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new IOException("Erro ao ler o arquivo da chave pública: " + caminhoChave, e);
         }
     }
 

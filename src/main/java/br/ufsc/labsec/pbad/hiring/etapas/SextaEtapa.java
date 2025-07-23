@@ -1,16 +1,19 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.Security;
-import java.security.cert.X509Certificate;
-
-import org.bouncycastle.cms.CMSSignedData;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.assinatura.VerificadorDeAssinatura;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.OperatorCreationException;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 
 /**
@@ -43,12 +46,11 @@ public class SextaEtapa {
 
     public static void executarEtapa() {
         System.out.println("\nInicio etapa 6");
-        try{
+        try {
             X509Certificate certificado = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
             byte[] assinaturaBytes = Files.readAllBytes(Paths.get(Constantes.caminhoAssinatura));
 
             CMSSignedData assinatura = new CMSSignedData(assinaturaBytes);
-
 
             VerificadorDeAssinatura verificador = new VerificadorDeAssinatura();
 
@@ -58,12 +60,11 @@ public class SextaEtapa {
                 System.out.println("Sucesso na etapa 5!");
                 System.out.println("Sucesso na Etapa 6!");
             } else {
-                System.err.println("Alguma falha na etapa 5 ou 6 :(");
+                System.err.println("Verificação de assinatura falhou. A assinatura pode ser inválida ou o certificado incorreto.");
             }
 
-        } catch (Exception e){
+        } catch (IOException | CertificateException | CMSException | OperatorCreationException e) {
             System.err.println("Ocorreu um erro na sexta etapa: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

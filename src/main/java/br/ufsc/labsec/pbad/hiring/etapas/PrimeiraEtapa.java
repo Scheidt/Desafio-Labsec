@@ -1,7 +1,9 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.resumo.Resumidor;
@@ -30,13 +32,17 @@ public class PrimeiraEtapa {
 
     public static void executarEtapa() {
         System.out.println("Início Etapa 1");
-        Path caminhoTexto = Paths.get(Constantes.caminhoTextoPlano);
-        Path caminhoOutput = Paths.get(Constantes.caminhoResumoCriptografico);
+        try {
+            Path caminhoTexto = Paths.get(Constantes.caminhoTextoPlano);
+            Path caminhoOutput = Paths.get(Constantes.caminhoResumoCriptografico);
 
-        Resumidor resumidor = new Resumidor();
-        byte[] resumo = resumidor.resumir(caminhoTexto);
-        resumidor.escreveResumoEmDisco(resumo, caminhoOutput);
-        System.out.println("Sucesso na Etapa 1!");
+            Resumidor resumidor = new Resumidor();
+            byte[] resumo = resumidor.resumir(caminhoTexto);
+            resumidor.escreveResumoEmDisco(resumo, caminhoOutput);
+            System.out.println("Sucesso na Etapa 1!");
+        } catch (NoSuchAlgorithmException | IOException e) {
+            System.err.println("Erro ao executar a Primeira Etapa: " + e.getMessage());
+        }
     }
 
 

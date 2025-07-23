@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
+
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.util.io.pem.PemObject;
 
@@ -22,8 +23,9 @@ public class EscritorDeChaves {
      *
      * @param chave         chave assimétrica a ser escrita em disco.
      * @param nomeDoArquivo nome do local onde será escrita a chave.
+     * @throws IOException caso ocorra um erro ao escrever o arquivo no disco.
      */
-    public static void escreveChaveEmDisco(Key chave, String nomeDoArquivo) {
+    public static void escreveChaveEmDisco(Key chave, String nomeDoArquivo) throws IOException {
         try {
             Path caminhoOutput = Paths.get(nomeDoArquivo);
             if (caminhoOutput.getParent() != null) {
@@ -36,10 +38,8 @@ public class EscritorDeChaves {
             try (JcaPEMWriter pemWriter = new JcaPEMWriter(new FileWriter(nomeDoArquivo))) {
                 pemWriter.writeObject(pemObject);
             }
-
         } catch (IOException e) {
-            System.err.println("Erro ao escrever a chave PEM: " + e.getMessage());
-            e.printStackTrace();
+            throw new IOException("Erro ao escrever a chave PEM em: " + nomeDoArquivo, e);
         }
     }
 }

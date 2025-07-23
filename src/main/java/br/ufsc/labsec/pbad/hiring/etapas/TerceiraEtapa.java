@@ -1,15 +1,17 @@
 package br.ufsc.labsec.pbad.hiring.etapas;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
-
 import br.ufsc.labsec.pbad.hiring.Constantes;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.EscritorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.GeradorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.certificado.LeitorDeCertificados;
 import br.ufsc.labsec.pbad.hiring.criptografia.chave.LeitorDeChaves;
+import org.bouncycastle.operator.OperatorCreationException;
+
+import java.io.IOException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 
 /**
@@ -54,74 +56,47 @@ public class TerceiraEtapa {
 
     public static void executarEtapa() {
         System.out.println("\nInício Etapa 3");
-
-        PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
-        PublicKey publicaAc = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaAc, Constantes.algoritmoChave);
-
-        @SuppressWarnings("unused")
-        PrivateKey privadaUsuario = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaUsuario, Constantes.algoritmoChave);
-        PublicKey publicaUsuario = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaUsuario, Constantes.algoritmoChave);
-
-
-        GeradorDeCertificados geradorCert = new GeradorDeCertificados();
-
-        X509Certificate certificadoCA = geradorCert.gerarCertificado(publicaAc, 
-                                                                    privadaAc,
-                                                                    Constantes.numeroSerieAc,
-                                                                    Constantes.nomeAcRaiz,
-                                                                    Constantes.nomeAcRaiz, 
-                                                                    10);
-
-        X509Certificate certificadoUsuario = geradorCert.gerarCertificado(publicaUsuario,
-                                                                            privadaAc,
-                                                                            Constantes.numeroDeSerie,
-                                                                            Constantes.nomeUsuario,
-                                                                            Constantes.nomeAcRaiz,
-                                                                            5);
-
-        
-
-        // Sessão do código dedicada a debugging
-        int sucessos = 0;
-        // importante verificar se os certificados salvos são iguais aos certificados que serão carregados posteriormente
-        // caso não forem, houve algum erro na hora de salvar ou de carregar do disco
-        int iguais = 0;
-
         try {
+            // Carrega chaves necessárias
+            PrivateKey privadaAc = LeitorDeChaves.lerChavePrivadaDoDisco(Constantes.caminhoChavePrivadaAc, Constantes.algoritmoChave);
+            PublicKey publicaAc = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaAc, Constantes.algoritmoChave);
+            PublicKey publicaUsuario = LeitorDeChaves.lerChavePublicaDoDisco(Constantes.caminhoChavePublicaUsuario, Constantes.algoritmoChave);
+
+            // Gera os certificados
+            GeradorDeCertificados geradorCert = new GeradorDeCertificados();
+
+            X509Certificate certificadoCA = geradorCert.gerarCertificado(publicaAc,
+                    privadaAc,
+                    Constantes.numeroSerieAc,
+                    Constantes.nomeAcRaiz,
+                    Constantes.nomeAcRaiz,
+                    10);
+
+            X509Certificate certificadoUsuario = geradorCert.gerarCertificado(publicaUsuario,
+                    privadaAc,
+                    Constantes.numeroDeSerie,
+                    Constantes.nomeUsuario,
+                    Constantes.nomeAcRaiz,
+                    5);
+
+            // Escreve os certificados em disco
             EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoAcRaiz, certificadoCA.getEncoded());
-            sucessos += 1;
-            X509Certificate certificadoCarregadoCa = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
-            if (certificadoCA.equals(certificadoCarregadoCa)){
-                iguais += 1;
-            }
-
-        } catch (CertificateEncodingException e) {
-            System.err.println("Erro ao escrever o certificado CA em disco, erro ao converter certificado para Bytes[]");
-            e.printStackTrace();
-        }
-
-        try {
             EscritorDeCertificados.escreveCertificado(Constantes.caminhoCertificadoUsuario, certificadoUsuario.getEncoded());
-            sucessos = sucessos + 1;
-            X509Certificate certificadoCarregadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
-            if (certificadoUsuario.equals(certificadoCarregadoUsuario)){
-                iguais += 1;
-            }
-        } catch (CertificateEncodingException e) {
-            System.err.println("Erro ao escrever o certificado do usuario em disco, erro ao converter certificado para Bytes[]");
-            e.printStackTrace();
-        }
 
-        if (sucessos == 2) {
-            System.out.println("    Certificados Salvos");
-            if (iguais == 2) {
-                System.out.println("    Certificados carregados são iguais aos salvos");
+            // Lê os certificados do disco para verificação
+            X509Certificate certificadoCarregadoCa = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoAcRaiz);
+            X509Certificate certificadoCarregadoUsuario = LeitorDeCertificados.lerCertificadoDoDisco(Constantes.caminhoCertificadoUsuario);
+
+            // Compara os certificados gerados com os lidos do disco
+            if (certificadoCA.equals(certificadoCarregadoCa) && certificadoUsuario.equals(certificadoCarregadoUsuario)) {
+                System.out.println("    Verificação de integridade dos certificados concluída com sucesso.");
                 System.out.println("Sucesso na etapa 3!");
             } else {
-                System.out.println("Numero de certificados iguais aos carregados: " + iguais);
+                System.err.println("Falha na verificação: Os certificados escritos em disco não são idênticos aos lidos.");
             }
+
+        } catch (IOException | OperatorCreationException | CertificateException e) {
+            System.err.println("Erro ao executar a Terceira Etapa: " + e.getMessage());
         }
-
     }
-
 }

@@ -1,10 +1,17 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.assinatura;
 
-import br.ufsc.labsec.pbad.hiring.Constantes;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
-import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSProcessableFile;
 import org.bouncycastle.cms.CMSSignedData;
@@ -19,15 +26,7 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 import org.bouncycastle.util.Store;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
+import br.ufsc.labsec.pbad.hiring.Constantes;
 
 
 /**
@@ -66,46 +65,37 @@ public class GeradorDeAssinatura {
      *
      * @param caminhoDocumento caminho do documento que será assinado.
      * @return Documento assinado.
+     * @throws CertificateEncodingException se houver erro na codificação do certificado.
+     * @throws OperatorCreationException    se houver erro na criação do assinador.
+     * @throws CMSException                 se houver erro na geração da assinatura CMS.
      */
-    public CMSSignedData assinar(String caminhoDocumento) {
+    public CMSSignedData assinar(String caminhoDocumento) throws CertificateEncodingException, OperatorCreationException, CMSException {
+        CMSTypedData dadosParaAssinar = this.preparaDadosParaAssinar(caminhoDocumento);
+        SignerInfoGenerator informacoesAssinante;
+        Store<X509CertificateHolder> armazemCertificados;
+
         try {
-            CMSTypedData dadosParaAssinar = this.preparaDadosParaAssinar(caminhoDocumento);
-
             // Prepara informações do assinante (certificado, chave, algoritmo de hash + assinatura)
-            SignerInfoGenerator informacoesAssinante = this.preparaInformacoesAssinante(this.chavePrivada, this.certificado);
-
-            // Adiciona o gerador de informações do assinante ao gerador de assinatura principal
+            informacoesAssinante = this.preparaInformacoesAssinante(this.chavePrivada, this.certificado);
             this.geradorAssinaturaCms.addSignerInfoGenerator(informacoesAssinante);
 
             // Adiciona o certificado do signatário
             List<Certificate> listaCertificados = new ArrayList<>();
             listaCertificados.add(this.certificado);
-            Store<X509CertificateHolder> armazemCertificados = new JcaCertStore(listaCertificados);
-            try {
-                this.geradorAssinaturaCms.addCertificates(armazemCertificados);
-            } catch (CMSException e) {
-                System.err.println(("Erro ao adicionar certificado em GeradorDeAssinatura: " + e.getMessage()));
-                e.printStackTrace();
-                return null;
-            }
-            
-            // Gera a assinatura em si (com ou sem encapsulamento do documento)
-            CMSSignedData assinatura;
-            try {
-                assinatura = this.geradorAssinaturaCms.generate(dadosParaAssinar, true);
-                return assinatura;
-            } catch (CMSException e) {
-                System.err.println(("Erro ao gerar assinatura em GeradorDeAssinatura: " + e.getMessage()));
-                e.printStackTrace();
-                return null;
-            }
-
-
+            armazemCertificados = new JcaCertStore(listaCertificados);
+            this.geradorAssinaturaCms.addCertificates(armazemCertificados);
         } catch (CertificateEncodingException e) {
-            System.err.println(("Erro ao gerar a assinatura CMS." + e.getMessage()));
-            e.printStackTrace();
+            throw new CertificateEncodingException("Erro ao adicionar certificado em GeradorDeAssinatura: ", e);
+        } catch (OperatorCreationException e) {
+            // A exceção já foi tratada em `preparaInformacoesAssinante`, apenas repassando.
+            throw e;
         }
-        return null;
+
+        try {
+            return this.geradorAssinaturaCms.generate(dadosParaAssinar, true);
+        } catch (CMSException e) {
+            throw new CMSException("Erro ao gerar assinatura em GeradorDeAssinatura: ", e);
+        }
     }
 
     /**
@@ -127,36 +117,35 @@ public class GeradorDeAssinatura {
      * @param chavePrivada chave privada do assinante.
      * @param certificado  certificado do assinante.
      * @return Estrutura com informações do assinante.
+     * @throws CertificateEncodingException se houver erro na codificação do certificado.
+     * @throws OperatorCreationException    se houver erro na criação do assinador ou do provedor de digest.
      */
     private SignerInfoGenerator preparaInformacoesAssinante(PrivateKey chavePrivada,
-                                                            Certificate certificado) {
+                                                            Certificate certificado) throws CertificateEncodingException, OperatorCreationException {
         try {
-            // Nesta linha é definido o algorítmo  de hashing + assinatura, coletados do arquivo de constantes. 
+            // Nesta linha é definido o algorítmo  de hashing + assinatura, coletados do arquivo de constantes.
             JcaContentSignerBuilder contentSignerBuilder = new JcaContentSignerBuilder(Constantes.algoritmoAssinatura);
 
-            // Junta o objeto anterior com a chave privada, formando a primeira metade do output final. 
+            // Junta o objeto anterior com a chave privada, formando a primeira metade do output final.
             ContentSigner contentSigner = contentSignerBuilder.build(chavePrivada);
 
-
-
-            // Instancia e configura a estrura que calcula o hash. 
+            // Instancia e configura a estrura que calcula o hash.
             JcaDigestCalculatorProviderBuilder providerBuilder = new JcaDigestCalculatorProviderBuilder();
             DigestCalculatorProvider digestCalculatorProvider = providerBuilder.build();
 
-            // Inicia o construtor principal com a função que calcula o hash. 
+            // Inicia o construtor principal com a função que calcula o hash.
             JcaSignerInfoGeneratorBuilder infoGeneratorBuilder = new JcaSignerInfoGeneratorBuilder(digestCalculatorProvider);
 
-            // Junta o construtor com o contentSigner (que representa qual algorítmo de hash + assinatura é utilizado, junto da chave privada) 
-            // e o certificado, e retorna a build pronta. 
+            // Junta o construtor com o contentSigner (que representa qual algorítmo de hash + assinatura é utilizado, junto da chave privada)
+            // e o certificado, e retorna a build pronta.
             SignerInfoGenerator siginfo = infoGeneratorBuilder.build(contentSigner, (X509Certificate) certificado);
             System.out.println("    Sucesso em gerar informações do signatário");
             return siginfo;
-        } catch (CertificateEncodingException | OperatorCreationException e) {
-            System.err.println("Erro ao buildar o SignerInfoGenerator em GeradorDeAssinatura.java: " + e.getMessage());
-            e.printStackTrace();
+        } catch (OperatorCreationException e) {
+            throw new OperatorCreationException("Erro: Falha ao construir as informações do assinante. Verifique o algoritmo de assinatura ('" + Constantes.algoritmoAssinatura + "') e a chave privada.", e);
+        } catch (CertificateEncodingException e) {
+            throw new CertificateEncodingException("Erro: Falha ao codificar o certificado para gerar as informações do assinante.", e);
         }
-        return null;
-
     }
 
     /**
@@ -164,14 +153,15 @@ public class GeradorDeAssinatura {
      *
      * @param arquivo    arquivo que será escrita a assinatura.
      * @param assinatura objeto da assinatura.
+     * @throws IOException caso ocorra um erro ao codificar ou escrever a assinatura no arquivo.
      */
-    public void escreveAssinatura(OutputStream arquivo, CMSSignedData assinatura) {
+    public void escreveAssinatura(OutputStream arquivo, CMSSignedData assinatura) throws IOException {
         try {
             byte[] bytesAssinatura = assinatura.getEncoded();
             arquivo.write(bytesAssinatura);
             System.out.println("    Sucesso em salvamento em disco!");
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao escrever a assinatura no arquivo.", e);
+            throw new IOException("Erro ao escrever a assinatura no arquivo.", e);
         }
     }
 
