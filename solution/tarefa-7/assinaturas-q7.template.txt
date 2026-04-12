@@ -1,0 +1,3 @@
+arquivo1.p7s VALIDO
+arquivo2.xml INVALIDO
+arquivo3.pdf VALIDO

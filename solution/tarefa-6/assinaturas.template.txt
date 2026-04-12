@@ -1,0 +1,3 @@
+assinatura_1 NORMAL
+assinatura_2 CO_ASSINATURA
+assinatura_3 CONTRA_ASSINATURA
