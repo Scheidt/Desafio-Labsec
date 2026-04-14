@@ -1,0 +1,19 @@
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Qualified Root CA
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Qualified Root CA v2
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Root Certification Authority (v3)
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DIGISIGN Qualified CA
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Public CA
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Qualified Public CA (v2)
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Qualified Public CA (v3)
+http://uri.etsi.org/TrstSvc/Svctype/TSA Digisign Timestamping
+http://uri.etsi.org/TrstSvc/Svctype/TSA tss-s0.digisign.ro
+http://uri.etsi.org/TrstSvc/Svctype/TSA Time-stamp Signer 1
+http://uri.etsi.org/TrstSvc/Svctype/TSA DigiSign TimeStamp Service
+http://uri.etsi.org/TrstSvc/Svctype/TSA Timestamp Authority
+http://uri.etsi.org/TrstSvc/Svctype/TSA Time-stamp Signer 0
+http://uri.etsi.org/TrstSvc/Svctype/TSA DigiSign Time Stamping Authority
+http://uri.etsi.org/TrstSvc/Svctype/Certstatus/OCSP DigiSign OCSP Validation Service
+http://uri.etsi.org/TrstSvc/Svctype/TSA DigiSign Time Stamping Authority
+http://uri.etsi.org/TrstSvc/Svctype/CA/QC DigiSign Qualified CA Class 3 2017
+http://uri.etsi.org/TrstSvc/Svctype/TSA/QTST DigiSign Time Stamping Authority
+http://uri.etsi.org/TrstSvc/Svctype/Certstatus/OCSP/QC DigiSign OCSP Validation Service
