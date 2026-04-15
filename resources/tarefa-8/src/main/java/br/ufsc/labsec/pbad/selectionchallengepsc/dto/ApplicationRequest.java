@@ -1,10 +1,10 @@
 package br.ufsc.labsec.pbad.selectionchallengepsc.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
+@Data
 public class ApplicationRequest {
     private String name;
     private String email;

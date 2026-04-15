@@ -1,9 +1,8 @@
 package br.ufsc.labsec.pbad.selectionchallengepsc.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
-@Getter
+@Data
 public class UserDiscoveryRequest {
     private String clientId;
     private String clientSecret;

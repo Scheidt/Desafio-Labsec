@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Authorization</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f7f9fa; margin: 0; padding: 2rem; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h1 { color: #333; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        h2 { color: #666; font-size: 1rem; margin-bottom: 1.5rem; font-weight: normal; }
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
+        label { display: block; margin-bottom: 0.5rem; color: #444; font-weight: 500; }
+        input[type="text"] { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .actions { display: flex; gap: 1rem; }
+        button { flex: 1; padding: 0.75rem; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-accept { background: #4caf50; color: white; }
+        .btn-accept:hover { background: #45a049; }
+        .btn-reject { background: #f44336; color: white; }
+        .btn-reject:hover { background: #da190b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Authorization</h1>
+        <h2>Authorize Application</h2>
+        <div class="input-group" th:if="${userId == null || userId.isEmpty()}">
+            <label for="cpfInput">Enter your CPF</label>
+            <input type="text" id="cpfInput" name="cpf" placeholder="000.000.000-00" required />
+        </div>
+        <div class="input-group" th:if="${userId != null && !userId.isEmpty()}">
+            <p><strong>User ID:</strong> <span th:text="${userId}"></span></p>
+        </div>
+
+        <div class="actions">
+            <form id="acceptForm" method="post" th:action="${userId != null && !userId.isEmpty()} ? @{/authorization/{userId}/accept(userId=${userId})} : ''">
+                <input type="hidden" name="state" th:value="${state}"/>
+                <button type="submit" class="btn-accept" onclick="updateFormAction(event, 'acceptForm', 'accept')">Accept</button>
+            </form>
+            <form id="rejectForm" method="post" th:action="${userId != null && !userId.isEmpty()} ? @{/authorization/{userId}/reject(userId=${userId})} : ''">
+                <input type="hidden" name="state" th:value="${state}"/>
+                <button type="submit" class="btn-reject" onclick="updateFormAction(event, 'rejectForm', 'reject')">Reject</button>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var providedUserId = /*[[${userId}]]*/ null;
+        
+        function updateFormAction(e, formId, actionType) {
+            var userId = providedUserId;
+            if (!userId || userId.trim() === '') {
+                var cpfInput = document.getElementById('cpfInput');
+                if (!cpfInput.value || cpfInput.value.trim() === '') {
+                    alert('Please enter your CPF.');
+                    e.preventDefault();
+                    return;
+                }
+                userId = cpfInput.value.trim();
+            }
+            var form = document.getElementById(formId);
+            form.action = '/authorization/' + encodeURIComponent(userId) + '/' + actionType;
+        }
+        /*]]>*/
+    </script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 package br.ufsc.labsec.pbad.selectionchallengepsc.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class CertificateDiscoveryRequest {
     private String certificateAlias;
 }
