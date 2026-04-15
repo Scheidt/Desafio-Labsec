@@ -8,7 +8,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-import org.bouncycastle.util.io.pem.PemObject;
 
 /**
  * Classe responsável por escrever um certificado no disco.

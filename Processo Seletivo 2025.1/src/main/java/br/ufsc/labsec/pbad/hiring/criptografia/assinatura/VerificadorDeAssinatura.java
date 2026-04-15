@@ -12,7 +12,6 @@ import org.bouncycastle.operator.OperatorCreationException;
 import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 /**
  * Classe responsável por verificar a integridade de uma assinatura.

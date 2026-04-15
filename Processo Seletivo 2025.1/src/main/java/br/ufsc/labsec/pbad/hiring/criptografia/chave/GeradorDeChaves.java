@@ -1,6 +1,5 @@
 package br.ufsc.labsec.pbad.hiring.criptografia.chave;
 
-import java.security.InvalidParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
