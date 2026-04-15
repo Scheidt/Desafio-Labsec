@@ -66,6 +66,7 @@ public class LoadDatabase {
             X509Certificate caCert  = CertificateGenerator.getCertificate(caKeyStore);
             log.info("CA carregada: {}", caCert.getSubjectX500Principal().getName());
 
+            // PARA ADICIONAR NOVOS USUÁRIOS, BASTA CHAMAR createUser() COM OS DADOS DESEJADOS E SALVAR NO REPOSITÓRIO
             PscUser user1 = createUser(FIRST_NAME + "-" + ID_UFSC, CPF,
                     "RSA", caPrivateKey, caCert);
             PscUser user2 = createUser(FIRST_NAME + "-" + ID_UFSC + "-PQC", incrementCpf(CPF),
