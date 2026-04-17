@@ -1,0 +1,6 @@
+cades_ad-rv_v2.2.p7s INVALIDO
+cades_b.p7s VALIDO
+jades_b.json VALIDO
+pades_b.pdf INVALIDO
+xades_ad-rb_v2.3.xml INVALIDO
+xades_ad-rb_v2.5.xml INVALIDO
